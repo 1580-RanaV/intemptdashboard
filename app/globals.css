@@ -72,6 +72,14 @@ body {
   from { opacity: 0; transform: translateX(32px) scale(0.96) rotate(-20deg); }
   to   { opacity: 1; transform: translateX(0) scale(1) rotate(-20deg); }
 }
+@keyframes slide-from-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+.animate-slide-from-right {
+  animation: slide-from-right 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 @keyframes logo-pulse {
   0%, 100% { transform: scale(1);    opacity: 1; }
   50%       { transform: scale(1.1); opacity: 0.82; }

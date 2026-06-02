@@ -30,18 +30,15 @@ export default function BrandView() {
   return (
     <div className="flex flex-col flex-1 min-h-0">
       {/* Tab bar */}
-      <div
-        className="flex items-center gap-0.5 px-4 shrink-0"
-        style={{ borderBottom: "1px solid var(--border)" }}
-      >
+      <div className="flex items-center gap-1 px-4 pt-3 shrink-0">
         {tabs.map((t) => (
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
-            className={`flex items-center gap-2 px-3 py-2.5 text-[13px] font-medium border-b-2 -mb-px transition-colors duration-100
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-[13px] font-medium transition-colors duration-100
               ${tab === t.key
-                ? "border-blue-500 text-blue-500"
-                : "border-transparent text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300"
+                ? "bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400"
+                : "text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/6"
               }`}
           >
             {t.icon}

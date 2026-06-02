@@ -246,6 +246,24 @@ function WorkspaceSwitcher({ onNavigate }: { onNavigate: (view: string) => void 
 // Nav items that map to dedicated views
 const NAV_VIEWS: Record<string, string> = {
   Brand: "brand",
+  Users: "users",
+  Events: "events",
+  Subscribers: "subscribers",
+  Connections: "connections",
+  "Asset Library": "asset-library",
+  Avatars: "avatars",
+  Scenes: "scenes",
+  Poses: "poses",
+  "Design System": "design-system",
+  Catalog: "catalog",
+  Feeds: "feeds",
+  Journeys: "journeys",
+  Experiences: "experiences",
+  Accounts: "accounts",
+  Deals: "deals",
+  Meetings: "meetings",
+  Scheduler: "scheduler",
+  Boards: "boards",
 };
 
 function NavItemRow({
