@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`h-full ${inter.variable}`} style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+    <html lang="en" className={`h-full ${inter.variable}`} style={{ fontFamily: "var(--font-inter), sans-serif" }} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
