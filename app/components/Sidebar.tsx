@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import {
   Home,
@@ -138,10 +140,11 @@ function Avatar({
 
 type WorkspaceItem = { name: string; initials: string; color: string; active?: boolean };
 
-function WorkspaceSwitcher({ onNavigate }: { onNavigate: (view: string) => void }) {
+function WorkspaceSwitcher() {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<WorkspaceItem>(projects[1]); // Linea
   const ref = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     function handle(e: MouseEvent) {
@@ -202,7 +205,7 @@ function WorkspaceSwitcher({ onNavigate }: { onNavigate: (view: string) => void 
                 {selected.name === p.name ? (
                   <Check size={12} className="text-blue-500 shrink-0" />
                 ) : (
-                  <span onClick={(e) => { e.stopPropagation(); onNavigate("settings"); setOpen(false); }}>
+                  <span onClick={(e) => { e.stopPropagation(); router.push("/settings"); setOpen(false); }}>
                     <Settings size={12} className="text-stone-300 dark:text-stone-600 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 hover:text-stone-500" />
                   </span>
                 )}
@@ -230,7 +233,7 @@ function WorkspaceSwitcher({ onNavigate }: { onNavigate: (view: string) => void 
                 {selected.name === o.name ? (
                   <Check size={12} className="text-blue-500 shrink-0" />
                 ) : (
-                  <span onClick={(e) => { e.stopPropagation(); onNavigate("settings"); setOpen(false); }}>
+                  <span onClick={(e) => { e.stopPropagation(); router.push("/settings"); setOpen(false); }}>
                     <Settings size={12} className="text-stone-300 dark:text-stone-600 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 hover:text-stone-500" />
                   </span>
                 )}
@@ -264,45 +267,46 @@ const NAV_VIEWS: Record<string, string> = {
   Meetings: "meetings",
   Scheduler: "scheduler",
   Boards: "boards",
+  Subscription: "subscription",
 };
 
 function NavItemRow({
   item,
   depth = 0,
   activeItem,
-  setActiveItem,
-  onNavigate,
 }: {
   item: NavItem;
   depth?: number;
   activeItem: string;
-  setActiveItem: (label: string) => void;
-  onNavigate: (view: string) => void;
 }) {
   const hasChildren = item.children && item.children.length > 0;
   const isActive = activeItem === item.label;
+  const view = NAV_VIEWS[item.label];
+  const href = item.label === "Home" ? "/home" : view ? `/${view}` : "#";
+  const rowClassName = `
+    w-full flex items-center gap-2.5 px-3 py-1.25 rounded-md text-left
+    text-[13px] font-[450] transition-colors duration-100 group
+    ${isActive
+      ? "bg-white dark:bg-white/8 text-stone-800 dark:text-stone-100 shadow-[0_1px_3px_rgba(0,0,0,0.08)]"
+      : "text-stone-600 dark:text-stone-400 hover:bg-stone-200/60 dark:hover:bg-white/6 hover:text-stone-800 dark:hover:text-stone-100"
+    }
+  `;
+  const rowContent = (
+    <>
+      <span className={isActive ? "text-blue-600" : "text-stone-400 dark:text-stone-600 group-hover:text-stone-600 dark:group-hover:text-stone-400"}>
+        {item.icon}
+      </span>
+      <span className="flex-1 leading-none">{item.label}</span>
+    </>
+  );
 
   return (
     <div>
-      <button
-        onClick={() => {
-          setActiveItem(item.label);
-          if (NAV_VIEWS[item.label]) onNavigate(NAV_VIEWS[item.label]);
-        }}
-        className={`
-          w-full flex items-center gap-2.5 px-3 py-1.25 rounded-md text-left
-          text-[13px] font-[450] transition-colors duration-100 group
-          ${isActive
-            ? "bg-white dark:bg-white/8 text-stone-800 dark:text-stone-100 shadow-[0_1px_3px_rgba(0,0,0,0.08)]"
-            : "text-stone-600 dark:text-stone-400 hover:bg-stone-200/60 dark:hover:bg-white/6 hover:text-stone-800 dark:hover:text-stone-100"
-          }
-        `}
-      >
-        <span className={isActive ? "text-blue-600" : "text-stone-400 dark:text-stone-600 group-hover:text-stone-600 dark:group-hover:text-stone-400"}>
-          {item.icon}
-        </span>
-        <span className="flex-1 leading-none">{item.label}</span>
-      </button>
+      {view || item.label === "Home" ? (
+        <Link href={href} className={rowClassName}>{rowContent}</Link>
+      ) : (
+        <button className={rowClassName}>{rowContent}</button>
+      )}
 
       {hasChildren && (
         <div className="mt-0.5 mb-1.5">
@@ -318,8 +322,6 @@ function NavItemRow({
                   item={child}
                   depth={depth + 1}
                   activeItem={activeItem}
-                  setActiveItem={setActiveItem}
-                  onNavigate={onNavigate}
                 />
               </div>
             );
@@ -333,13 +335,9 @@ function NavItemRow({
 function CollapsibleSection({
   section,
   activeItem,
-  setActiveItem,
-  onNavigate,
 }: {
   section: NavSection;
   activeItem: string;
-  setActiveItem: (label: string) => void;
-  onNavigate: (view: string) => void;
 }) {
   const [open, setOpen] = useState(true);
 
@@ -367,8 +365,6 @@ function CollapsibleSection({
               key={item.label}
               item={item}
               activeItem={activeItem}
-              setActiveItem={setActiveItem}
-              onNavigate={onNavigate}
             />
           ))}
         </div>
@@ -377,8 +373,9 @@ function CollapsibleSection({
   );
 }
 
-export default function Sidebar({ onNavigate }: { onNavigate: (view: string) => void }) {
-  const [activeItem, setActiveItem] = useState("");
+export default function Sidebar() {
+  const pathname = usePathname();
+  const currentView = pathname === "/home" ? "Home" : Object.entries(NAV_VIEWS).find(([, view]) => pathname === `/${view}`)?.[0] ?? "";
 
   return (
     <aside
@@ -390,7 +387,7 @@ export default function Sidebar({ onNavigate }: { onNavigate: (view: string) => 
       }}
     >
       {/* Top: workspace switcher */}
-      <WorkspaceSwitcher onNavigate={onNavigate} />
+      <WorkspaceSwitcher />
 
       {/* Blu search */}
       <div className="px-3 pb-2">
@@ -416,9 +413,7 @@ export default function Sidebar({ onNavigate }: { onNavigate: (view: string) => 
           <CollapsibleSection
             key={si}
             section={section}
-            activeItem={activeItem}
-            setActiveItem={setActiveItem}
-            onNavigate={onNavigate}
+            activeItem={currentView}
           />
         ))}
       </nav>

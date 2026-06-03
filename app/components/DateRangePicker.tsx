@@ -93,33 +93,34 @@ function MonthGrid({
       <div className="grid grid-cols-7">
         {days.map(({ date, cur }, i) => {
           const col = i % 7;
-          const isStart = sameDay(date, start);
-          const isEnd   = sameDay(date, hiEnd);
-          const inRange = between(date, start, hiEnd);
+          const isStart = cur && sameDay(date, start);
+          const isEnd   = cur && sameDay(date, hiEnd);
+          const inRange = cur && between(date, start, hiEnd);
           const roundL  = isStart || (inRange && col === 0);
           const roundR  = isEnd   || (inRange && col === 6);
 
           return (
             <button
               key={i}
+              disabled={!cur}
               onClick={() => onPick(date)}
-              onMouseEnter={() => onHover(date)}
+              onMouseEnter={() => onHover(cur ? date : null)}
               onMouseLeave={() => onHover(null)}
               className={[
                 "relative h-9 text-[12.5px] flex items-center justify-center transition-colors",
-                !cur ? "text-stone-300 dark:text-stone-700" : "text-stone-800 dark:text-stone-200",
+                !cur ? "pointer-events-none text-transparent" : "text-stone-800 dark:text-stone-200",
                 (isStart || isEnd)
                   ? "text-white font-semibold"
-                  : inRange ? "text-[#0080FF] dark:text-blue-300 font-medium" : "",
+                  : inRange ? "text-blue-700 dark:text-blue-200 font-medium" : "",
                 (isStart || isEnd)
                   ? "bg-[#0080FF] z-10"
-                  : inRange ? "bg-[#0080FF]/12 dark:bg-[#0080FF]/18" : "hover:bg-stone-100 dark:hover:bg-white/8",
+                  : inRange ? "bg-[#0080FF]/8 dark:bg-[#0080FF]/12" : "hover:bg-stone-100 dark:hover:bg-white/8",
                 roundL || isStart ? "rounded-l-full" : "",
                 roundR || isEnd   ? "rounded-r-full" : "",
                 !inRange && !isStart && !isEnd ? "rounded-full" : "",
               ].filter(Boolean).join(" ")}
             >
-              {date.getDate()}
+              {cur ? date.getDate() : ""}
             </button>
           );
         })}

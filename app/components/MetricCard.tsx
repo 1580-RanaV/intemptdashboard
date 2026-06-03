@@ -57,17 +57,19 @@ export default function MetricCard({
       }}
     >
       {/* Metric header */}
-      <p className="text-[28px] font-extrabold text-stone-900 dark:text-stone-100 leading-none mb-1 tracking-tight">
-        {value}
-      </p>
-      <div className="flex items-center gap-1.5 mb-1">
-        <span className="text-[12.5px] text-stone-500 dark:text-stone-400">
-          {label}
-          {labelSub && <span className="text-stone-400 dark:text-stone-500"> {labelSub}</span>}
-        </span>
-        <Info size={12} className="text-stone-400 shrink-0" />
+      <div className="mb-8">
+        <p className="text-[28px] font-extrabold text-stone-900 dark:text-stone-100 leading-none tracking-tight">
+          {value}
+        </p>
+        <div className="flex items-center gap-1.5 mt-3">
+          <span className="text-[12.5px] text-stone-500 dark:text-stone-400">
+            {label}
+            {labelSub && <span className="text-stone-400 dark:text-stone-500"> {labelSub}</span>}
+          </span>
+          <Info size={12} className="text-stone-400 shrink-0" />
+        </div>
+        <p className="text-[12px] font-medium text-amber-500 mt-4">{change}</p>
       </div>
-      <p className="text-[12px] font-medium text-amber-500 mb-4">{change}</p>
 
       {/* Chart or no-results */}
       {noResults ? (
@@ -84,8 +86,8 @@ export default function MetricCard({
           <p className="text-[13px] font-semibold text-stone-700 dark:text-stone-300">No results found</p>
         </div>
       ) : (
-        <div className="flex-1 min-h-[180px]">
-          <ResponsiveContainer width="100%" height="100%">
+        <div className="min-h-[220px] min-w-0">
+          <ResponsiveContainer width="100%" height={220} minWidth={0}>
             <AreaChart data={data} margin={{ top: 4, right: 4, bottom: 0, left: 4 }}>
               <defs>
                 <linearGradient id="bluGrad" x1="0" y1="0" x2="0" y2="1">

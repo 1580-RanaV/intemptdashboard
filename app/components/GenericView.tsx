@@ -13,8 +13,8 @@ export default function GenericView({
 }) {
   return (
     <div className="flex-1 flex flex-col min-h-0">
-      <div className="flex items-center shrink-0 pr-3">
-        <div className="flex-1">{topbarLeft ?? <span />}</div>
+      <div className="flex items-center shrink-0 pr-3 pt-3">
+        <div className="flex-1">{topbarLeft ?? <div className="h-[49px]" />}</div>
         <button
           className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[12.5px] font-medium text-white hover:opacity-90 transition-opacity shrink-0"
           style={{ background: "#0080FF" }}

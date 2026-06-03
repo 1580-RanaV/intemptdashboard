@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
 import CreateExperienceDrawer from "./CreateExperienceDrawer";
+import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
 import DateRangePicker from "./DateRangePicker";
 import MetricCard from "./MetricCard";
 
@@ -25,26 +26,69 @@ const CHART_DATA = [
 ];
 const CHART_DATA_HALF = CHART_DATA.map(d => ({ ...d, value: Math.round(d.value * 0.5) }));
 
+const EXPERIENCE_COLUMNS: TableColumn[] = [
+  { key: "name", label: "Name", width: "34%", info: true },
+  { key: "status", label: "Status", width: "14%", info: true },
+  { key: "type", label: "Type", width: "20%", info: true },
+  { key: "duration", label: "Duration", width: "18%", info: true },
+  { key: "createdBy", label: "Created by", width: "14%", info: true },
+];
+
+const EXPERIENCE_ROWS: TableRow[] = [
+  {
+    id: "spring-homepage-test",
+    cells: {
+      name: "Spring homepage hero test",
+      status: { label: "Running", tone: "green" },
+      type: "Client-side Experiment",
+      duration: "May 3, 2026 - Jun 2, 2026",
+      createdBy: "Rohan",
+    },
+  },
+  {
+    id: "returning-visitor-personalization",
+    cells: {
+      name: "Returning visitor personalization",
+      status: { label: "Running", tone: "green" },
+      type: "Client-side Personalization",
+      duration: "May 18, 2026 - Jun 2, 2026",
+      createdBy: "Rohan",
+    },
+  },
+  {
+    id: "pricing-page-cta",
+    cells: {
+      name: "Pricing page CTA experiment",
+      status: { label: "Draft", tone: "gray" },
+      type: "Client-side Experiment",
+      duration: "--",
+      createdBy: "Rohan",
+    },
+  },
+  {
+    id: "new-user-banner",
+    cells: {
+      name: "New user onboarding banner",
+      status: { label: "Paused", tone: "blue" },
+      type: "Client-side Personalization",
+      duration: "Apr 28, 2026 - May 27, 2026",
+      createdBy: "Rohan",
+    },
+  },
+];
+
 export default function ExperiencesView() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 relative overflow-hidden">
+    <div className="flex-1 flex flex-col min-h-0 relative overflow-y-auto overflow-x-hidden">
       {/* Topbar */}
-      <div className="flex items-center shrink-0 pr-3">
+      <div className="flex items-center shrink-0 pr-3 pt-3">
         <div className="flex-1"><DateRangePicker /></div>
-        <button
-          onClick={() => setDrawerOpen(true)}
-          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[12.5px] font-medium text-white transition-opacity hover:opacity-90 shrink-0"
-          style={{ background: "#0080FF" }}
-        >
-          <Plus size={13} />
-          Create experience
-        </button>
       </div>
 
       {/* Metric cards */}
-      <div className="flex gap-4 px-4 pb-4 animate-fade-up">
+      <div className="flex gap-4 px-4 pt-3 pb-4 animate-fade-up">
         <MetricCard
           value="$15,047,484.74"
           label="Total revenue"
@@ -54,9 +98,25 @@ export default function ExperiencesView() {
         <MetricCard
           value="$7,523,742.37"
           label="Intempt attributed revenue"
-          labelSub="(50.00% of total)"
           change="-- vs. previous period"
           data={CHART_DATA_HALF}
+        />
+      </div>
+
+      <div className="min-h-0 px-4 pb-4 animate-fade-up">
+        <DashboardTable
+          columns={EXPERIENCE_COLUMNS}
+          rows={EXPERIENCE_ROWS}
+          action={
+            <button
+              onClick={() => setDrawerOpen(true)}
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-[12.5px] font-medium text-white transition-opacity hover:opacity-90 shrink-0"
+              style={{ background: "#0080FF" }}
+            >
+              <Plus size={14} />
+              Create experience
+            </button>
+          }
         />
       </div>
 

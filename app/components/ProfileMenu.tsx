@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { User, LogOut } from "lucide-react";
 
-export default function ProfileMenu({ onNavigate }: { onNavigate: (view: string) => void }) {
+export default function ProfileMenu() {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -51,13 +52,14 @@ export default function ProfileMenu({ onNavigate }: { onNavigate: (view: string)
 
           {/* Menu items */}
           <div className="px-2 py-2">
-            <button
-              onClick={() => { onNavigate("settings"); setOpen(false); }}
+            <Link
+              href="/settings"
+              onClick={() => setOpen(false)}
               className="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-stone-100 dark:hover:bg-white/6 transition-colors text-left"
             >
               <User size={15} className="text-stone-400 dark:text-stone-500 shrink-0" />
               <span className="text-[13px] text-stone-700 dark:text-stone-300">Profile Settings</span>
-            </button>
+            </Link>
             <button className="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-red-50 dark:hover:bg-red-500/8 transition-colors text-left">
               <LogOut size={15} className="text-red-500 shrink-0" />
               <span className="text-[13px] font-medium text-red-500">Log out</span>

@@ -2,6 +2,7 @@
 
 import { Plus } from "lucide-react";
 import DateRangePicker from "./DateRangePicker";
+import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
 import MetricCard from "./MetricCard";
 
 const CHART_DATA = [
@@ -23,23 +24,87 @@ const CHART_DATA = [
 ];
 const CHART_DATA_HALF = CHART_DATA.map(d => ({ ...d, value: Math.round(d.value * 0.5) }));
 
+const JOURNEY_COLUMNS: TableColumn[] = [
+  { key: "name", label: "Name", width: "24%", info: true },
+  { key: "status", label: "Status", width: "10%", info: true },
+  { key: "sent", label: "Sent", width: "8%", info: true },
+  { key: "opens", label: "Opens", width: "8%", info: true },
+  { key: "clicks", label: "Clicks", width: "8%", info: true },
+  { key: "replies", label: "Replies", width: "8%", info: true },
+  { key: "attributedRevenue", label: "Attributed Revenue", width: "14%", info: true },
+  { key: "revenueSent", label: "Revenue/Sent", width: "10%", info: true },
+  { key: "lastUpdated", label: "Last updated", width: "14%", info: true },
+];
+
+const JOURNEY_ROWS: TableRow[] = [
+  {
+    id: "browse-abandonment",
+    cells: {
+      name: "Browse Abandonment Journey",
+      status: { label: "Running", tone: "green" },
+      sent: "179",
+      opens: { value: "198", subValue: "110.61%" },
+      clicks: { value: "115", subValue: "64.25%" },
+      replies: { value: "0", subValue: "0%" },
+      attributedRevenue: { value: "$13,925.25", subValue: "0%" },
+      revenueSent: { value: "$77.79", muted: true },
+      lastUpdated: "May 12, 2026 11:38 AM",
+    },
+  },
+  {
+    id: "product-based-sends",
+    cells: {
+      name: "Product-based sends",
+      status: { label: "Running", tone: "green" },
+      sent: "121",
+      opens: { value: "144", subValue: "119.01%" },
+      clicks: { value: "63", subValue: "52.07%" },
+      replies: { value: "0", subValue: "0%" },
+      attributedRevenue: { value: "$4,322.80", subValue: "0%" },
+      revenueSent: { value: "$35.73", muted: true },
+      lastUpdated: "May 27, 2026 06:38 PM",
+    },
+  },
+  {
+    id: "negative-review-response",
+    cells: {
+      name: "Negative Review Response Journey",
+      status: { label: "Draft", tone: "gray" },
+      sent: "--",
+      opens: { value: "--", muted: true },
+      clicks: { value: "--", muted: true },
+      replies: { value: "--", muted: true },
+      attributedRevenue: { value: "$0", subValue: "--" },
+      revenueSent: { value: "$0", muted: true },
+      lastUpdated: "Dec 18, 2025 05:07 PM",
+    },
+  },
+  {
+    id: "cart-abandonment",
+    cells: {
+      name: "Cart Abandonment Journey",
+      status: { label: "Running", tone: "green" },
+      sent: "66",
+      opens: { value: "96", subValue: "145.45%" },
+      clicks: { value: "17", subValue: "25.76%" },
+      replies: { value: "0", subValue: "0%" },
+      attributedRevenue: { value: "$844.37", subValue: "0%" },
+      revenueSent: { value: "$12.79", muted: true },
+      lastUpdated: "May 7, 2026 12:27 AM",
+    },
+  },
+];
+
 export default function JourneysView() {
   return (
-    <div className="flex-1 flex flex-col min-h-0">
+    <div className="flex-1 flex flex-col min-h-0 overflow-y-auto">
       {/* Topbar */}
-      <div className="flex items-center shrink-0 pr-3">
+      <div className="flex items-center shrink-0 pr-3 pt-3">
         <div className="flex-1"><DateRangePicker /></div>
-        <button
-          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[12.5px] font-medium text-white transition-opacity hover:opacity-90 shrink-0"
-          style={{ background: "#0080FF" }}
-        >
-          <Plus size={13} />
-          Create journey
-        </button>
       </div>
 
       {/* Metric cards */}
-      <div className="flex gap-4 px-4 pb-4 animate-fade-up">
+      <div className="flex gap-4 px-4 pt-3 pb-4 animate-fade-up">
         <MetricCard
           value="$15,047,484.74"
           label="Total revenue"
@@ -49,9 +114,24 @@ export default function JourneysView() {
         <MetricCard
           value="$7,523,742.37"
           label="Intempt attributed revenue"
-          labelSub="(50.00% of total)"
           change="-- vs. previous period"
           data={CHART_DATA_HALF}
+        />
+      </div>
+
+      <div className="min-h-0 px-4 pb-4 animate-fade-up">
+        <DashboardTable
+          columns={JOURNEY_COLUMNS}
+          rows={JOURNEY_ROWS}
+          action={
+            <button
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-[12.5px] font-medium text-white transition-opacity hover:opacity-90 shrink-0"
+              style={{ background: "#0080FF" }}
+            >
+              <Plus size={14} />
+              Create journey
+            </button>
+          }
         />
       </div>
     </div>
