@@ -15,7 +15,6 @@ import {
   Rss,
   UserCheck,
   UserCircle,
-  Users,
 } from "lucide-react";
 import BrandView from "./BrandView";
 import CatalogView from "./CatalogView";
@@ -25,9 +24,9 @@ import ExperiencesView from "./ExperiencesView";
 import FeedsView from "./FeedsView";
 import GenericView from "./GenericView";
 import JourneysView from "./JourneysView";
+import UsersView from "./UsersView";
 
 const GENERIC_VIEWS: Record<string, { label: string; icon: React.ReactNode }> = {
-  users: { label: "Create user", icon: <Users size={18} /> },
   events: { label: "Create event", icon: <Activity size={18} /> },
   subscribers: { label: "Create subscriber", icon: <UserCheck size={18} /> },
   "asset-library": { label: "Upload asset", icon: <Library size={18} /> },
@@ -71,6 +70,7 @@ export default function DashboardView({ view = "home" }: { view?: string }) {
   if (view === "journeys") return <JourneysView />;
   if (view === "experiences") return <ExperiencesView />;
   if (view === "connections") return <ConnectionsView />;
+  if (view === "users") return <UsersView />;
 
   if (generic) {
     return (
