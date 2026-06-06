@@ -4,8 +4,6 @@ import {
   Activity,
   BarChart2,
   Building2,
-  CalendarClock,
-  CalendarDays,
   Clapperboard,
   CreditCard,
   Handshake,
@@ -24,6 +22,8 @@ import ExperiencesView from "./ExperiencesView";
 import FeedsView from "./FeedsView";
 import GenericView from "./GenericView";
 import JourneysView from "./JourneysView";
+import MeetingsView from "./MeetingsView";
+import SchedulerView from "./SchedulerView";
 import UsersView from "./UsersView";
 
 const GENERIC_VIEWS: Record<string, { label: string; icon: React.ReactNode }> = {
@@ -36,8 +36,6 @@ const GENERIC_VIEWS: Record<string, { label: string; icon: React.ReactNode }> = 
   "design-system": { label: "Add component", icon: <PenTool size={18} /> },
   accounts: { label: "Create account", icon: <Building2 size={18} /> },
   deals: { label: "Create deal", icon: <Handshake size={18} /> },
-  meetings: { label: "Create meeting", icon: <CalendarDays size={18} /> },
-  scheduler: { label: "Create schedule", icon: <CalendarClock size={18} /> },
   boards: { label: "Create board", icon: <BarChart2 size={18} /> },
   subscription: { label: "Manage subscription", icon: <CreditCard size={18} /> },
 };
@@ -71,6 +69,8 @@ export default function DashboardView({ view = "home" }: { view?: string }) {
   if (view === "experiences") return <ExperiencesView />;
   if (view === "connections") return <ConnectionsView />;
   if (view === "users") return <UsersView />;
+  if (view === "meetings") return <MeetingsView />;
+  if (view === "scheduler") return <SchedulerView />;
 
   if (generic) {
     return (

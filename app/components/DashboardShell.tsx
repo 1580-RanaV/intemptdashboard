@@ -49,7 +49,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
 
           <div
             className="shrink-0 overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
-            style={{ width: bluOpen ? 320 : 0, opacity: bluOpen ? 1 : 0 }}
+            style={{ width: bluOpen ? 380 : 0, opacity: bluOpen ? 1 : 0 }}
           >
             {bluOpen && <BluChat onClose={() => setBluOpen(false)} />}
           </div>
