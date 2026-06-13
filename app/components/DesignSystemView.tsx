@@ -59,7 +59,7 @@ export default function DesignSystemView() {
     : PALETTES;
 
   return (
-    <div className="flex flex-1 flex-col min-h-0 overflow-y-auto">
+    <div className="flex flex-1 flex-col min-h-0 overflow-y-auto animate-fade-up">
       {/* Toolbar */}
       <div className="flex items-center gap-2 px-6 pt-4 pb-4 shrink-0 flex-wrap">
         <div className="relative w-50">

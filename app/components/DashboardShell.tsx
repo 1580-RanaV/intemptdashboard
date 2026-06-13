@@ -23,7 +23,6 @@ export default function DashboardShell({ children }: { children: React.ReactNode
           </button>
           <button
             onClick={() => setBluOpen((o) => !o)}
-            title="Ask Blu anything"
             className="w-7 h-7 rounded-full shrink-0 hover:opacity-85 transition-opacity cursor-pointer"
             style={{
               background: "linear-gradient(135deg, #0080FF 0%, #00AAFF 100%)",

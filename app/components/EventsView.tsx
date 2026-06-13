@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import CreateEventDrawer from "./CreateEventDrawer";
 import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
 import SlidingSidebar from "./SlidingSidebar";
@@ -127,46 +127,63 @@ const LIVE_TABLE_ROWS: TableRow[] = LIVE_ROWS.map((r) => ({
   },
 }));
 
+function LiveIndicator({ paused }: { paused: boolean }) {
+  return (
+    <>
+      <style>{`@keyframes livebar{0%,100%{height:3px}50%{height:14px}}`}</style>
+      <div className="flex items-end gap-0.5 h-4">
+        {(["0ms", "110ms", "55ms", "165ms"] as const).map((delay, i) => (
+          <span
+            key={i}
+            className="w-0.75 rounded-full transition-all duration-300"
+            style={
+              paused
+                ? { height: 2, background: "var(--border)" }
+                : { background: "#0080FF", animation: `livebar 0.65s ease-in-out ${delay} infinite` }
+            }
+          />
+        ))}
+      </div>
+    </>
+  );
+}
+
 function PauseResumeButton({ paused, onToggle }: { paused: boolean; onToggle: () => void }) {
   return (
     <button
       onClick={onToggle}
-      className="inline-flex h-9 items-center gap-1.5 overflow-hidden rounded-lg px-3 text-[12.5px] font-medium text-white transition-all duration-200"
+      className="inline-flex h-9 items-center gap-2 overflow-hidden rounded-lg px-3.5 text-[12.5px] font-semibold text-white transition-colors duration-150"
       style={{ background: paused ? "#10B981" : "#F59E0B" }}
     >
-      <span className="relative flex h-3.5 w-3.5 items-center justify-center">
-        <span className={`absolute inset-0 flex items-center justify-center gap-0.5 transition-all duration-200 ${paused ? "scale-75 opacity-0" : "scale-100 opacity-100"}`}>
-          <span className="h-3.5 w-1 rounded-sm bg-white" />
-          <span className="h-3.5 w-1 rounded-sm bg-white" />
-        </span>
-        <span className={`absolute inset-0 flex items-center justify-center transition-all duration-200 ${paused ? "scale-100 opacity-100" : "scale-75 opacity-0"}`}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        </span>
+      <span className="relative flex h-3.5 w-3.5 shrink-0 items-center justify-center">
+        {/* Pause icon: two bars */}
+        <svg
+          width="14" height="14" viewBox="0 0 14 14" fill="white"
+          className={`absolute inset-0 transition-all duration-200 ${paused ? "scale-75 opacity-0" : "scale-100 opacity-100"}`}
+        >
+          <rect x="2" y="1" width="4" height="12" rx="1.5" />
+          <rect x="8" y="1" width="4" height="12" rx="1.5" />
+        </svg>
+        {/* Play icon: triangle */}
+        <svg
+          width="14" height="14" viewBox="0 0 14 14" fill="white"
+          className={`absolute inset-0 transition-all duration-200 ${paused ? "scale-100 opacity-100" : "scale-75 opacity-0"}`}
+        >
+          <polygon points="2,1 13,7 2,13" />
+        </svg>
       </span>
       <span>{paused ? "Resume" : "Pause"}</span>
     </button>
   );
 }
 
-function EventSection({ title, children }: { title: string; children: React.ReactNode }) {
-  const [open, setOpen] = useState(true);
-  return (
-    <div className="border-b" style={{ borderColor: "var(--border)" }}>
-      <button
-        onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center justify-between py-4 text-left"
-      >
-        <span className="text-[13.5px] font-semibold text-stone-900 dark:text-stone-100">{title}</span>
-        {open ? <ChevronUp size={15} className="text-stone-400" /> : <ChevronDown size={15} className="text-stone-400" />}
-      </button>
-      {open && <div className="pb-4 space-y-3">{children}</div>}
-    </div>
-  );
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500">{children}</p>;
 }
 
 function DetailRow({ label, value }: { label: string; value: React.ReactNode }) {
   return (
-    <div className="flex items-start justify-between gap-4">
+    <div className="flex items-start justify-between gap-4 py-1.5">
       <span className="shrink-0 text-[12.5px] text-stone-400 dark:text-stone-500">{label}</span>
       <span className="text-right text-[12.5px] font-medium text-stone-800 dark:text-stone-200 break-all">{value}</span>
     </div>
@@ -178,55 +195,60 @@ function EventDetailSidebar({ row, onClose }: { row: LiveRow; onClose: () => voi
     <SlidingSidebar
       title={row.name}
       onClose={onClose}
+      footerBorder={false}
       footer={
-        <button className="flex w-full items-center justify-center gap-2 rounded-lg border border-stone-200 px-4 py-2.5 text-[13px] font-medium text-stone-700 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-white/6">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <button className="inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-[12.5px] font-medium text-white transition-opacity hover:opacity-90" style={{ background: "#0080FF" }}>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
           View Event JSON
         </button>
       }
     >
-      <div className="-mx-7 px-7">
-        <EventSection title="General">
-          <DetailRow label="Event Name"  value={row.name} />
-          <DetailRow label="Event Id"    value={<span className="font-mono text-[11.5px]">{row.eventId}</span>} />
-          <DetailRow label="Timestamp"   value={row.timestamp} />
-          <DetailRow label="Identifier"  value={<span className="font-mono text-[11.5px]">{row.profileId}</span>} />
-          <DetailRow label="Session Id"  value={<span className="font-mono text-[11.5px]">{row.sessionId}</span>} />
-        </EventSection>
+      <div className="space-y-6">
+        <div>
+          <SectionTitle>General</SectionTitle>
+          <DetailRow label="Event Name" value={row.name} />
+          <DetailRow label="Event Id"   value={<span className="font-mono text-[11.5px]">{row.eventId}</span>} />
+          <DetailRow label="Timestamp"  value={row.timestamp} />
+          <DetailRow label="Identifier" value={<span className="font-mono text-[11.5px]">{row.profileId}</span>} />
+          <DetailRow label="Session Id" value={<span className="font-mono text-[11.5px]">{row.sessionId}</span>} />
+        </div>
 
-        <EventSection title="Source">
+        <div>
+          <SectionTitle>Source</SectionTitle>
           <DetailRow label="Source Type" value={row.source} />
-        </EventSection>
+        </div>
 
-        <EventSection title="User Identities">
+        <div>
+          <SectionTitle>User Identities</SectionTitle>
           <DetailRow label="Profile ID" value={<span className="font-mono text-[11.5px]">{row.profileId}</span>} />
-        </EventSection>
+        </div>
 
-        <EventSection title="Event Attributes">
+        <div>
+          <SectionTitle>Event Attributes</SectionTitle>
           {Object.entries(row.attributes).map(([k, v]) => (
             <DetailRow key={k} label={k} value={String(v)} />
           ))}
-        </EventSection>
+        </div>
       </div>
     </SlidingSidebar>
   );
 }
 
-function LiveTab() {
-  const [paused, setPaused]       = useState(false);
-  const [selected, setSelected]   = useState<LiveRow | null>(null);
+function LiveTab({ onRowSelect }: { onRowSelect: (row: LiveRow | null) => void }) {
+  const [paused, setPaused] = useState(false);
 
   return (
-    <div className="flex-1 min-h-0 flex flex-col relative">
+    <div className="flex-1 min-h-0 flex flex-col">
       <DashboardTable
         columns={LIVE_COLUMNS}
         rows={LIVE_TABLE_ROWS}
         searchPlaceholder="Search events..."
         menuItems={[]}
         actionsLabel=""
-        onRowClick={(row) => setSelected(LIVE_ROWS.find((r) => r.id === row.id) ?? null)}
+        onRowClick={(row) => onRowSelect(LIVE_ROWS.find((r) => r.id === row.id) ?? null)}
         action={
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            <LiveIndicator paused={paused} />
             <button className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-stone-200 px-3 text-[12.5px] font-medium text-stone-600 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-white/6">
               Clear
             </button>
@@ -234,7 +256,6 @@ function LiveTab() {
           </div>
         }
       />
-      {selected && <EventDetailSidebar row={selected} onClose={() => setSelected(null)} />}
     </div>
   );
 }
@@ -247,8 +268,9 @@ const TABS = [
 ] as const;
 
 export default function EventsView() {
-  const [tab, setTab]         = useState<"events" | "live">("events");
+  const [tab, setTab]             = useState<"events" | "live">("events");
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [selectedLive, setSelectedLive] = useState<LiveRow | null>(null);
 
   return (
     <div className="flex-1 flex flex-col min-h-0 relative overflow-hidden">
@@ -265,12 +287,6 @@ export default function EventsView() {
               }`}
           >
             {t.label}
-            {t.key === "live" && (
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-              </span>
-            )}
           </button>
         ))}
       </div>
@@ -294,11 +310,12 @@ export default function EventsView() {
             }
           />
         ) : (
-          <LiveTab />
+          <LiveTab onRowSelect={setSelectedLive} />
         )}
       </div>
 
       {drawerOpen && <CreateEventDrawer onClose={() => setDrawerOpen(false)} />}
+      {selectedLive && <EventDetailSidebar row={selectedLive} onClose={() => setSelectedLive(null)} />}
     </div>
   );
 }
