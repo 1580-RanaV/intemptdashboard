@@ -1,23 +1,20 @@
 "use client";
 
-import {
-  Activity,
-  BarChart2,
-  Building2,
-  Clapperboard,
-  CreditCard,
-  Handshake,
-  Library,
-  PenTool,
-  PersonStanding,
-  Rss,
-  UserCheck,
-  UserCircle,
-} from "lucide-react";
+import { UserCheck } from "lucide-react";
+import AccountsView from "./AccountsView";
+import AssetLibraryView from "./AssetLibraryView";
+import AvatarsView from "./AvatarsView";
+import DesignSystemView from "./DesignSystemView";
+import SubscriptionView from "./SubscriptionView";
+import DealsView from "./DealsView";
+import PosesView from "./PosesView";
+import ScenesView from "./ScenesView";
+import BoardsView from "./BoardsView";
 import BrandView from "./BrandView";
+import EventsView from "./EventsView";
+import HomeView from "./HomeView";
 import CatalogView from "./CatalogView";
 import ConnectionsView from "./ConnectionsView";
-import DateRangePicker from "./DateRangePicker";
 import ExperiencesView from "./ExperiencesView";
 import FeedsView from "./FeedsView";
 import GenericView from "./GenericView";
@@ -27,17 +24,7 @@ import SchedulerView from "./SchedulerView";
 import UsersView from "./UsersView";
 
 const GENERIC_VIEWS: Record<string, { label: string; icon: React.ReactNode }> = {
-  events: { label: "Create event", icon: <Activity size={18} /> },
   subscribers: { label: "Create subscriber", icon: <UserCheck size={18} /> },
-  "asset-library": { label: "Upload asset", icon: <Library size={18} /> },
-  avatars: { label: "Create avatar", icon: <UserCircle size={18} /> },
-  scenes: { label: "Create scene", icon: <Clapperboard size={18} /> },
-  poses: { label: "Create pose", icon: <PersonStanding size={18} /> },
-  "design-system": { label: "Add component", icon: <PenTool size={18} /> },
-  accounts: { label: "Create account", icon: <Building2 size={18} /> },
-  deals: { label: "Create deal", icon: <Handshake size={18} /> },
-  boards: { label: "Create board", icon: <BarChart2 size={18} /> },
-  subscription: { label: "Manage subscription", icon: <CreditCard size={18} /> },
 };
 
 export function HomeEmpty() {
@@ -62,6 +49,10 @@ export function HomeEmpty() {
 export default function DashboardView({ view = "home" }: { view?: string }) {
   const generic = GENERIC_VIEWS[view];
 
+  if (view === "home") return <HomeView />;
+  if (view === "accounts") return <AccountsView />;
+  if (view === "asset-library") return <AssetLibraryView />;
+  if (view === "deals") return <DealsView />;
   if (view === "brand") return <BrandView />;
   if (view === "catalog") return <CatalogView />;
   if (view === "feeds") return <FeedsView />;
@@ -71,13 +62,19 @@ export default function DashboardView({ view = "home" }: { view?: string }) {
   if (view === "users") return <UsersView />;
   if (view === "meetings") return <MeetingsView />;
   if (view === "scheduler") return <SchedulerView />;
+  if (view === "boards") return <BoardsView />;
+  if (view === "events") return <EventsView />;
+  if (view === "avatars") return <AvatarsView />;
+  if (view === "poses") return <PosesView />;
+  if (view === "scenes") return <ScenesView />;
+  if (view === "design-system") return <DesignSystemView />;
+  if (view === "subscription") return <SubscriptionView />;
 
   if (generic) {
     return (
       <GenericView
         createLabel={generic.label}
         icon={generic.icon}
-        topbarLeft={view === "boards" ? <DateRangePicker /> : undefined}
       />
     );
   }

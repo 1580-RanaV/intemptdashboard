@@ -161,18 +161,6 @@ export default function CatalogView() {
         ))}
       </div>
 
-      {tab === "sources" ? (
-        <div className="flex items-center justify-end px-4 pt-3 shrink-0">
-          <button
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[12.5px] font-medium text-white transition-opacity hover:opacity-90 shrink-0"
-            style={{ background: "#0080FF" }}
-          >
-            <Plus size={13} />
-            Create catalog source
-          </button>
-        </div>
-      ) : null}
-
       <div key={tab} className="flex-1 min-h-0 animate-fade-up">
         {tab === "products" ? (
           <div className="px-4 pt-4 pb-4">
@@ -180,7 +168,19 @@ export default function CatalogView() {
           </div>
         ) : (
           <div className="px-4 pt-4 pb-4">
-            <DashboardTable columns={SOURCE_COLUMNS} rows={SOURCE_ROWS} />
+            <DashboardTable
+              columns={SOURCE_COLUMNS}
+              rows={SOURCE_ROWS}
+              action={
+                <button
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-[12.5px] font-medium text-white transition-opacity hover:opacity-90 shrink-0"
+                  style={{ background: "#0080FF" }}
+                >
+                  <Plus size={13} />
+                  Create catalog source
+                </button>
+              }
+            />
           </div>
         )}
       </div>

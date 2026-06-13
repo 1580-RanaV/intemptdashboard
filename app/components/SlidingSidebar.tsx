@@ -11,7 +11,7 @@ export default function SlidingSidebar({
   footerBorder = true,
   onClose,
 }: {
-  title: string;
+  title: React.ReactNode;
   description?: string;
   children: React.ReactNode;
   footer?: React.ReactNode | ((close: () => void) => React.ReactNode);
@@ -51,8 +51,10 @@ export default function SlidingSidebar({
       >
         <div className="shrink-0 px-7 pb-5 pt-7">
           <div className="flex items-start justify-between gap-5">
-            <div>
-              <h2 className="mb-1 text-[18px] font-bold text-stone-900 dark:text-stone-100">{title}</h2>
+            <div className="min-w-0 flex-1">
+              {typeof title === "string"
+                ? <h2 className="mb-1 text-[18px] font-bold text-stone-900 dark:text-stone-100">{title}</h2>
+                : title}
               {description ? <p className="text-[13px] leading-5 text-stone-500 dark:text-stone-400">{description}</p> : null}
             </div>
             <button

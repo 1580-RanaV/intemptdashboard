@@ -1,6 +1,9 @@
 "use client";
 
-import { ArrowUpDown, Clock3, Copy, ExternalLink, MoreHorizontal, Plus, Search, Users } from "lucide-react";
+import { useState } from "react";
+import { ArrowUpDown, Clock3, Copy, ExternalLink, Plus, Search, Users } from "lucide-react";
+import CreateBookingDrawer from "./CreateBookingDrawer";
+import ThreeDotsMenu from "./ThreeDotsMenu";
 
 const bookingTypes = [
   { name: "test-meeting", tags: [{ label: "Individual", tone: "green" }], duration: "30m" },
@@ -27,6 +30,8 @@ function Tag({ label, tone }: { label: string; tone: "green" | "blue" | "gray" |
 }
 
 export default function SchedulerView() {
+  const [showCreateBooking, setShowCreateBooking] = useState(false);
+
   return (
     <div className="flex flex-1 flex-col min-h-0 overflow-y-auto px-4 pb-4 pt-4 animate-fade-up">
       <div className="mb-3 flex items-center justify-between gap-3">
@@ -45,6 +50,7 @@ export default function SchedulerView() {
           </button>
         </div>
         <button
+          onClick={() => setShowCreateBooking(true)}
           className="flex shrink-0 items-center gap-1.5 rounded-lg px-3.5 py-2 text-[12.5px] font-medium text-white transition-opacity hover:opacity-90"
           style={{ background: "#0080FF" }}
         >
@@ -95,13 +101,13 @@ export default function SchedulerView() {
               <button className="flex h-7 w-7 items-center justify-center rounded-md transition-colors hover:bg-stone-100 dark:hover:bg-white/8" aria-label="Copy booking link">
                 <Copy size={16} />
               </button>
-              <button className="flex h-7 w-7 items-center justify-center rounded-md transition-colors hover:bg-stone-100 dark:hover:bg-white/8" aria-label="More actions">
-                <MoreHorizontal size={17} />
-              </button>
+              <ThreeDotsMenu />
             </div>
           </div>
         ))}
       </div>
+
+      {showCreateBooking ? <CreateBookingDrawer onClose={() => setShowCreateBooking(false)} /> : null}
     </div>
   );
 }

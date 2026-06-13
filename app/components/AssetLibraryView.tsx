@@ -1,0 +1,247 @@
+"use client";
+
+import { useState } from "react";
+import { Image, Mail, MessageSquare, Plus } from "lucide-react";
+import CreateAssetDrawer from "./CreateAssetDrawer";
+import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
+import { ASSET_MENU_ITEMS } from "./ThreeDotsMenu";
+
+// ── helpers ───────────────────────────────────────────────────────────────────
+
+function TypeBadge({ type }: { type: "Email Plain" | "Email HTML" | "SMS" | "Image" }) {
+  const map = {
+    "Email Plain": "bg-rose-50 text-rose-500 border border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20",
+    "Email HTML":  "bg-rose-50 text-rose-500 border border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20",
+    "SMS":         "bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20",
+    "Image":       "bg-rose-50 text-rose-400 border border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20",
+  };
+  return (
+    <span className={`inline-flex items-center rounded-md px-2 py-0.5 text-[11.5px] font-semibold ${map[type]}`}>
+      {type}
+    </span>
+  );
+}
+
+function AssetName({ icon, name }: { icon: React.ReactNode; name: string }) {
+  return (
+    <div className="flex items-center gap-2 min-w-0">
+      <span className="shrink-0 text-stone-400 dark:text-stone-500">{icon}</span>
+      <span className="truncate">{name}</span>
+    </div>
+  );
+}
+
+function UserAvatar({ initial, color, name, muted }: { initial: string; color: string; name: string; muted?: boolean }) {
+  return (
+    <div className="flex items-center gap-2">
+      <span
+        className={`inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold text-white ${muted ? "opacity-50" : ""}`}
+        style={{ background: color }}
+      >
+        {initial}
+      </span>
+      <span className={`text-[12.5px] ${muted ? "italic text-stone-400 dark:text-stone-500" : "text-stone-700 dark:text-stone-300"}`}>{name}</span>
+    </div>
+  );
+}
+
+function StatusDot() {
+  return (
+    <span className="inline-flex items-center gap-1.5 text-[12.5px] text-stone-700 dark:text-stone-300">
+      <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
+      Active
+    </span>
+  );
+}
+
+// ── static data ───────────────────────────────────────────────────────────────
+
+const COLUMNS: TableColumn[] = [
+  { key: "name",        label: "Name",       width: "36%" },
+  { key: "type",        label: "Type",       width: "12%" },
+  { key: "createdBy",   label: "Created by", width: "18%" },
+  { key: "status",      label: "Status",     width: "10%" },
+  { key: "tags",        label: "Tags",       width: "12%" },
+  { key: "lastUpdated", label: "Last updated", width: "12%" },
+];
+
+const emailIcon = <Mail size={14} />;
+const smsIcon   = <MessageSquare size={14} />;
+const imgIcon   = <Image size={14} />;
+
+const ROWS: TableRow[] = [
+  {
+    id: "a1",
+    cells: {
+      name:        <AssetName icon={emailIcon} name="Claude design - Email 1" />,
+      type:        <TypeBadge type="Email Plain" />,
+      createdBy:   <UserAvatar initial="SN" color="#0D9488" name="Somya Nayak" />,
+      status:      <StatusDot />,
+      tags:        <span className="text-stone-400">—</span>,
+      lastUpdated: { value: "2 days ago", muted: true },
+    },
+    menuItems: ASSET_MENU_ITEMS,
+  },
+  {
+    id: "a2",
+    cells: {
+      name:        <AssetName icon={smsIcon} name="Built a flash sale SMS using Liquid product variables with a 7-day..." />,
+      type:        <TypeBadge type="SMS" />,
+      createdBy:   <UserAvatar initial="R" color="#8B5CF6" name="rana" />,
+      status:      <StatusDot />,
+      tags:        <span className="text-stone-400">—</span>,
+      lastUpdated: { value: "3 days ago", muted: true },
+    },
+    menuItems: ASSET_MENU_ITEMS,
+  },
+  {
+    id: "a3",
+    cells: {
+      name:        <AssetName icon={emailIcon} name="Removed the JSON wrapper entirely — outputting only the raw H..." />,
+      type:        <TypeBadge type="Email Plain" />,
+      createdBy:   <UserAvatar initial="SN" color="#0D9488" name="Somya Nayak" />,
+      status:      <StatusDot />,
+      tags:        <span className="text-stone-400">—</span>,
+      lastUpdated: { value: "1 week ago", muted: true },
+    },
+    menuItems: ASSET_MENU_ITEMS,
+  },
+  {
+    id: "a4",
+    cells: {
+      name:        <AssetName icon={imgIcon} name="Generate an image of the brand character holding a can of Co" />,
+      type:        <TypeBadge type="Image" />,
+      createdBy:   <UserAvatar initial="R" color="#6366F1" name="Removed User" muted />,
+      status:      <StatusDot />,
+      tags:        <span className="text-stone-400">—</span>,
+      lastUpdated: { value: "1 month ago", muted: true },
+    },
+    menuItems: ASSET_MENU_ITEMS,
+  },
+  {
+    id: "a5",
+    cells: {
+      name:        <AssetName icon={imgIcon} name="Generate an image of the brand character holding a water tum" />,
+      type:        <TypeBadge type="Image" />,
+      createdBy:   <UserAvatar initial="R" color="#6366F1" name="Removed User" muted />,
+      status:      <StatusDot />,
+      tags:        <span className="text-stone-400">—</span>,
+      lastUpdated: { value: "1 month ago", muted: true },
+    },
+    menuItems: ASSET_MENU_ITEMS,
+  },
+  {
+    id: "a6",
+    cells: {
+      name:        <AssetName icon={imgIcon} name="a beautifully wrapped gift box with a satin ribbon on a clea" />,
+      type:        <TypeBadge type="Image" />,
+      createdBy:   <UserAvatar initial="R" color="#6366F1" name="Removed User" muted />,
+      status:      <StatusDot />,
+      tags:        <span className="text-stone-400">—</span>,
+      lastUpdated: { value: "1 month ago", muted: true },
+    },
+    menuItems: ASSET_MENU_ITEMS,
+  },
+  {
+    id: "a7",
+    cells: {
+      name:        <AssetName icon={imgIcon} name="Create an image of the brand character holding a bottle. Use" />,
+      type:        <TypeBadge type="Image" />,
+      createdBy:   <UserAvatar initial="R" color="#6366F1" name="Removed User" muted />,
+      status:      <StatusDot />,
+      tags:        <span className="text-stone-400">—</span>,
+      lastUpdated: { value: "1 month ago", muted: true },
+    },
+    menuItems: ASSET_MENU_ITEMS,
+  },
+  {
+    id: "a8",
+    cells: {
+      name:        <AssetName icon={imgIcon} name="Dev Patel, solo founder, sitting at a rustic desk with a lap" />,
+      type:        <TypeBadge type="Image" />,
+      createdBy:   <UserAvatar initial="R" color="#6366F1" name="Removed User" muted />,
+      status:      <StatusDot />,
+      tags:        <span className="text-stone-400">—</span>,
+      lastUpdated: { value: "1 month ago", muted: true },
+    },
+    menuItems: ASSET_MENU_ITEMS,
+  },
+  {
+    id: "a9",
+    cells: {
+      name:        <AssetName icon={imgIcon} name="diverse group of tech professionals collaborating in a moder" />,
+      type:        <TypeBadge type="Image" />,
+      createdBy:   <UserAvatar initial="R" color="#6366F1" name="Removed User" muted />,
+      status:      <StatusDot />,
+      tags:        <span className="text-stone-400">—</span>,
+      lastUpdated: { value: "1 month ago", muted: true },
+    },
+    menuItems: ASSET_MENU_ITEMS,
+  },
+  {
+    id: "a10",
+    cells: {
+      name:        <AssetName icon={imgIcon} name="dramatic overhead shot of scattered shopping bags and gift b" />,
+      type:        <TypeBadge type="Image" />,
+      createdBy:   <UserAvatar initial="R" color="#6366F1" name="Removed User" muted />,
+      status:      <StatusDot />,
+      tags:        <span className="text-stone-400">—</span>,
+      lastUpdated: { value: "1 month ago", muted: true },
+    },
+    menuItems: ASSET_MENU_ITEMS,
+  },
+  {
+    id: "a11",
+    cells: {
+      name:        <AssetName icon={imgIcon} name="Product photography of a pair of classic black leather penny" />,
+      type:        <TypeBadge type="Image" />,
+      createdBy:   <UserAvatar initial="R" color="#6366F1" name="Removed User" muted />,
+      status:      <StatusDot />,
+      tags:        <span className="text-stone-400">—</span>,
+      lastUpdated: { value: "1 month ago", muted: true },
+    },
+    menuItems: ASSET_MENU_ITEMS,
+  },
+  {
+    id: "a12",
+    cells: {
+      name:        <AssetName icon={imgIcon} name="change character's pink pants to grey shorts" />,
+      type:        <TypeBadge type="Image" />,
+      createdBy:   <UserAvatar initial="TS" color="#F59E0B" name="Trishik Shrestha" />,
+      status:      <StatusDot />,
+      tags:        <span className="text-stone-400">—</span>,
+      lastUpdated: { value: "1 month ago", muted: true },
+    },
+    menuItems: ASSET_MENU_ITEMS,
+  },
+];
+
+// ── view ──────────────────────────────────────────────────────────────────────
+
+export default function AssetLibraryView() {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  return (
+    <div className="relative flex flex-1 flex-col min-h-0 overflow-y-auto overflow-x-hidden">
+      <div className="px-4 pb-4 pt-4 animate-fade-up">
+        <DashboardTable
+          columns={COLUMNS}
+          rows={ROWS}
+          searchPlaceholder="Search assets..."
+          action={
+            <button
+              onClick={() => setDrawerOpen(true)}
+              className="flex shrink-0 items-center gap-1.5 rounded-lg px-3.5 py-2 text-[12.5px] font-medium text-white transition-opacity hover:opacity-90"
+              style={{ background: "#0080FF" }}
+            >
+              <Plus size={14} />
+              Create asset
+            </button>
+          }
+        />
+      </div>
+
+      {drawerOpen && <CreateAssetDrawer onClose={() => setDrawerOpen(false)} />}
+    </div>
+  );
+}

@@ -1,8 +1,9 @@
 "use client";
 
 import { Fragment, useState } from "react";
-import { ArrowUpDown, ChevronRight, Info, MoreHorizontal, Search } from "lucide-react";
+import { ArrowUpDown, ChevronRight, Info, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
+import ThreeDotsMenu, { ThreeDotsMenuItem } from "./ThreeDotsMenu";
 
 export type TableCell = {
   value: React.ReactNode;
@@ -20,6 +21,7 @@ export type TableColumn = {
   label: string;
   width?: string;
   info?: boolean;
+  align?: "left" | "center";
 };
 
 export type TableRow = {
@@ -28,6 +30,7 @@ export type TableRow = {
   href?: string;
   cells: Record<string, React.ReactNode | TableCell | TableStatus>;
   children?: TableRow[];
+  menuItems?: ThreeDotsMenuItem[];
 };
 
 function isCell(value: React.ReactNode | TableCell | TableStatus): value is TableCell {
@@ -86,12 +89,18 @@ export default function DashboardTable({
   action,
   searchPlaceholder = "Search",
   emptyState,
+  menuItems,
+  actionsLabel,
+  onRowClick,
 }: {
   columns: TableColumn[];
   rows: TableRow[];
   action?: React.ReactNode;
   searchPlaceholder?: string;
   emptyState?: React.ReactNode;
+  menuItems?: ThreeDotsMenuItem[];
+  actionsLabel?: string;
+  onRowClick?: (row: TableRow) => void;
 }) {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const router = useRouter();
@@ -106,13 +115,16 @@ export default function DashboardTable({
       toggleRow(row);
       return;
     }
-
+    if (onRowClick) {
+      onRowClick(row);
+      return;
+    }
     if (row.href) router.push(row.href);
   }
 
   return (
-    <div className="min-h-0">
-      <div className="mb-3 flex items-center justify-between gap-3">
+    <div className="flex flex-1 flex-col min-h-0">
+      <div className="mb-3 flex shrink-0 items-center justify-between gap-3">
         <div className="flex min-w-0 items-center gap-2">
           <div className="relative w-full max-w-[320px]">
             <Search size={14} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 dark:text-stone-500" />
@@ -130,20 +142,20 @@ export default function DashboardTable({
         {action ? <div className="shrink-0">{action}</div> : null}
       </div>
       <div
-        className="overflow-hidden rounded-xl"
+        className="flex-1 min-h-0 overflow-hidden rounded-xl"
         style={{
           border: "1px solid var(--border)",
           background: "var(--content-bg)",
         }}
       >
-        <div className="overflow-auto">
+        <div className="overflow-auto h-full">
           <table className="w-full min-w-[980px] border-separate border-spacing-0 text-left">
           <thead>
             <tr className="bg-stone-50 dark:bg-white/[0.035]">
               {columns.map((column) => (
                 <th
                   key={column.key}
-                  className="border-b border-r border-stone-200/80 px-4 py-3 text-[12px] font-semibold text-slate-500 last:border-r-0 dark:border-stone-700/70 dark:text-slate-400"
+                  className={`border-b border-r border-stone-200/80 px-4 py-3 text-[12px] font-semibold text-slate-500 last:border-r-0 dark:border-stone-700/70 dark:text-slate-400 ${column.align === "center" ? "text-center" : ""}`}
                   style={{ width: column.width }}
                 >
                   <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
@@ -152,7 +164,9 @@ export default function DashboardTable({
                   </span>
                 </th>
               ))}
-              <th className="w-12 border-b border-stone-200/80 px-3 py-3 dark:border-stone-700/70" />
+              <th className="border-b border-stone-200/80 px-3 py-3 text-[12px] font-semibold text-slate-500 dark:border-stone-700/70 dark:text-slate-400 whitespace-nowrap">
+                {actionsLabel ?? ""}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -174,14 +188,14 @@ export default function DashboardTable({
                   <tr
                     key={row.id}
                     onClick={() => handleRowClick(row)}
-                    className={`group hover:bg-stone-50/70 dark:hover:bg-white/[0.03] ${isGroup || row.href ? "cursor-pointer" : ""}`}
+                    className={`group hover:bg-stone-50/70 dark:hover:bg-white/[0.03] ${isGroup || row.href || onRowClick ? "cursor-pointer" : ""}`}
                   >
                     {columns.map((column, index) => (
                       <td
                         key={column.key}
-                        className="border-b border-r border-stone-200/70 px-4 py-3 text-[13px] font-medium text-stone-900 last:border-r-0 dark:border-stone-700/60 dark:text-stone-100"
+                        className={`border-b border-r border-stone-200/70 px-4 py-3 text-[13px] font-medium text-stone-900 last:border-r-0 dark:border-stone-700/60 dark:text-stone-100 ${column.align === "center" ? "text-center" : ""}`}
                       >
-                        <div className={index === 0 ? "flex items-center gap-2" : ""}>
+                        <div className={`${column.align === "center" ? "flex justify-center" : index === 0 ? "flex items-center gap-2" : ""}`}>
                           {index === 0 && isGroup ? (
                             <ChevronRight size={14} className={`shrink-0 text-stone-500 transition-transform dark:text-stone-400 ${isExpanded ? "rotate-90" : ""}`} />
                           ) : null}
@@ -189,13 +203,10 @@ export default function DashboardTable({
                         </div>
                       </td>
                     ))}
-                    <td className="border-b border-stone-200/70 px-3 py-3 text-right dark:border-stone-700/60">
-                      <button
-                        onClick={(e) => e.stopPropagation()}
-                        className="inline-flex h-7 w-7 items-center justify-center rounded-md text-stone-400 transition-colors hover:bg-stone-100 hover:text-stone-700 dark:hover:bg-white/8 dark:hover:text-stone-200"
-                      >
-                        <MoreHorizontal size={15} />
-                      </button>
+                    <td className="border-b border-stone-200/70 px-3 py-3 dark:border-stone-700/60">
+                      <div className="flex items-center justify-center">
+                        <ThreeDotsMenu items={row.menuItems ?? menuItems} />
+                      </div>
                     </td>
                   </tr>
                   {isGroup && isExpanded
