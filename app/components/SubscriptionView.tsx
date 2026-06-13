@@ -341,7 +341,7 @@ function MrrTab() {
   return (
     <div className="space-y-4">
       {/* 4 metric cards */}
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {[
           { label: "CURRENT MRR",      value: "$25.21K",  sub: "Jun 2026", subCls: "text-stone-400" },
           { label: "NET MRR MOVEMENT", value: "+$644.43", sub: "+2.62%",   subCls: "text-emerald-500" },
@@ -360,7 +360,7 @@ function MrrTab() {
       </div>
 
       {/* MRR Trend + Goal + Churn Rate */}
-      <div className="grid gap-4" style={{ gridTemplateColumns: "2fr 1fr" }}>
+      <div className="grid gap-4 grid-cols-1 lg:grid-cols-[2fr_1fr]">
         <Card>
           <SectionLabel>MRR Trend</SectionLabel>
           <ResponsiveContainer width="100%" height={260}>
@@ -454,7 +454,7 @@ function SubscribersTab() {
   return (
     <div className="space-y-4">
       {/* 4 metric cards */}
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {[
           { label: "TOTAL SUBSCRIBERS", value: "1,940",   sub: "Jun 2026", subCls: "text-stone-400" },
           { label: "NET MOVEMENT",      value: "+34",      sub: "-3.04%",   subCls: "text-rose-500" },
@@ -473,7 +473,7 @@ function SubscribersTab() {
       </div>
 
       {/* Subscriber Trend + Goal + Churn Rate */}
-      <div className="grid gap-4" style={{ gridTemplateColumns: "2fr 1fr" }}>
+      <div className="grid gap-4 grid-cols-1 lg:grid-cols-[2fr_1fr]">
         <Card>
           <SectionLabel>Subscriber Trend</SectionLabel>
           <ResponsiveContainer width="100%" height={260}>
@@ -599,7 +599,7 @@ export default function SubscriptionView() {
       {/* Shared section */}
       <div className="px-4 pb-4 pt-2">
         <div className="my-4" style={{ borderTop: "1px solid var(--border)" }} />
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* NRR */}
           <Card>
             <SectionLabel>Net Revenue Retention</SectionLabel>

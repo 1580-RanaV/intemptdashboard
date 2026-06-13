@@ -214,7 +214,7 @@ function TrafficView() {
   return (
     <div className="space-y-3">
       {/* User metric cards */}
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {USER_METRICS.map(({ label, value, change, icon }) => (
           <div key={label} className="rounded-xl p-4" style={{ border: "1px solid var(--border)", background: "var(--content-bg)" }}>
             <div className="flex items-center gap-1.5 mb-2 text-stone-500 dark:text-stone-400">
@@ -232,7 +232,7 @@ function TrafficView() {
       </div>
 
       {/* Purchase summary cards */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {[
           { label: "Yesterday", icon: <ShoppingCart size={13} />, comp: "vs day before yesterday", special: false },
           { label: "Total Period", icon: <ShoppingCart size={13} />, comp: "vs Apr 14, 2026 – May 14, 2026", special: false },
@@ -265,7 +265,7 @@ function TrafficView() {
       </div>
 
       {/* Bottom bar charts */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {/* Traffic by Channel */}
         <div className="rounded-xl p-5" style={{ border: "1px solid var(--border)", background: "var(--content-bg)" }}>
           <div className="flex items-center justify-between mb-3">
@@ -358,7 +358,7 @@ function TrafficView() {
       </div>
 
       {/* Country + Browser charts */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {/* Users by Country */}
         <div className="rounded-xl p-5" style={{ border: "1px solid var(--border)", background: "var(--content-bg)" }}>
           <div className="flex items-center justify-between mb-3">
@@ -503,7 +503,7 @@ function RevenueView() {
         </ResponsiveContainer>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {[
           {
             title: "Purchase Events",
@@ -608,7 +608,7 @@ function EngChart({
 function EngagementView() {
   return (
     <div className="space-y-3">
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <EngChart title="Page Views" sub="Total number of page views in the selected period" big="4.06K" bigSub="total page views" change="+239.1%" data={PAGE_VIEWS_DATA} color="#60A5FA" />
         <EngChart title="Sessions" sub="Total number of user sessions in the selected period" big="2.79K" bigSub="total sessions" change="+250.4%" data={SESSIONS_DATA} color="#A78BFA" />
         <EngChart title="Active Users" sub="Total number of active users in the selected period" big="1.87K" bigSub="total active users" change="-70.0%" data={ACTIVE_USERS_DATA} color="#34D399" />

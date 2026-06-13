@@ -373,50 +373,65 @@ function CollapsibleSection({
   );
 }
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () => void }) {
   const pathname = usePathname();
   const currentView = pathname === "/home" ? "Home" : Object.entries(NAV_VIEWS).find(([, view]) => pathname === `/${view}`)?.[0] ?? "";
 
+  // Close mobile drawer on route change
+  useEffect(() => { onClose?.(); }, [pathname]);
+
   return (
-    <aside
-      className="flex flex-col h-full select-none"
-      style={{
-        width: 196,
-        minWidth: 196,
-        background: "var(--main-bg)",
-      }}
-    >
-      {/* Top: workspace switcher */}
-      <WorkspaceSwitcher />
+    <>
+      {/* Mobile backdrop */}
+      <div
+        onClick={onClose}
+        className="fixed inset-0 z-40 bg-black/40 backdrop-blur-[2px] md:hidden transition-opacity duration-300"
+        style={{ opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? "auto" : "none" }}
+      />
 
-      {/* Nav */}
-      <nav className="flex-1 overflow-y-auto px-2 py-2 space-y-5">
-        {nav.map((section, si) => (
-          <CollapsibleSection
-            key={si}
-            section={section}
-            activeItem={currentView}
+      <aside
+        className={`
+          fixed inset-y-0 left-0 z-50 flex flex-col h-full select-none
+          transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
+          ${isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+        `}
+        style={{
+          width: 196,
+          background: "var(--main-bg)",
+        }}
+      >
+        {/* Top: workspace switcher */}
+        <WorkspaceSwitcher />
+
+        {/* Nav */}
+        <nav className="flex-1 overflow-y-auto px-2 py-2 space-y-5">
+          {nav.map((section, si) => (
+            <CollapsibleSection
+              key={si}
+              section={section}
+              activeItem={currentView}
+            />
+          ))}
+        </nav>
+
+        {/* Bottom: Intempt branding */}
+        <div className="flex items-center gap-2 px-4 py-3.5">
+          <Image
+            src="/logo.png"
+            alt="Intempt"
+            width={18}
+            height={18}
+            className="rounded-md opacity-60"
+            style={{ objectFit: "contain" }}
           />
-        ))}
-      </nav>
-
-      {/* Bottom: Intempt branding */}
-      <div className="flex items-center gap-2 px-4 py-3.5">
-        <Image
-          src="/logo.png"
-          alt="Intempt"
-          width={18}
-          height={18}
-          className="rounded-md opacity-60"
-          style={{ objectFit: "contain" }}
-        />
-        <span className="flex-1 text-[12px] font-medium text-stone-400 dark:text-stone-600 tracking-tight">
-          Intempt
-        </span>
-        <button className="w-5 h-5 rounded-full border border-stone-300 dark:border-stone-600 flex items-center justify-center hover:border-stone-400 dark:hover:border-stone-500 hover:bg-stone-100 dark:hover:bg-white/6 transition-colors shrink-0">
-          <span className="text-[10px] font-semibold text-stone-400 dark:text-stone-500 leading-none">?</span>
-        </button>
-      </div>
-    </aside>
+          <span className="flex-1 text-[12px] font-medium text-stone-400 dark:text-stone-600 tracking-tight">
+            Intempt
+          </span>
+          <button className="w-5 h-5 rounded-full border border-stone-300 dark:border-stone-600 flex items-center justify-center hover:border-stone-400 dark:hover:border-stone-500 hover:bg-stone-100 dark:hover:bg-white/6 transition-colors shrink-0">
+            <span className="text-[10px] font-semibold text-stone-400 dark:text-stone-500 leading-none">?</span>
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }

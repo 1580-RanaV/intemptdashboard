@@ -239,7 +239,7 @@ function IdentityContent() {
   }
 
   return (
-    <div className="flex-1 min-h-0 overflow-y-auto px-8 pb-8 pt-6">
+    <div className="flex-1 min-h-0 overflow-y-auto px-4 pb-8 pt-6 md:px-8">
       <div className="mx-auto max-w-5xl">
         <div className="mb-8 flex flex-col items-center">
           <LogoEditor />
@@ -273,7 +273,7 @@ function IdentityContent() {
           </AccordionSection>
 
           <AccordionSection icon={<MessageSquare size={16} />} title="Voice" summary="Tone profile, language rules, and writing examples." open={openSections.Voice} onToggle={() => toggleSection("Voice")}>
-              <div className="grid gap-3 md:grid-cols-5">
+              <div className="grid gap-3 grid-cols-2 md:grid-cols-5">
                 {voiceCards.map((voice) => (
                   <button key={voice.title} className={`rounded-lg border p-3 text-left transition-colors ${voice.active ? "border-blue-500 bg-white shadow-sm dark:bg-blue-500/10" : "border-stone-200 bg-white/70 hover:bg-white dark:border-stone-700 dark:bg-white/[0.025] dark:hover:bg-white/[0.05]"}`}>
                     <p className="text-[12.5px] font-semibold text-stone-900 dark:text-stone-100">{voice.title}</p>

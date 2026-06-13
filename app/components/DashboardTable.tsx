@@ -124,9 +124,9 @@ export default function DashboardTable({
 
   return (
     <div className="flex flex-1 flex-col min-h-0">
-      <div className="mb-3 flex shrink-0 items-center justify-between gap-3">
+      <div className="mb-3 flex shrink-0 flex-wrap items-center justify-between gap-2">
         <div className="flex min-w-0 items-center gap-2">
-          <div className="relative w-full max-w-[320px]">
+          <div className="relative w-full max-w-70 min-w-35">
             <Search size={14} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 dark:text-stone-500" />
             <input
               type="search"
