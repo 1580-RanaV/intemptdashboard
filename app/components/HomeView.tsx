@@ -644,7 +644,7 @@ export default function HomeView() {
       </div>
 
       {/* Date range picker below tabs */}
-      <div className="shrink-0" style={{ borderBottom: "1px solid var(--border)" }}>
+      <div className="shrink-0">
         <DateRangePicker />
       </div>
 
