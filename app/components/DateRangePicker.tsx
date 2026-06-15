@@ -74,7 +74,7 @@ function MonthGrid({
               <ChevronLeft size={14} />
             </button>
           : <span className="w-7" />}
-        <span className="text-[13.5px] font-semibold text-stone-800 dark:text-stone-100">{monthLabel(base)}</span>
+        <span className="text-sm font-semibold text-stone-800 dark:text-stone-100">{monthLabel(base)}</span>
         {showNext
           ? <button onClick={onNext} className="w-7 h-7 rounded-md flex items-center justify-center hover:bg-stone-100 dark:hover:bg-white/8 transition-colors text-stone-400">
               <ChevronRight size={14} />
@@ -85,7 +85,7 @@ function MonthGrid({
       {/* Day-of-week headers */}
       <div className="grid grid-cols-7 mb-1">
         {DOW.map(d => (
-          <div key={d} className="text-center text-[11px] font-medium text-stone-400 dark:text-stone-600 py-1">{d}</div>
+          <div key={d} className="text-center text-xs font-medium text-stone-400 dark:text-stone-600 py-1">{d}</div>
         ))}
       </div>
 
@@ -107,7 +107,7 @@ function MonthGrid({
               onMouseEnter={() => onHover(cur ? date : null)}
               onMouseLeave={() => onHover(null)}
               className={[
-                "relative h-9 text-[12.5px] flex items-center justify-center transition-colors",
+                "relative h-9 text-xs flex items-center justify-center transition-colors",
                 !cur ? "pointer-events-none text-transparent" : "text-stone-800 dark:text-stone-200",
                 (isStart || isEnd)
                   ? "text-white font-semibold"
@@ -173,7 +173,7 @@ export default function DateRangePicker() {
         {/* Date range label */}
         <button
           onClick={() => setOpen(o => !o)}
-          className="flex items-center gap-2 mr-3 text-[13px] font-medium text-blue-600 dark:text-blue-400 hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2 mr-3 text-sm font-medium text-blue-600 dark:text-blue-400 hover:opacity-80 transition-opacity"
         >
           <Calendar size={15} />
           <span>{fmt(start)} – {fmt(end)}</span>
@@ -185,7 +185,7 @@ export default function DateRangePicker() {
             <button
               key={p.label}
               onClick={() => applyPreset(p)}
-              className={`px-2.5 py-1 rounded-md text-[12.5px] transition-colors ${
+              className={`px-2.5 py-1 rounded-md text-xs transition-colors ${
                 preset === p.label
                   ? "font-bold text-stone-900 dark:text-stone-100"
                   : "text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"
@@ -197,7 +197,7 @@ export default function DateRangePicker() {
         </div>
 
         {/* Granularity — sits right after presets */}
-        <button className="ml-3 flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-stone-200 dark:border-stone-700 text-[12.5px] text-stone-600 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors">
+        <button className="ml-3 flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-stone-200 dark:border-stone-700 text-xs text-stone-600 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors">
           Day <ChevronDown size={11} className="text-stone-400" />
         </button>
       </div>

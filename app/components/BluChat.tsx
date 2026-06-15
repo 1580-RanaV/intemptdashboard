@@ -208,7 +208,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
           style={{ background: "linear-gradient(135deg, #c7dcfa 0%, #dde8fc 100%)" }}
         />
         <div className="flex-1 min-w-0">
-          <p className="text-[13px] font-semibold text-stone-800 dark:text-stone-100 leading-none">Blu</p>
+          <p className="text-sm font-semibold text-stone-800 dark:text-stone-100 leading-none">Blu</p>
         </div>
         <button className="w-6 h-6 rounded-md flex items-center justify-center hover:bg-stone-100 dark:hover:bg-white/8 transition-colors text-stone-400">
           <History size={13} />
@@ -238,12 +238,12 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
             )}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5 mb-1">
-                <span className="text-[12px] font-semibold text-stone-700 dark:text-stone-200">
+                <span className="text-xs font-semibold text-stone-700 dark:text-stone-200">
                   {msg.role === "user" ? "Rana" : "Blu"}
                 </span>
                 <span className="text-[10.5px] text-stone-400 dark:text-stone-500">Just now</span>
               </div>
-              <p className="text-[12.5px] text-stone-600 dark:text-stone-400 leading-relaxed whitespace-pre-wrap">
+              <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed whitespace-pre-wrap">
                 {msg.text}
               </p>
               {msg.attachments?.length ? (
@@ -279,7 +279,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
                 >
                   <span className="h-7 w-7 shrink-0 rounded-md border border-stone-200 dark:border-stone-700" style={{ background: item.bg }} />
                   <span className="min-w-0">
-                    <span className="block max-w-[170px] truncate text-[11.5px] font-semibold text-stone-800 dark:text-stone-100">{item.title}</span>
+                    <span className="block max-w-[170px] truncate text-xs font-semibold text-stone-800 dark:text-stone-100">{item.title}</span>
                     <span className="block max-w-[170px] truncate text-[10px] font-medium text-slate-500 dark:text-slate-400">{item.category}</span>
                   </span>
                   <button
@@ -303,7 +303,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
               }
             }}
             placeholder="Describe the content you want to create..."
-            className="w-full bg-transparent text-[12.5px] text-stone-700 dark:text-stone-200 placeholder:text-stone-400 dark:placeholder:text-stone-600 outline-none"
+            className="w-full bg-transparent text-xs text-stone-700 dark:text-stone-200 placeholder:text-stone-400 dark:placeholder:text-stone-600 outline-none"
           />
           <div className="flex items-center justify-between mt-3">
             {/* + with dropup */}
@@ -346,7 +346,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
                             setSelectedReference(null);
                             setReferencesOpen(true);
                           }}
-                          className="flex items-center gap-1.5 text-[12px] font-medium text-slate-500 transition-colors hover:text-stone-800 dark:text-slate-400 dark:hover:text-stone-100"
+                          className="flex items-center gap-1.5 text-xs font-medium text-slate-500 transition-colors hover:text-stone-800 dark:text-slate-400 dark:hover:text-stone-100"
                         >
                           <ChevronLeft size={13} />
                           Back to References
@@ -381,7 +381,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
                                     <button
                                       key={option}
                                       onClick={() => updateImageSetting(group.key, option)}
-                                      className={`rounded-full border px-2.5 py-1 text-[11.5px] font-medium transition-colors ${
+                                      className={`rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${
                                         isActive
                                           ? "border-blue-200 bg-blue-50 text-blue-600 dark:border-blue-500/25 dark:bg-blue-500/12 dark:text-blue-300"
                                           : "border-stone-200 bg-white text-slate-500 hover:bg-stone-50 dark:border-stone-700 dark:bg-white/[0.03] dark:text-slate-400 dark:hover:bg-white/6"
@@ -405,7 +405,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
                             <input
                               type="search"
                               placeholder={`Search ${selectedReference.toLowerCase()} by name...`}
-                              className="h-9 w-full rounded-lg border border-stone-200 bg-white pl-9 pr-3 text-[12px] font-medium text-stone-800 outline-none transition-colors placeholder:text-stone-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 dark:border-stone-700 dark:bg-white/[0.03] dark:text-stone-100 dark:placeholder:text-stone-500"
+                              className="h-9 w-full rounded-lg border border-stone-200 bg-white pl-9 pr-3 text-xs font-medium text-stone-800 outline-none transition-colors placeholder:text-stone-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 dark:border-stone-700 dark:bg-white/[0.03] dark:text-stone-100 dark:placeholder:text-stone-500"
                             />
                           </div>
                           <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
@@ -422,7 +422,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
                                   className="block aspect-square rounded-md border border-stone-200 dark:border-stone-700"
                                   style={{ background: tile.bg }}
                                 />
-                                <span className="mt-1.5 block truncate text-[11px] font-semibold text-stone-800 dark:text-stone-100">
+                                <span className="mt-1.5 block truncate text-xs font-semibold text-stone-800 dark:text-stone-100">
                                   {tile.title}
                                 </span>
                                 <span className="block truncate text-[10px] font-medium text-slate-500 dark:text-slate-400">
@@ -451,7 +451,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
                           <button
                             key={item.label}
                             onClick={() => setSelectedReference(item.label)}
-                            className="flex w-full items-center gap-3 px-3.5 py-2.5 text-left text-[13px] font-medium text-stone-700 transition-colors hover:bg-stone-50 dark:text-stone-200 dark:hover:bg-white/5"
+                            className="flex w-full items-center gap-3 px-3.5 py-2.5 text-left text-sm font-medium text-stone-700 transition-colors hover:bg-stone-50 dark:text-stone-200 dark:hover:bg-white/5"
                           >
                             <span className="flex h-5 w-5 shrink-0 items-center justify-center text-stone-500 dark:text-stone-400">
                               {item.icon}
@@ -492,8 +492,8 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
                           {item.icon}
                         </span>
                         <div className="flex-1 min-w-0">
-                          <p className="text-[13px] font-medium text-stone-700 dark:text-stone-200 leading-none mb-0.5">{item.label}</p>
-                          <p className="text-[11px] text-stone-400 dark:text-stone-500 leading-none">{item.desc}</p>
+                          <p className="text-sm font-medium text-stone-700 dark:text-stone-200 leading-none mb-0.5">{item.label}</p>
+                          <p className="text-xs text-stone-400 dark:text-stone-500 leading-none">{item.desc}</p>
                         </div>
                         {item.arrow && <ChevronRight size={12} className="text-stone-400 shrink-0" />}
                       </button>
@@ -506,7 +506,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
               <button
                 type="button"
                 onClick={() => setPlanMode((mode) => !mode)}
-                className={`inline-flex h-7 items-center gap-1.5 rounded-full px-2.5 text-[11px] font-medium transition-colors ${
+                className={`inline-flex h-7 items-center gap-1.5 rounded-full px-2.5 text-xs font-medium transition-colors ${
                   planMode
                     ? "bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-300"
                     : "bg-stone-100 text-stone-500 hover:bg-stone-200 dark:bg-white/6 dark:text-stone-400 dark:hover:bg-white/10"

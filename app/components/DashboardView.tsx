@@ -38,8 +38,8 @@ export function HomeEmpty() {
           </svg>
         </div>
         <div>
-          <p className="text-[13px] font-medium text-stone-600 dark:text-stone-300">Nothing here yet</p>
-          <p className="text-[12px] text-stone-400 mt-0.5">Select an item from the sidebar to get started</p>
+          <p className="text-sm font-medium text-stone-600 dark:text-stone-300">Nothing here yet</p>
+          <p className="text-xs text-stone-400 mt-0.5">Select an item from the sidebar to get started</p>
         </div>
       </div>
     </div>

@@ -148,7 +148,7 @@ function ChartTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
   return (
     <div
-      className="rounded-lg px-3 py-2 text-[12px] shadow-lg"
+      className="rounded-lg px-3 py-2 text-xs shadow-lg"
       style={{ background: "var(--content-bg)", border: "1px solid var(--border)", color: "var(--foreground)" }}
     >
       <p className="font-semibold mb-1">{label}</p>
@@ -168,12 +168,12 @@ function HBar({ name, pct, users, prefix }: { name: string; pct: number; users: 
     <div className="flex items-center gap-3 py-1">
       <div className="flex items-center gap-2 w-40 shrink-0 min-w-0">
         {prefix}
-        <span className="text-[12px] text-stone-600 dark:text-stone-400 truncate">{name}</span>
+        <span className="text-xs text-stone-600 dark:text-stone-400 truncate">{name}</span>
       </div>
       <div className="flex-1 bg-stone-100 dark:bg-white/8 rounded-full h-2 min-w-0">
         <div className="h-2 rounded-full bg-blue-400" style={{ width: `${Math.max(pct, 0.5)}%` }} />
       </div>
-      <div className="flex items-center gap-2 text-[12px] font-medium shrink-0 w-[60px] justify-end">
+      <div className="flex items-center gap-2 text-xs font-medium shrink-0 w-[60px] justify-end">
         <span className="text-teal-600 dark:text-teal-400">{typeof users === "number" ? users.toLocaleString() : users}</span>
         <span className="text-stone-400">$0</span>
       </div>
@@ -219,11 +219,11 @@ function TrafficView() {
           <div key={label} className="rounded-xl p-4" style={{ border: "1px solid var(--border)", background: "var(--content-bg)" }}>
             <div className="flex items-center gap-1.5 mb-2 text-stone-500 dark:text-stone-400">
               {icon}
-              <span className="text-[12px] font-medium">{label}</span>
+              <span className="text-xs font-medium">{label}</span>
               <InfoBadge />
             </div>
-            <p className="text-[22px] font-bold text-stone-900 dark:text-stone-100 mb-1.5">{value}</p>
-            <p className="text-[11px] text-rose-500 flex items-center gap-1">
+            <p className="text-xl font-bold text-stone-900 dark:text-stone-100 mb-1.5">{value}</p>
+            <p className="text-xs text-rose-500 flex items-center gap-1">
               <TrendingDown size={10} className="shrink-0" />
               {change}
             </p>
@@ -244,22 +244,22 @@ function TrafficView() {
                 ? <span className="w-3.5 h-3.5 rounded-full shrink-0" style={{ background: "linear-gradient(135deg,#0080FF,#00AAFF)" }} />
                 : <span className="text-stone-400">{icon}</span>
               }
-              <span className="text-[12.5px] font-semibold text-stone-700 dark:text-stone-300">{label}</span>
+              <span className="text-xs font-semibold text-stone-700 dark:text-stone-300">{label}</span>
               <InfoBadge />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-[9.5px] font-semibold uppercase tracking-wider text-stone-400 mb-1">Purchases</p>
-                <p className="text-[20px] font-bold text-stone-900 dark:text-stone-100">0</p>
-                <p className="text-[11px] text-stone-400 mt-0.5">0%</p>
+                <p className="text-xl font-bold text-stone-900 dark:text-stone-100">0</p>
+                <p className="text-xs text-stone-400 mt-0.5">0%</p>
               </div>
               <div>
                 <p className="text-[9.5px] font-semibold uppercase tracking-wider text-stone-400 mb-1">Revenue</p>
-                <p className="text-[20px] font-bold text-stone-900 dark:text-stone-100">$0</p>
-                <p className="text-[11px] text-stone-400 mt-0.5">0%</p>
+                <p className="text-xl font-bold text-stone-900 dark:text-stone-100">$0</p>
+                <p className="text-xs text-stone-400 mt-0.5">0%</p>
               </div>
             </div>
-            <p className="text-[11px] text-stone-400 mt-3">{comp}</p>
+            <p className="text-xs text-stone-400 mt-3">{comp}</p>
           </div>
         ))}
       </div>
@@ -274,7 +274,7 @@ function TrafficView() {
                 <button
                   key={t}
                   onClick={() => setChannelTab(t.toLowerCase())}
-                  className={`px-2.5 py-1 rounded-lg text-[12.5px] font-medium transition-colors ${
+                  className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
                     channelTab === t.toLowerCase()
                       ? "bg-stone-100 dark:bg-white/10 text-stone-900 dark:text-stone-100"
                       : "text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"
@@ -286,7 +286,7 @@ function TrafficView() {
             </div>
             <div className="flex items-center gap-3">
               <button
-                className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[12px] font-medium text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors"
+                className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors"
                 style={{ border: "1px solid var(--border)" }}
               >
                 Top 10 <ChevronDown size={10} />
@@ -295,7 +295,7 @@ function TrafficView() {
                 <button
                   key={s}
                   onClick={() => setChannelSub(s.toLowerCase() as "users" | "revenue")}
-                  className={`text-[12px] font-medium transition-colors ${
+                  className={`text-xs font-medium transition-colors ${
                     channelSub === s.toLowerCase() ? "text-stone-900 dark:text-stone-100" : "text-stone-400 hover:text-stone-600"
                   }`}
                 >
@@ -304,8 +304,8 @@ function TrafficView() {
               ))}
             </div>
           </div>
-          <p className="text-[13px] font-semibold text-stone-800 dark:text-stone-200">Traffic by Channel</p>
-          <p className="text-[11.5px] text-stone-400 mt-0.5 mb-3">Where your website visitors are coming from</p>
+          <p className="text-sm font-semibold text-stone-800 dark:text-stone-200">Traffic by Channel</p>
+          <p className="text-xs text-stone-400 mt-0.5 mb-3">Where your website visitors are coming from</p>
           <div className="space-y-0.5">
             {CHANNELS.map((c) => <HBar key={c.name} name={c.name} pct={c.pct} users={c.users} />)}
           </div>
@@ -319,7 +319,7 @@ function TrafficView() {
                 <button
                   key={t}
                   onClick={() => setPageTab(t.toLowerCase())}
-                  className={`px-2.5 py-1 rounded-lg text-[12.5px] font-medium transition-colors ${
+                  className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
                     pageTab === t.toLowerCase()
                       ? "bg-stone-100 dark:bg-white/10 text-stone-900 dark:text-stone-100"
                       : "text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"
@@ -331,7 +331,7 @@ function TrafficView() {
             </div>
             <div className="flex items-center gap-3">
               <button
-                className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[12px] font-medium text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors"
+                className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors"
                 style={{ border: "1px solid var(--border)" }}
               >
                 Top 10 <ChevronDown size={10} />
@@ -340,7 +340,7 @@ function TrafficView() {
                 <button
                   key={s}
                   onClick={() => setPageSub(s.toLowerCase() as "users" | "revenue")}
-                  className={`text-[12px] font-medium transition-colors ${
+                  className={`text-xs font-medium transition-colors ${
                     pageSub === s.toLowerCase() ? "text-stone-900 dark:text-stone-100" : "text-stone-400 hover:text-stone-600"
                   }`}
                 >
@@ -349,8 +349,8 @@ function TrafficView() {
               ))}
             </div>
           </div>
-          <p className="text-[13px] font-semibold text-stone-800 dark:text-stone-200">Page Performance</p>
-          <p className="text-[11.5px] text-stone-400 mt-0.5 mb-3">Most visited pages ranked by traffic and revenue</p>
+          <p className="text-sm font-semibold text-stone-800 dark:text-stone-200">Page Performance</p>
+          <p className="text-xs text-stone-400 mt-0.5 mb-3">Most visited pages ranked by traffic and revenue</p>
           <div className="space-y-0.5">
             {PAGES.map((p) => <HBar key={p.name} name={p.name} pct={p.pct} users={p.users} />)}
           </div>
@@ -367,7 +367,7 @@ function TrafficView() {
                 <button
                   key={t}
                   onClick={() => setCountryTab(t.toLowerCase())}
-                  className={`px-2.5 py-1 rounded-lg text-[12.5px] font-medium transition-colors ${
+                  className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
                     countryTab === t.toLowerCase()
                       ? "bg-stone-100 dark:bg-white/10 text-stone-900 dark:text-stone-100"
                       : "text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"
@@ -379,7 +379,7 @@ function TrafficView() {
             </div>
             <div className="flex items-center gap-3">
               <button
-                className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[12px] font-medium text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors"
+                className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors"
                 style={{ border: "1px solid var(--border)" }}
               >
                 Top 10 <ChevronDown size={10} />
@@ -388,7 +388,7 @@ function TrafficView() {
                 <button
                   key={s}
                   onClick={() => setCountrySub(s.toLowerCase() as "users" | "revenue")}
-                  className={`text-[12px] font-medium transition-colors ${
+                  className={`text-xs font-medium transition-colors ${
                     countrySub === s.toLowerCase() ? "text-stone-900 dark:text-stone-100" : "text-stone-400 hover:text-stone-600"
                   }`}
                 >
@@ -397,8 +397,8 @@ function TrafficView() {
               ))}
             </div>
           </div>
-          <p className="text-[13px] font-semibold text-stone-800 dark:text-stone-200">Users by Country</p>
-          <p className="text-[11.5px] text-stone-400 mt-0.5 mb-3">Geographic distribution of your website users</p>
+          <p className="text-sm font-semibold text-stone-800 dark:text-stone-200">Users by Country</p>
+          <p className="text-xs text-stone-400 mt-0.5 mb-3">Geographic distribution of your website users</p>
           <div className="space-y-0.5">
             {COUNTRIES.map((c) => (
               <HBar
@@ -406,7 +406,7 @@ function TrafficView() {
                 name={c.name}
                 pct={c.pct}
                 users={c.users}
-                prefix={c.flag ? <span className="text-[15px] leading-none shrink-0">{c.flag}</span> : <span className="w-3.75 shrink-0" />}
+                prefix={c.flag ? <span className="text-sm leading-none shrink-0">{c.flag}</span> : <span className="w-3.75 shrink-0" />}
               />
             ))}
           </div>
@@ -420,7 +420,7 @@ function TrafficView() {
                 <button
                   key={t}
                   onClick={() => setBrowserTab(t.toLowerCase())}
-                  className={`px-2.5 py-1 rounded-lg text-[12.5px] font-medium transition-colors ${
+                  className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
                     browserTab === t.toLowerCase()
                       ? "bg-stone-100 dark:bg-white/10 text-stone-900 dark:text-stone-100"
                       : "text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"
@@ -432,7 +432,7 @@ function TrafficView() {
             </div>
             <div className="flex items-center gap-3">
               <button
-                className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[12px] font-medium text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors"
+                className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors"
                 style={{ border: "1px solid var(--border)" }}
               >
                 Top 10 <ChevronDown size={10} />
@@ -441,7 +441,7 @@ function TrafficView() {
                 <button
                   key={s}
                   onClick={() => setBrowserSub(s.toLowerCase() as "users" | "revenue")}
-                  className={`text-[12px] font-medium transition-colors ${
+                  className={`text-xs font-medium transition-colors ${
                     browserSub === s.toLowerCase() ? "text-stone-900 dark:text-stone-100" : "text-stone-400 hover:text-stone-600"
                   }`}
                 >
@@ -450,8 +450,8 @@ function TrafficView() {
               ))}
             </div>
           </div>
-          <p className="text-[13px] font-semibold text-stone-800 dark:text-stone-200">Web Browsers</p>
-          <p className="text-[11.5px] text-stone-400 mt-0.5 mb-3">Which browsers your visitors use to access your site</p>
+          <p className="text-sm font-semibold text-stone-800 dark:text-stone-200">Web Browsers</p>
+          <p className="text-xs text-stone-400 mt-0.5 mb-3">Which browsers your visitors use to access your site</p>
           <div className="space-y-0.5">
             {BROWSERS.map((b) => (
               <HBar
@@ -479,11 +479,11 @@ function RevenueView() {
         <div className="flex items-start gap-2 mb-1">
           <InfoBadge />
           <div>
-            <p className="text-[13px] font-semibold text-stone-800 dark:text-stone-200">
+            <p className="text-sm font-semibold text-stone-800 dark:text-stone-200">
               Traffic &amp; Revenue Overview{" "}
-              <span className="text-[11.5px] font-normal text-stone-400">(May 15, 2026 – Jun 13, 2026)</span>
+              <span className="text-xs font-normal text-stone-400">(May 15, 2026 – Jun 13, 2026)</span>
             </p>
-            <p className="text-[11.5px] text-stone-400 mt-0.5">
+            <p className="text-xs text-stone-400 mt-0.5">
               Daily unique visitors (bars) and cumulative revenue (line) over the selected period
             </p>
           </div>
@@ -527,16 +527,16 @@ function RevenueView() {
           },
         ].map(({ title, sub, big, bigSub, change, data, color, yTicks }) => (
           <div key={title} className="rounded-xl p-5" style={{ border: "1px solid var(--border)", background: "var(--content-bg)" }}>
-            <p className="text-[13px] font-semibold text-stone-800 dark:text-stone-200">
+            <p className="text-sm font-semibold text-stone-800 dark:text-stone-200">
               {title}{" "}
-              <span className="text-[11.5px] font-normal text-stone-400">(May 15, 2026 – Jun 13, 2026)</span>
+              <span className="text-xs font-normal text-stone-400">(May 15, 2026 – Jun 13, 2026)</span>
             </p>
-            <p className="text-[11.5px] text-stone-400 mt-0.5">{sub}</p>
+            <p className="text-xs text-stone-400 mt-0.5">{sub}</p>
             <p className="mt-3 mb-0.5">
-              <span className="text-[22px] font-bold text-stone-900 dark:text-stone-100">{big}</span>{" "}
-              <span className="text-[12.5px] text-stone-400">{bigSub}</span>
+              <span className="text-xl font-bold text-stone-900 dark:text-stone-100">{big}</span>{" "}
+              <span className="text-xs text-stone-400">{bigSub}</span>
             </p>
-            <p className="text-[11.5px] text-emerald-500 mb-3">{change} vs Apr 14, 2026 – May 14, 2026</p>
+            <p className="text-xs text-emerald-500 mb-3">{change} vs Apr 14, 2026 – May 14, 2026</p>
             <ResponsiveContainer width="100%" height={150}>
               <AreaChart data={data} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
                 <XAxis dataKey="date" tick={{ fontSize: 9, fill: "#94a3b8" }} tickLine={false} axisLine={false} interval={4} />
@@ -572,16 +572,16 @@ function EngChart({
   const isPositive = change.startsWith("+");
   return (
     <div className="rounded-xl p-5" style={{ border: "1px solid var(--border)", background: "var(--content-bg)" }}>
-      <p className="text-[13px] font-semibold text-stone-800 dark:text-stone-200">
+      <p className="text-sm font-semibold text-stone-800 dark:text-stone-200">
         {title}{" "}
-        <span className="text-[11.5px] font-normal text-stone-400">(May 15, 2026 – Jun 13, 2026)</span>
+        <span className="text-xs font-normal text-stone-400">(May 15, 2026 – Jun 13, 2026)</span>
       </p>
-      <p className="text-[11.5px] text-stone-400 mt-0.5">{sub}</p>
+      <p className="text-xs text-stone-400 mt-0.5">{sub}</p>
       <p className="mt-3 mb-0.5">
-        <span className="text-[22px] font-bold text-stone-900 dark:text-stone-100">{big}</span>{" "}
-        <span className="text-[12.5px] text-stone-400">{bigSub}</span>
+        <span className="text-xl font-bold text-stone-900 dark:text-stone-100">{big}</span>{" "}
+        <span className="text-xs text-stone-400">{bigSub}</span>
       </p>
-      <p className={`text-[11.5px] mb-3 ${isPositive ? "text-emerald-500" : "text-rose-500"}`}>
+      <p className={`text-xs mb-3 ${isPositive ? "text-emerald-500" : "text-rose-500"}`}>
         {change} vs Apr 14, 2026 – May 14, 2026
       </p>
       <ResponsiveContainer width="100%" height={150}>
@@ -631,7 +631,7 @@ export default function HomeView() {
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-[13px] font-medium transition-colors duration-100 ${
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors duration-100 ${
               tab === t.key
                 ? "bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400"
                 : "text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/6"

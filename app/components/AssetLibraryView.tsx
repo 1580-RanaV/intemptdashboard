@@ -16,7 +16,7 @@ function TypeBadge({ type }: { type: "Email Plain" | "Email HTML" | "SMS" | "Ima
     "Image":       "bg-rose-50 text-rose-400 border border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20",
   };
   return (
-    <span className={`inline-flex items-center rounded-md px-2 py-0.5 text-[11.5px] font-semibold ${map[type]}`}>
+    <span className={`inline-flex items-center rounded-md px-2 py-0.5 text-xs font-semibold ${map[type]}`}>
       {type}
     </span>
   );
@@ -35,19 +35,19 @@ function UserAvatar({ initial, color, name, muted }: { initial: string; color: s
   return (
     <div className="flex items-center gap-2">
       <span
-        className={`inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold text-white ${muted ? "opacity-50" : ""}`}
+        className={`inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-white ${muted ? "opacity-50" : ""}`}
         style={{ background: color }}
       >
         {initial}
       </span>
-      <span className={`text-[12.5px] ${muted ? "italic text-stone-400 dark:text-stone-500" : "text-stone-700 dark:text-stone-300"}`}>{name}</span>
+      <span className={`text-xs ${muted ? "italic text-stone-400 dark:text-stone-500" : "text-stone-700 dark:text-stone-300"}`}>{name}</span>
     </div>
   );
 }
 
 function StatusDot() {
   return (
-    <span className="inline-flex items-center gap-1.5 text-[12.5px] text-stone-700 dark:text-stone-300">
+    <span className="inline-flex items-center gap-1.5 text-xs text-stone-700 dark:text-stone-300">
       <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
       Active
     </span>
@@ -231,7 +231,7 @@ export default function AssetLibraryView() {
           action={
             <button
               onClick={() => setDrawerOpen(true)}
-              className="flex shrink-0 items-center gap-1.5 rounded-lg px-3.5 py-2 text-[12.5px] font-medium text-white transition-opacity hover:opacity-90"
+              className="flex shrink-0 items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-medium text-white transition-opacity hover:opacity-90"
               style={{ background: "#0080FF" }}
             >
               <Plus size={14} />

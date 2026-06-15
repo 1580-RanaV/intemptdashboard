@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Plus } from "lucide-react";
 import DateRangePicker from "./DateRangePicker";
 import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
@@ -39,6 +40,7 @@ const JOURNEY_COLUMNS: TableColumn[] = [
 const JOURNEY_ROWS: TableRow[] = [
   {
     id: "browse-abandonment",
+    href: "/journeys/browse-abandonment",
     cells: {
       name: "Browse Abandonment Journey",
       status: { label: "Running", tone: "green" },
@@ -53,6 +55,7 @@ const JOURNEY_ROWS: TableRow[] = [
   },
   {
     id: "product-based-sends",
+    href: "/journeys/product-based-sends",
     cells: {
       name: "Product-based sends",
       status: { label: "Running", tone: "green" },
@@ -67,6 +70,7 @@ const JOURNEY_ROWS: TableRow[] = [
   },
   {
     id: "negative-review-response",
+    href: "/journeys/negative-review-response",
     cells: {
       name: "Negative Review Response Journey",
       status: { label: "Draft", tone: "gray" },
@@ -81,6 +85,7 @@ const JOURNEY_ROWS: TableRow[] = [
   },
   {
     id: "cart-abandonment",
+    href: "/journeys/cart-abandonment",
     cells: {
       name: "Cart Abandonment Journey",
       status: { label: "Running", tone: "green" },
@@ -124,13 +129,14 @@ export default function JourneysView() {
           columns={JOURNEY_COLUMNS}
           rows={JOURNEY_ROWS}
           action={
-            <button
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-[12.5px] font-medium text-white transition-opacity hover:opacity-90 shrink-0"
+            <Link
+              href="/journeys/new"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-medium text-white transition-opacity hover:opacity-90 shrink-0"
               style={{ background: "#0080FF" }}
             >
               <Plus size={14} />
               Create journey
-            </button>
+            </Link>
           }
         />
       </div>

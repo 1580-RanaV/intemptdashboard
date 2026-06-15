@@ -25,7 +25,7 @@ function Field({
 }) {
   return (
     <div className="space-y-1.5">
-      <label className="flex items-center gap-1.5 text-[13px] font-semibold text-stone-700 dark:text-stone-300">
+      <label className="flex items-center gap-1.5 text-sm font-semibold text-stone-700 dark:text-stone-300">
         <span className="text-stone-400 dark:text-stone-500">{icon}</span>
         {label}
         {required && <span className="text-rose-500">*</span>}
@@ -34,17 +34,17 @@ function Field({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className={`h-10 w-full rounded-lg border px-3 text-[13px] font-medium text-stone-900 outline-none transition-colors placeholder:text-stone-400 dark:text-stone-100 dark:placeholder:text-stone-500 ${
+        className={`h-10 w-full rounded-lg border px-3 text-sm font-medium text-stone-900 outline-none transition-colors placeholder:text-stone-400 dark:text-stone-100 dark:placeholder:text-stone-500 ${
           error
             ? "border-rose-400 bg-rose-50/50 focus:border-rose-400 dark:border-rose-500/60 dark:bg-rose-500/5"
             : "border-stone-200 bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 dark:border-stone-700 dark:bg-white/[0.03] dark:focus:border-stone-500"
         }`}
       />
       {hint && !error && (
-        <p className="text-[11.5px] text-stone-400 dark:text-stone-500">{hint}</p>
+        <p className="text-xs text-stone-400 dark:text-stone-500">{hint}</p>
       )}
       {error && (
-        <p className="text-[11.5px] font-medium text-rose-500">{error}</p>
+        <p className="text-xs font-medium text-rose-500">{error}</p>
       )}
     </div>
   );
@@ -84,13 +84,13 @@ export default function CreateAccountDrawer({ onClose }: { onClose: () => void }
         <>
           <button
             onClick={close}
-            className="rounded-lg px-4 py-2 text-[13px] font-medium text-stone-600 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-white/8"
+            className="rounded-lg px-4 py-2 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-white/8"
           >
             Cancel
           </button>
           <button
             onClick={handleCreate}
-            className="rounded-lg px-5 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
+            className="rounded-lg px-5 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
             style={{ background: "#0080FF" }}
           >
             Create

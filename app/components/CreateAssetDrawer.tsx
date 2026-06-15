@@ -32,12 +32,12 @@ export default function CreateAssetDrawer({ onClose }: { onClose: () => void }) 
         <>
           <button
             onClick={close}
-            className="rounded-lg px-4 py-2 text-[13px] font-medium text-stone-600 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-white/8"
+            className="rounded-lg px-4 py-2 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-white/8"
           >
             Cancel
           </button>
           <button
-            className="rounded-lg px-5 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
+            className="rounded-lg px-5 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
             style={{ background: "#0080FF" }}
           >
             Create asset
@@ -62,7 +62,7 @@ export default function CreateAssetDrawer({ onClose }: { onClose: () => void }) 
                 <Icon size={17} />
               </span>
               <span
-                className={`text-[13.5px] font-medium ${
+                className={`text-sm font-medium ${
                   isSelected
                     ? "text-blue-600 dark:text-blue-400"
                     : "text-stone-700 dark:text-stone-300"

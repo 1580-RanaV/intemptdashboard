@@ -43,7 +43,7 @@ function PaletteCard({ palette }: { palette: Palette }) {
             background: `conic-gradient(${colors[0]} 0deg 180deg, ${colors[1]} 180deg 360deg)`,
           }}
         />
-        <span className="text-[13.5px] font-semibold text-stone-900 dark:text-stone-100">
+        <span className="text-sm font-semibold text-stone-900 dark:text-stone-100">
           {name}
         </span>
       </div>
@@ -68,17 +68,17 @@ export default function DesignSystemView() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search palettes..."
-            className="h-9 w-full rounded-lg border border-stone-200 bg-white pl-8 pr-3 text-[12.5px] font-medium text-stone-800 outline-none transition-colors placeholder:text-stone-400 focus:border-blue-400 dark:border-stone-700 dark:bg-white/3 dark:text-stone-100 dark:placeholder:text-stone-500"
+            className="h-9 w-full rounded-lg border border-stone-200 bg-white pl-8 pr-3 text-xs font-medium text-stone-800 outline-none transition-colors placeholder:text-stone-400 focus:border-blue-400 dark:border-stone-700 dark:bg-white/3 dark:text-stone-100 dark:placeholder:text-stone-500"
           />
         </div>
 
-        <button className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-stone-200 bg-white px-3 text-[12.5px] font-medium text-stone-600 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:bg-white/3 dark:text-stone-300 dark:hover:bg-white/6">
+        <button className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-stone-200 bg-white px-3 text-xs font-medium text-stone-600 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:bg-white/3 dark:text-stone-300 dark:hover:bg-white/6">
           <Filter size={13} />
           Filter
         </button>
 
         <button
-          className="ml-auto inline-flex h-9 items-center gap-1.5 rounded-lg px-3.5 text-[12.5px] font-semibold text-white transition-opacity hover:opacity-90"
+          className="ml-auto inline-flex h-9 items-center gap-1.5 rounded-lg px-3.5 text-xs font-semibold text-white transition-opacity hover:opacity-90"
           style={{ background: "#0080FF" }}
         >
           <Plus size={14} />

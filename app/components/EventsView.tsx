@@ -26,7 +26,7 @@ function Toggle({ defaultOn }: { defaultOn: boolean }) {
 function UserAvatar({ initial, color, name }: { initial: string; color: string; name: string }) {
   return (
     <div className="flex items-center gap-2">
-      <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold text-white" style={{ background: color }}>
+      <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-white" style={{ background: color }}>
         {initial}
       </span>
       <span>{name}</span>
@@ -35,7 +35,7 @@ function UserAvatar({ initial, color, name }: { initial: string; color: string; 
 }
 
 const TYPE_BADGE = (
-  <span className="inline-flex items-center rounded-md bg-blue-50 px-2 py-0.5 text-[12px] font-semibold text-blue-600 dark:bg-blue-500/12 dark:text-blue-300">
+  <span className="inline-flex items-center rounded-md bg-blue-50 px-2 py-0.5 text-xs font-semibold text-blue-600 dark:bg-blue-500/12 dark:text-blue-300">
     Created
   </span>
 );
@@ -113,13 +113,13 @@ const LIVE_TABLE_ROWS: TableRow[] = LIVE_ROWS.map((r) => ({
     name:       <span className="font-medium text-stone-800 dark:text-stone-100">{r.name}</span>,
     timestamp:  <span className="tabular-nums text-stone-500 dark:text-stone-400">{r.timestamp}</span>,
     source:     <span className="text-stone-500 dark:text-stone-400">{r.source}</span>,
-    identifier: <span className="font-mono text-[11.5px] text-stone-500 dark:text-stone-400">{r.identifier}</span>,
+    identifier: <span className="font-mono text-xs text-stone-500 dark:text-stone-400">{r.identifier}</span>,
     path:       r.path
-      ? <span className="font-mono text-[11.5px] text-stone-700 dark:text-stone-300">{r.path}</span>
+      ? <span className="font-mono text-xs text-stone-700 dark:text-stone-300">{r.path}</span>
       : <span className="text-stone-400 dark:text-stone-500">–</span>,
     location:   <span className="italic text-stone-400 dark:text-stone-500">{r.location ?? "No location received"}</span>,
     action: (
-      <button className="inline-flex items-center gap-1 text-[12px] font-medium text-blue-600 transition-colors hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
+      <button className="inline-flex items-center gap-1 text-xs font-medium text-blue-600 transition-colors hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         Create event
       </button>
@@ -152,7 +152,7 @@ function PauseResumeButton({ paused, onToggle }: { paused: boolean; onToggle: ()
   return (
     <button
       onClick={onToggle}
-      className="inline-flex h-9 items-center gap-2 overflow-hidden rounded-lg px-3.5 text-[12.5px] font-semibold text-white transition-colors duration-150"
+      className="inline-flex h-9 items-center gap-2 overflow-hidden rounded-lg px-3.5 text-xs font-semibold text-white transition-colors duration-150"
       style={{ background: paused ? "#10B981" : "#F59E0B" }}
     >
       <span className="relative flex h-3.5 w-3.5 shrink-0 items-center justify-center">
@@ -178,14 +178,14 @@ function PauseResumeButton({ paused, onToggle }: { paused: boolean; onToggle: ()
 }
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
-  return <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500">{children}</p>;
+  return <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500">{children}</p>;
 }
 
 function DetailRow({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="flex items-start justify-between gap-4 py-1.5">
-      <span className="shrink-0 text-[12.5px] text-stone-400 dark:text-stone-500">{label}</span>
-      <span className="text-right text-[12.5px] font-medium text-stone-800 dark:text-stone-200 break-all">{value}</span>
+      <span className="shrink-0 text-xs text-stone-400 dark:text-stone-500">{label}</span>
+      <span className="text-right text-xs font-medium text-stone-800 dark:text-stone-200 break-all">{value}</span>
     </div>
   );
 }
@@ -197,7 +197,7 @@ function EventDetailSidebar({ row, onClose }: { row: LiveRow; onClose: () => voi
       onClose={onClose}
       footerBorder={false}
       footer={
-        <button className="inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-[12.5px] font-medium text-white transition-opacity hover:opacity-90" style={{ background: "#0080FF" }}>
+        <button className="inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-medium text-white transition-opacity hover:opacity-90" style={{ background: "#0080FF" }}>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
           View Event JSON
         </button>
@@ -207,10 +207,10 @@ function EventDetailSidebar({ row, onClose }: { row: LiveRow; onClose: () => voi
         <div>
           <SectionTitle>General</SectionTitle>
           <DetailRow label="Event Name" value={row.name} />
-          <DetailRow label="Event Id"   value={<span className="font-mono text-[11.5px]">{row.eventId}</span>} />
+          <DetailRow label="Event Id"   value={<span className="font-mono text-xs">{row.eventId}</span>} />
           <DetailRow label="Timestamp"  value={row.timestamp} />
-          <DetailRow label="Identifier" value={<span className="font-mono text-[11.5px]">{row.profileId}</span>} />
-          <DetailRow label="Session Id" value={<span className="font-mono text-[11.5px]">{row.sessionId}</span>} />
+          <DetailRow label="Identifier" value={<span className="font-mono text-xs">{row.profileId}</span>} />
+          <DetailRow label="Session Id" value={<span className="font-mono text-xs">{row.sessionId}</span>} />
         </div>
 
         <div>
@@ -220,7 +220,7 @@ function EventDetailSidebar({ row, onClose }: { row: LiveRow; onClose: () => voi
 
         <div>
           <SectionTitle>User Identities</SectionTitle>
-          <DetailRow label="Profile ID" value={<span className="font-mono text-[11.5px]">{row.profileId}</span>} />
+          <DetailRow label="Profile ID" value={<span className="font-mono text-xs">{row.profileId}</span>} />
         </div>
 
         <div>
@@ -249,7 +249,7 @@ function LiveTab({ onRowSelect }: { onRowSelect: (row: LiveRow | null) => void }
         action={
           <div className="flex items-center gap-3">
             <LiveIndicator paused={paused} />
-            <button className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-stone-200 px-3 text-[12.5px] font-medium text-stone-600 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-white/6">
+            <button className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-stone-200 px-3 text-xs font-medium text-stone-600 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-white/6">
               Clear
             </button>
             <PauseResumeButton paused={paused} onToggle={() => setPaused((p) => !p)} />
@@ -280,7 +280,7 @@ export default function EventsView() {
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-[13px] font-medium transition-colors duration-100
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors duration-100
               ${tab === t.key
                 ? "bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400"
                 : "text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/6"
@@ -301,7 +301,7 @@ export default function EventsView() {
             action={
               <button
                 onClick={() => setDrawerOpen(true)}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-[12.5px] font-medium text-white transition-opacity hover:opacity-90 shrink-0"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-medium text-white transition-opacity hover:opacity-90 shrink-0"
                 style={{ background: "#0080FF" }}
               >
                 <Plus size={14} />

@@ -37,17 +37,17 @@ export default function GridCardView({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder={searchPlaceholder}
-            className="h-9 w-full rounded-lg border border-stone-200 bg-white pl-8 pr-3 text-[12.5px] font-medium text-stone-800 outline-none transition-colors placeholder:text-stone-400 focus:border-blue-400 dark:border-stone-700 dark:bg-white/3 dark:text-stone-100 dark:placeholder:text-stone-500"
+            className="h-9 w-full rounded-lg border border-stone-200 bg-white pl-8 pr-3 text-xs font-medium text-stone-800 outline-none transition-colors placeholder:text-stone-400 focus:border-blue-400 dark:border-stone-700 dark:bg-white/3 dark:text-stone-100 dark:placeholder:text-stone-500"
           />
         </div>
 
-        <button className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-stone-200 bg-white px-3 text-[12.5px] font-medium text-stone-600 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:bg-white/3 dark:text-stone-300 dark:hover:bg-white/6">
+        <button className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-stone-200 bg-white px-3 text-xs font-medium text-stone-600 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:bg-white/3 dark:text-stone-300 dark:hover:bg-white/6">
           <Filter size={13} />
           Filter
         </button>
 
         <button
-          className="ml-auto inline-flex h-9 items-center gap-1.5 rounded-lg px-3.5 text-[12.5px] font-semibold text-white transition-opacity hover:opacity-90"
+          className="ml-auto inline-flex h-9 items-center gap-1.5 rounded-lg px-3.5 text-xs font-semibold text-white transition-opacity hover:opacity-90"
           style={{ background: "#0080FF" }}
         >
           <Plus size={14} />
@@ -76,7 +76,7 @@ export default function GridCardView({
                 className="absolute inset-x-0 bottom-0 px-3.5 pb-4 pt-16"
                 style={{ background: "linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 100%)" }}
               >
-                <p className="w-full text-left text-[17px] font-bold leading-tight text-white">{name}</p>
+                <p className="w-full text-left text-base font-bold leading-tight text-white">{name}</p>
               </div>
             </button>
           ))}

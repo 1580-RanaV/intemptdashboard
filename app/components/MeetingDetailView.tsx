@@ -146,7 +146,7 @@ function Initial({ label, className }: { label: string; className: string }) {
 }
 
 function TimeBadge({ time }: { time: string }) {
-  return <span className="inline-flex rounded-md bg-blue-50 px-2 py-0.5 text-[12px] font-semibold text-blue-600 dark:bg-blue-500/12 dark:text-blue-300">{time}</span>;
+  return <span className="inline-flex rounded-md bg-blue-50 px-2 py-0.5 text-xs font-semibold text-blue-600 dark:bg-blue-500/12 dark:text-blue-300">{time}</span>;
 }
 
 function formatPlayerTime(seconds: number) {
@@ -204,7 +204,7 @@ export default function MeetingDetailView() {
         />
 
         {seekNudge ? (
-          <div className="pointer-events-none absolute top-1/2 -translate-y-1/2 rounded-full bg-white/12 px-4 py-2 text-[18px] font-semibold text-white backdrop-blur-md animate-pop-in">
+          <div className="pointer-events-none absolute top-1/2 -translate-y-1/2 rounded-full bg-white/12 px-4 py-2 text-lg font-semibold text-white backdrop-blur-md animate-pop-in">
             {seekNudge}s
           </div>
         ) : null}
@@ -234,7 +234,7 @@ export default function MeetingDetailView() {
           >
             <RotateCw size={15} />
           </button>
-          <span className="whitespace-nowrap text-[12px] font-medium">
+          <span className="whitespace-nowrap text-xs font-medium">
             {formatPlayerTime(currentTime)} / {formatPlayerTime(MEETING_DURATION)}
           </span>
           <label className="flex items-center gap-2">
@@ -272,7 +272,7 @@ export default function MeetingDetailView() {
   return (
     <div className="flex flex-1 min-h-0 flex-col animate-fade-up">
       <div className="flex shrink-0 items-center justify-between gap-3 px-4 py-4">
-        <div className="flex min-w-0 items-center gap-2 text-[13px]">
+        <div className="flex min-w-0 items-center gap-2 text-sm">
           <Link href="/meetings" className="inline-flex items-center gap-1.5 text-slate-500 transition-colors hover:text-stone-900 dark:text-slate-400 dark:hover:text-stone-100">
             <ChevronLeft size={15} />
             Meetings
@@ -285,7 +285,7 @@ export default function MeetingDetailView() {
       <div className="grid flex-1 min-h-0 grid-cols-[minmax(0,900px)_minmax(420px,1fr)] gap-0">
         <div className="flex min-h-0 flex-col overflow-hidden px-4 pb-4">
           <div className="mb-4 flex w-full max-w-[875px] shrink-0 flex-wrap items-center justify-between gap-3">
-            <div className="flex flex-wrap items-center gap-3 text-[12.5px] font-medium text-slate-500 dark:text-slate-400">
+            <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-slate-500 dark:text-slate-400">
               <span className="inline-flex items-center gap-2">
                 <CalendarDays size={14} className="text-slate-400 dark:text-slate-500" />
                 Jun 5, 2026 8:00-9:35 PM
@@ -303,7 +303,7 @@ export default function MeetingDetailView() {
                 <button
                   type="button"
                   onClick={() => setShowParticipants((open) => !open)}
-                  className="inline-flex items-center gap-1 text-[12.5px] font-medium text-slate-500 transition-colors hover:text-stone-900 dark:text-slate-400 dark:hover:text-stone-100"
+                  className="inline-flex items-center gap-1 text-xs font-medium text-slate-500 transition-colors hover:text-stone-900 dark:text-slate-400 dark:hover:text-stone-100"
                 >
                   +8 others
                   <ChevronDown size={12} className={`transition-transform ${showParticipants ? "rotate-180" : ""}`} />
@@ -315,7 +315,7 @@ export default function MeetingDetailView() {
                   >
                     <div className="max-h-56 overflow-y-auto py-2">
                       {MORE_PARTICIPANTS.map((participant) => (
-                        <div key={participant.name} className="flex items-center gap-3 px-3 py-2.5 text-[13px] font-medium text-stone-900 dark:text-stone-100">
+                        <div key={participant.name} className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-stone-900 dark:text-stone-100">
                           <Initial label={participant.initials} className={`h-6 w-6 text-[9px] ${participant.color}`} />
                           <span className="truncate">{participant.name}</span>
                         </div>
@@ -325,7 +325,7 @@ export default function MeetingDetailView() {
                 ) : null}
               </span>
             </div>
-            <div className="inline-flex shrink-0 overflow-hidden rounded-md bg-blue-50 text-[12.5px] font-medium text-blue-600 dark:bg-blue-500/12 dark:text-blue-300">
+            <div className="inline-flex shrink-0 overflow-hidden rounded-md bg-blue-50 text-xs font-medium text-blue-600 dark:bg-blue-500/12 dark:text-blue-300">
               <a
                 href="https://intempt.com/share/meeting/rd-check-in"
                 target="_blank"
@@ -353,7 +353,7 @@ export default function MeetingDetailView() {
 
           <section className="mt-6 min-h-0 w-full max-w-[875px] flex-1 overflow-y-auto pr-2">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-[15px] font-semibold text-stone-950 dark:text-stone-100">Topics</h2>
+              <h2 className="text-sm font-semibold text-stone-950 dark:text-stone-100">Topics</h2>
               <button className="rounded-md p-1.5 text-slate-500 transition-colors hover:bg-stone-100 dark:text-slate-400 dark:hover:bg-white/8">
                 <Copy size={15} />
               </button>
@@ -364,14 +364,14 @@ export default function MeetingDetailView() {
                   <div className="absolute left-0 top-0">
                     <TimeBadge time={item.time} />
                   </div>
-                  <p className="pt-0.5 text-[13px] leading-6 text-stone-900 dark:text-stone-100">{item.text}</p>
+                  <p className="pt-0.5 text-sm leading-6 text-stone-900 dark:text-stone-100">{item.text}</p>
                   {item.children.length ? (
                     <div className="relative mt-3 space-y-4 pl-10">
                       <div className="absolute bottom-1 left-4 top-0 w-px bg-slate-200 dark:bg-stone-700" />
                       {item.children.map((child) => (
                         <div key={`${child.time}-${child.text}`} className="relative grid grid-cols-[64px_minmax(0,1fr)] gap-3">
                           <TimeBadge time={child.time} />
-                          <p className="text-[13px] leading-6 text-stone-900 dark:text-stone-100">{child.text}</p>
+                          <p className="text-sm leading-6 text-stone-900 dark:text-stone-100">{child.text}</p>
                         </div>
                       ))}
                     </div>
@@ -384,7 +384,7 @@ export default function MeetingDetailView() {
 
         <aside className="min-h-0 overflow-y-auto px-6 py-5">
           <div className="mb-5 flex items-center justify-between">
-            <h2 className="text-[15px] font-semibold text-stone-950 dark:text-stone-100">Transcript</h2>
+            <h2 className="text-sm font-semibold text-stone-950 dark:text-stone-100">Transcript</h2>
             <button className="rounded-md p-1.5 text-slate-500 transition-colors hover:bg-stone-100 dark:text-slate-400 dark:hover:bg-white/8">
               <Copy size={15} />
             </button>
@@ -395,7 +395,7 @@ export default function MeetingDetailView() {
                 <Initial label={entry.initials} className={entry.color} />
                 <div className="min-w-0 flex-1">
                   <div className="mb-2 flex flex-wrap items-center gap-2">
-                    <span className="text-[13px] font-semibold text-stone-900 dark:text-stone-100">{entry.name}</span>
+                    <span className="text-sm font-semibold text-stone-900 dark:text-stone-100">{entry.name}</span>
                     <span className="h-1 w-1 rounded-full bg-slate-300 dark:bg-stone-600" />
                     <TimeBadge time={entry.time} />
                     {entry.actions ? (
@@ -408,7 +408,7 @@ export default function MeetingDetailView() {
                       </span>
                     ) : null}
                   </div>
-                  <p className="text-[13px] leading-6 text-stone-900 dark:text-stone-100">{entry.text}</p>
+                  <p className="text-sm leading-6 text-stone-900 dark:text-stone-100">{entry.text}</p>
                 </div>
               </article>
             ))}

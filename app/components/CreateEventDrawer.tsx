@@ -115,7 +115,7 @@ function EventTypeSelect({ value, onChange }: { value: string; onChange: (v: str
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search..."
-                  className="flex-1 bg-transparent text-[13px] outline-none text-stone-700 dark:text-stone-300 placeholder:text-stone-400"
+                  className="flex-1 bg-transparent text-sm outline-none text-stone-700 dark:text-stone-300 placeholder:text-stone-400"
                 />
               </div>
             </div>
@@ -124,7 +124,7 @@ function EventTypeSelect({ value, onChange }: { value: string; onChange: (v: str
                 <button
                   key={t}
                   onMouseDown={() => { onChange(t); setOpen(false); setSearch(""); }}
-                  className={`w-full text-left px-4 py-2.5 text-[13px] transition-colors ${
+                  className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
                     value === t
                       ? "bg-stone-100 dark:bg-white/8 text-stone-900 dark:text-stone-100 font-medium"
                       : "text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-white/6"
@@ -134,7 +134,7 @@ function EventTypeSelect({ value, onChange }: { value: string; onChange: (v: str
                 </button>
               ))}
               {filtered.length === 0 && (
-                <p className="px-4 py-3 text-[12.5px] text-stone-400">No results</p>
+                <p className="px-4 py-3 text-xs text-stone-400">No results</p>
               )}
             </div>
           </div>,
@@ -148,7 +148,7 @@ function EventTypeSelect({ value, onChange }: { value: string; onChange: (v: str
         ref={btnRef}
         type="button"
         onClick={() => (open ? setOpen(false) : openDropdown())}
-        className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-[13px] text-left transition-colors hover:bg-stone-50 dark:hover:bg-white/5"
+        className="w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-sm text-left transition-colors hover:bg-stone-50 dark:hover:bg-white/5"
         style={{
           border: "1px solid var(--border)",
           background: "var(--content-bg)",
@@ -197,7 +197,7 @@ function SmallSelect({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className={`flex items-center justify-between gap-1.5 h-9 px-3 rounded-lg text-[12.5px] font-medium transition-colors hover:bg-stone-50 dark:hover:bg-white/5 ${wide ? "w-full" : ""}`}
+        className={`flex items-center justify-between gap-1.5 h-9 px-3 rounded-lg text-xs font-medium transition-colors hover:bg-stone-50 dark:hover:bg-white/5 ${wide ? "w-full" : ""}`}
         style={{
           border: "1px solid var(--border)",
           background: "var(--content-bg)",
@@ -220,7 +220,7 @@ function SmallSelect({
             <button
               key={opt}
               onMouseDown={() => { onChange(opt); setOpen(false); }}
-              className={`w-full text-left px-3 py-2 text-[12.5px] transition-colors ${
+              className={`w-full text-left px-3 py-2 text-xs transition-colors ${
                 opt === value ? "bg-stone-100 dark:bg-white/8 font-semibold" : "hover:bg-stone-50 dark:hover:bg-white/6"
               } text-stone-700 dark:text-stone-300`}
             >
@@ -259,7 +259,7 @@ function JoinOperatorToggle({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12.5px] font-semibold text-stone-700 dark:text-stone-300 transition-colors hover:bg-stone-100 dark:hover:bg-white/8"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-stone-700 dark:text-stone-300 transition-colors hover:bg-stone-100 dark:hover:bg-white/8"
         style={{ border: "1px solid var(--border)", background: "var(--content-bg)" }}
       >
         {value}
@@ -276,7 +276,7 @@ function JoinOperatorToggle({
             <button
               key={op}
               onMouseDown={() => { onChange(op); setOpen(false); }}
-              className={`w-full text-left px-4 py-2 text-[12.5px] font-semibold transition-colors ${
+              className={`w-full text-left px-4 py-2 text-xs font-semibold transition-colors ${
                 op === value ? "bg-stone-100 dark:bg-white/8" : "hover:bg-stone-50 dark:hover:bg-white/6"
               } text-stone-700 dark:text-stone-300`}
             >
@@ -352,7 +352,7 @@ export default function CreateEventDrawer({ onClose }: { onClose: () => void }) 
           value={eventName}
           onChange={(e) => setEventName(e.target.value)}
           placeholder="Untitled event"
-          className="w-full bg-transparent text-[18px] font-bold text-stone-900 dark:text-stone-100 outline-none placeholder:text-stone-300 dark:placeholder:text-stone-600"
+          className="w-full bg-transparent text-lg font-bold text-stone-900 dark:text-stone-100 outline-none placeholder:text-stone-300 dark:placeholder:text-stone-600"
         />
       }
       onClose={onClose}
@@ -360,12 +360,12 @@ export default function CreateEventDrawer({ onClose }: { onClose: () => void }) 
         <>
           <button
             onClick={close}
-            className="px-4 py-2 rounded-lg text-[13px] font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/8 transition-colors"
+            className="px-4 py-2 rounded-lg text-sm font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/8 transition-colors"
           >
             Cancel
           </button>
           <button
-            className="px-5 py-2 rounded-lg text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
+            className="px-5 py-2 rounded-lg text-sm font-semibold text-white transition-opacity hover:opacity-90"
             style={{ background: "#0080FF" }}
           >
             Create event
@@ -438,7 +438,7 @@ export default function CreateEventDrawer({ onClose }: { onClose: () => void }) 
                       <button
                         type="button"
                         onClick={() => addFilter(group.id)}
-                        className="flex items-center gap-1.5 text-[12.5px] font-medium text-stone-500 dark:text-stone-400 transition-colors hover:text-stone-700 dark:hover:text-stone-200"
+                        className="flex items-center gap-1.5 text-xs font-medium text-stone-500 dark:text-stone-400 transition-colors hover:text-stone-700 dark:hover:text-stone-200"
                       >
                         <Plus size={13} />
                         Add filter
@@ -460,7 +460,7 @@ export default function CreateEventDrawer({ onClose }: { onClose: () => void }) 
                 <button
                   type="button"
                   onClick={addGroup}
-                  className="flex items-center gap-1.5 rounded-lg px-4 py-2 text-[12.5px] font-medium text-stone-600 dark:text-stone-400 transition-colors hover:bg-stone-100 dark:hover:bg-white/8"
+                  className="flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-medium text-stone-600 dark:text-stone-400 transition-colors hover:bg-stone-100 dark:hover:bg-white/8"
                   style={{ border: "1px solid var(--border)" }}
                 >
                   <Plus size={13} />

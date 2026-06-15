@@ -72,7 +72,7 @@ export default function NotificationsMenu() {
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-stone-100 dark:border-stone-700/50">
             <div className="flex items-center gap-2">
-              <span className="text-[13px] font-semibold text-stone-800 dark:text-stone-100">Notifications</span>
+              <span className="text-sm font-semibold text-stone-800 dark:text-stone-100">Notifications</span>
               {unreadCount > 0 && (
                 <span className="px-1.5 py-0.5 rounded-full bg-blue-500 text-white text-[10px] font-semibold leading-none">
                   {unreadCount}
@@ -82,7 +82,7 @@ export default function NotificationsMenu() {
             {unreadCount > 0 && (
               <button
                 onClick={() => setRead(notifications.map((n) => n.id))}
-                className="text-[11px] text-blue-500 hover:text-blue-600 transition-colors font-medium"
+                className="text-xs text-blue-500 hover:text-blue-600 transition-colors font-medium"
               >
                 Mark all read
               </button>
@@ -103,13 +103,13 @@ export default function NotificationsMenu() {
                     {n.icon}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className={`text-[12.5px] leading-snug mb-0.5 ${isUnread ? "font-semibold text-stone-800 dark:text-stone-100" : "font-normal text-stone-600 dark:text-stone-400"}`}>
+                    <p className={`text-xs leading-snug mb-0.5 ${isUnread ? "font-semibold text-stone-800 dark:text-stone-100" : "font-normal text-stone-600 dark:text-stone-400"}`}>
                       {n.title}
                     </p>
-                    <p className="text-[11.5px] text-stone-400 dark:text-stone-500 leading-snug line-clamp-2">
+                    <p className="text-xs text-stone-400 dark:text-stone-500 leading-snug line-clamp-2">
                       {n.body}
                     </p>
-                    <p className="text-[11px] text-stone-400 dark:text-stone-600 mt-1 leading-none">{n.time}</p>
+                    <p className="text-xs text-stone-400 dark:text-stone-600 mt-1 leading-none">{n.time}</p>
                   </div>
                   {isUnread && (
                     <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0 mt-1.5" />

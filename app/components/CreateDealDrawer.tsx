@@ -11,7 +11,7 @@ const OWNERS = ["Rohan", "Somya Nayak", "Sid Chaudhary"];
 
 function FieldLabel({ icon, label, required }: { icon: React.ReactNode; label: string; required?: boolean }) {
   return (
-    <label className="flex items-center gap-1.5 text-[13px] font-semibold text-stone-700 dark:text-stone-300 mb-1.5">
+    <label className="flex items-center gap-1.5 text-sm font-semibold text-stone-700 dark:text-stone-300 mb-1.5">
       <span className="text-stone-400 dark:text-stone-500">{icon}</span>
       {label}
       {required && <span className="text-rose-500">*</span>}
@@ -28,13 +28,13 @@ function TextInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className={`h-10 w-full rounded-lg border px-3 text-[13px] font-medium text-stone-900 outline-none transition-colors placeholder:text-stone-400 dark:text-stone-100 dark:placeholder:text-stone-500 ${
+        className={`h-10 w-full rounded-lg border px-3 text-sm font-medium text-stone-900 outline-none transition-colors placeholder:text-stone-400 dark:text-stone-100 dark:placeholder:text-stone-500 ${
           error
             ? "border-rose-400 bg-rose-50/50 dark:border-rose-500/60 dark:bg-rose-500/5"
             : "border-stone-200 bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 dark:border-stone-700 dark:bg-white/3 dark:focus:border-stone-500"
         }`}
       />
-      {error && <p className="mt-1 text-[11.5px] font-medium text-rose-500">{error}</p>}
+      {error && <p className="mt-1 text-xs font-medium text-rose-500">{error}</p>}
     </>
   );
 }
@@ -48,7 +48,7 @@ function SelectInput({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className={`flex h-10 w-full items-center justify-between gap-2 rounded-lg border px-3 text-[13px] font-medium text-left outline-none transition-colors ${
+        className={`flex h-10 w-full items-center justify-between gap-2 rounded-lg border px-3 text-sm font-medium text-left outline-none transition-colors ${
           error
             ? "border-rose-400 bg-rose-50/50 dark:border-rose-500/60 dark:bg-rose-500/5"
             : "border-stone-200 bg-white hover:bg-stone-50 dark:border-stone-700 dark:bg-white/3 dark:hover:bg-white/6"
@@ -67,7 +67,7 @@ function SelectInput({
               key={opt}
               type="button"
               onMouseDown={() => { onChange(opt); setOpen(false); }}
-              className={`w-full px-3 py-2.5 text-left text-[13px] transition-colors ${
+              className={`w-full px-3 py-2.5 text-left text-sm transition-colors ${
                 opt === value
                   ? "bg-stone-100 font-semibold text-stone-900 dark:bg-white/8 dark:text-stone-100"
                   : "text-stone-700 hover:bg-stone-50 dark:text-stone-300 dark:hover:bg-white/6"
@@ -78,7 +78,7 @@ function SelectInput({
           ))}
         </div>
       )}
-      {error && <p className="mt-1 text-[11.5px] font-medium text-rose-500">{error}</p>}
+      {error && <p className="mt-1 text-xs font-medium text-rose-500">{error}</p>}
     </div>
   );
 }
@@ -127,13 +127,13 @@ export default function CreateDealDrawer({ onClose }: { onClose: () => void }) {
         <>
           <button
             onClick={close}
-            className="rounded-lg px-4 py-2 text-[13px] font-medium text-stone-600 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-white/8"
+            className="rounded-lg px-4 py-2 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-white/8"
           >
             Cancel
           </button>
           <button
             onClick={handleCreate}
-            className="rounded-lg px-5 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90"
+            className="rounded-lg px-5 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
             style={{ background: "#0080FF" }}
           >
             Create
@@ -194,7 +194,7 @@ export default function CreateDealDrawer({ onClose }: { onClose: () => void }) {
             type="date"
             value={closeDate}
             onChange={(e) => setCloseDate(e.target.value)}
-            className="h-10 w-full rounded-lg border border-stone-200 bg-white px-3 text-[13px] font-medium text-stone-900 outline-none transition-colors focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 dark:border-stone-700 dark:bg-white/3 dark:text-stone-100"
+            className="h-10 w-full rounded-lg border border-stone-200 bg-white px-3 text-sm font-medium text-stone-900 outline-none transition-colors focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 dark:border-stone-700 dark:bg-white/3 dark:text-stone-100"
           />
         </div>
       </div>

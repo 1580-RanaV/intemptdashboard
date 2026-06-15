@@ -21,7 +21,7 @@ function Card({ children, className = "" }: { children: React.ReactNode; classNa
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <div className="mb-3 flex items-center gap-1.5">
-      <span className="text-[13.5px] font-semibold text-stone-800 dark:text-stone-100">{children}</span>
+      <span className="text-sm font-semibold text-stone-800 dark:text-stone-100">{children}</span>
       <Info size={13} className="text-stone-400" />
     </div>
   );
@@ -43,7 +43,7 @@ function MCell({ value, count, tone = "default" }: {
     : tone === "blue" ? "text-blue-500 dark:text-blue-400"
     : tone === "amber" ? "text-amber-500 dark:text-amber-400"
     : "font-semibold text-stone-800 dark:text-stone-100";
-  return <span className={`text-[12.5px] ${cls}`}>${value.toFixed(2)}{count != null && <Chip n={count} />}</span>;
+  return <span className={`text-xs ${cls}`}>${value.toFixed(2)}{count != null && <Chip n={count} />}</span>;
 }
 
 function NCell({ value, tone = "default" }: {
@@ -56,7 +56,7 @@ function NCell({ value, tone = "default" }: {
     : tone === "blue" ? "text-blue-500 dark:text-blue-400"
     : tone === "amber" ? "text-amber-500 dark:text-amber-400"
     : "font-semibold text-stone-800 dark:text-stone-100";
-  return <span className={`text-[12.5px] ${cls}`}>{value.toLocaleString()}</span>;
+  return <span className={`text-xs ${cls}`}>{value.toLocaleString()}</span>;
 }
 
 function ChartTip({ active, payload, label, fmt }: {
@@ -66,7 +66,7 @@ function ChartTip({ active, payload, label, fmt }: {
   if (!active || !payload?.length) return null;
   const format = fmt ?? ((v) => `$${(v / 1000).toFixed(2)}K`);
   return (
-    <div className="rounded-lg px-3 py-2 shadow-xl text-[12px]" style={{ background: "var(--content-bg)", border: "1px solid var(--border)" }}>
+    <div className="rounded-lg px-3 py-2 shadow-xl text-xs" style={{ background: "var(--content-bg)", border: "1px solid var(--border)" }}>
       <p className="font-semibold text-stone-700 dark:text-stone-200 mb-1">{label}</p>
       {payload.map((item, i) => (
         <div key={i} className="flex items-center gap-2">
@@ -240,14 +240,14 @@ const PLAN_ROWS: TableRow[] = PLANS.map((p) => ({
     },
     price: p.price,
     interval: (
-      <span className="rounded-md border border-stone-200 px-2 py-0.5 text-[11.5px] text-stone-600 dark:border-stone-700 dark:text-stone-400">
+      <span className="rounded-md border border-stone-200 px-2 py-0.5 text-xs text-stone-600 dark:border-stone-700 dark:text-stone-400">
         Monthly
       </span>
     ),
     customers: (
       <div className="flex items-center gap-2">
         <span className="font-medium text-stone-800 dark:text-stone-200">{p.customers.toLocaleString()}</span>
-        <span className="text-[11.5px] text-stone-400">{p.cPct.toFixed(2)}%</span>
+        <span className="text-xs text-stone-400">{p.cPct.toFixed(2)}%</span>
         <div className="h-1.5 w-14 overflow-hidden rounded-full bg-stone-100 dark:bg-white/8">
           <div className="h-full rounded-full" style={{ width: `${Math.min(p.cPct * 6, 100)}%`, background: p.color }} />
         </div>
@@ -256,7 +256,7 @@ const PLAN_ROWS: TableRow[] = PLANS.map((p) => ({
     mrr: (
       <div className="flex items-center gap-2">
         <span className="font-semibold text-stone-800 dark:text-stone-200">${p.mrr.toLocaleString("en-US", { minimumFractionDigits: 2 })}</span>
-        <span className="text-[11.5px] text-stone-400">{p.mPct.toFixed(2)}%</span>
+        <span className="text-xs text-stone-400">{p.mPct.toFixed(2)}%</span>
         <div className="h-1.5 w-14 overflow-hidden rounded-full bg-stone-100 dark:bg-white/8">
           <div className="h-full rounded-full" style={{ width: `${Math.min(p.mPct * 4, 100)}%`, background: p.color }} />
         </div>
@@ -316,7 +316,7 @@ const SUBS_PLAN_ROWS: TableRow[] = PLANS.map((p) => ({
     },
     price: p.price,
     interval: (
-      <span className="rounded-md border border-stone-200 px-2 py-0.5 text-[11.5px] text-stone-600 dark:border-stone-700 dark:text-stone-400">
+      <span className="rounded-md border border-stone-200 px-2 py-0.5 text-xs text-stone-600 dark:border-stone-700 dark:text-stone-400">
         Monthly
       </span>
     ),
@@ -325,7 +325,7 @@ const SUBS_PLAN_ROWS: TableRow[] = PLANS.map((p) => ({
     ),
     share: (
       <div className="flex items-center gap-2">
-        <span className="text-[11.5px] text-stone-400">{p.cPct.toFixed(2)}%</span>
+        <span className="text-xs text-stone-400">{p.cPct.toFixed(2)}%</span>
         <div className="h-1.5 w-16 overflow-hidden rounded-full bg-stone-100 dark:bg-white/8">
           <div className="h-full rounded-full" style={{ width: `${Math.min(p.cPct * 6, 100)}%`, background: p.color }} />
         </div>
@@ -353,8 +353,8 @@ function MrrTab() {
               <span className="text-[10.5px] font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">{label}</span>
               <Info size={11} className="text-stone-400" />
             </div>
-            <p className="text-[24px] font-bold leading-tight text-stone-900 dark:text-stone-100">{value}</p>
-            {sub && <p className={`mt-1 text-[12px] ${subCls}`}>{sub}</p>}
+            <p className="text-2xl font-bold leading-tight text-stone-900 dark:text-stone-100">{value}</p>
+            {sub && <p className={`mt-1 text-xs ${subCls}`}>{sub}</p>}
           </div>
         ))}
       </div>
@@ -373,7 +373,7 @@ function MrrTab() {
               <Line type="monotone" dataKey="goal" name="Goal"       stroke="#94A3B8" strokeWidth={1.5} strokeDasharray="6 4" dot={false} />
             </LineChart>
           </ResponsiveContainer>
-          <div className="mt-2 flex justify-center gap-5 text-[11.5px] text-stone-500">
+          <div className="mt-2 flex justify-center gap-5 text-xs text-stone-500">
             <span className="flex items-center gap-1.5"><span className="inline-block h-2 w-4 rounded-full bg-blue-400" />Actual MRR</span>
             <span className="flex items-center gap-1.5"><span className="inline-block h-2 w-4 rounded-full bg-slate-300" />Goal</span>
           </div>
@@ -383,27 +383,27 @@ function MrrTab() {
           <Card>
             <div className="mb-3 flex items-center gap-1.5">
               <Target size={13} className="text-blue-500" />
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">MRR Goal</span>
+              <span className="text-xs font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">MRR Goal</span>
               <Info size={12} className="text-stone-400" />
             </div>
             <div className="space-y-2">
-              <div className="flex justify-between text-[12.5px]"><span className="text-stone-500">Goal</span><span className="font-semibold text-stone-800 dark:text-stone-200">$100,000</span></div>
-              <div className="flex justify-between text-[12.5px]"><span className="text-stone-500">Actual</span><span className="font-semibold text-stone-800 dark:text-stone-200">$25.21K</span></div>
+              <div className="flex justify-between text-xs"><span className="text-stone-500">Goal</span><span className="font-semibold text-stone-800 dark:text-stone-200">$100,000</span></div>
+              <div className="flex justify-between text-xs"><span className="text-stone-500">Actual</span><span className="font-semibold text-stone-800 dark:text-stone-200">$25.21K</span></div>
               <div className="relative h-2 overflow-hidden rounded-full bg-stone-100 dark:bg-white/8">
                 <div className="absolute left-0 top-0 h-full rounded-full bg-blue-500" style={{ width: `${progressPct}%` }} />
               </div>
-              <div className="flex justify-between text-[12.5px]"><span className="text-stone-500">Progress</span><span className="font-semibold text-rose-500">-74.8%</span></div>
+              <div className="flex justify-between text-xs"><span className="text-stone-500">Progress</span><span className="font-semibold text-rose-500">-74.8%</span></div>
             </div>
           </Card>
 
           <Card className="flex-1">
             <SectionLabel>Monthly MRR Churn Rate</SectionLabel>
             <div className="mb-3 flex items-baseline gap-2">
-              <span className="text-[26px] font-bold text-stone-900 dark:text-stone-100">2.54%</span>
-              <span className="text-[12px] font-semibold text-rose-500">+0.9pp</span>
-              <span className="text-[11.5px] text-stone-400">vs last month</span>
+              <span className="text-2xl font-bold text-stone-900 dark:text-stone-100">2.54%</span>
+              <span className="text-xs font-semibold text-rose-500">+0.9pp</span>
+              <span className="text-xs text-stone-400">vs last month</span>
             </div>
-            <div className="space-y-1.5 text-[12px]">
+            <div className="space-y-1.5 text-xs">
               <div className="flex justify-between"><span className="text-stone-500">Churned MRR</span><span className="font-medium text-rose-500">$639.40</span></div>
               <div className="flex justify-between"><span className="text-stone-500">Total MRR</span><span className="font-medium text-stone-700 dark:text-stone-300">$25,212.46</span></div>
             </div>
@@ -433,7 +433,7 @@ function MrrTab() {
         </ResponsiveContainer>
         <div className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2">
           {PLANS.map((p, i) => (
-            <div key={p.id} className="flex items-center gap-1.5 text-[11.5px] text-stone-500 dark:text-stone-400">
+            <div key={p.id} className="flex items-center gap-1.5 text-xs text-stone-500 dark:text-stone-400">
               <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: PLAN_COLORS[i] }} />{p.name}
             </div>
           ))}
@@ -466,8 +466,8 @@ function SubscribersTab() {
               <span className="text-[10.5px] font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">{label}</span>
               <Info size={11} className="text-stone-400" />
             </div>
-            <p className="text-[24px] font-bold leading-tight text-stone-900 dark:text-stone-100">{value}</p>
-            {sub && <p className={`mt-1 text-[12px] ${subCls}`}>{sub}</p>}
+            <p className="text-2xl font-bold leading-tight text-stone-900 dark:text-stone-100">{value}</p>
+            {sub && <p className={`mt-1 text-xs ${subCls}`}>{sub}</p>}
           </div>
         ))}
       </div>
@@ -486,7 +486,7 @@ function SubscribersTab() {
               <Line type="monotone" dataKey="goal" name="Goal"        stroke="#94A3B8" strokeWidth={1.5} strokeDasharray="6 4" dot={false} />
             </LineChart>
           </ResponsiveContainer>
-          <div className="mt-2 flex justify-center gap-5 text-[11.5px] text-stone-500">
+          <div className="mt-2 flex justify-center gap-5 text-xs text-stone-500">
             <span className="flex items-center gap-1.5"><span className="inline-block h-2 w-4 rounded-full bg-blue-400" />Subscribers</span>
             <span className="flex items-center gap-1.5"><span className="inline-block h-2 w-4 rounded-full bg-slate-300" />Goal</span>
           </div>
@@ -496,27 +496,27 @@ function SubscribersTab() {
           <Card>
             <div className="mb-3 flex items-center gap-1.5">
               <Target size={13} className="text-blue-500" />
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">Subscriber Goal</span>
+              <span className="text-xs font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">Subscriber Goal</span>
               <Info size={12} className="text-stone-400" />
             </div>
             <div className="space-y-2">
-              <div className="flex justify-between text-[12.5px]"><span className="text-stone-500">Goal</span><span className="font-semibold text-stone-800 dark:text-stone-200">5,000</span></div>
-              <div className="flex justify-between text-[12.5px]"><span className="text-stone-500">Actual</span><span className="font-semibold text-stone-800 dark:text-stone-200">1,940</span></div>
+              <div className="flex justify-between text-xs"><span className="text-stone-500">Goal</span><span className="font-semibold text-stone-800 dark:text-stone-200">5,000</span></div>
+              <div className="flex justify-between text-xs"><span className="text-stone-500">Actual</span><span className="font-semibold text-stone-800 dark:text-stone-200">1,940</span></div>
               <div className="relative h-2 overflow-hidden rounded-full bg-stone-100 dark:bg-white/8">
                 <div className="absolute left-0 top-0 h-full rounded-full bg-blue-500" style={{ width: `${progressPct}%` }} />
               </div>
-              <div className="flex justify-between text-[12.5px]"><span className="text-stone-500">Progress</span><span className="font-semibold text-amber-500">38.8%</span></div>
+              <div className="flex justify-between text-xs"><span className="text-stone-500">Progress</span><span className="font-semibold text-amber-500">38.8%</span></div>
             </div>
           </Card>
 
           <Card className="flex-1">
             <SectionLabel>Monthly Subscriber Churn Rate</SectionLabel>
             <div className="mb-3 flex items-baseline gap-2">
-              <span className="text-[26px] font-bold text-stone-900 dark:text-stone-100">2.27%</span>
-              <span className="text-[12px] font-semibold text-rose-500">+1.1pp</span>
-              <span className="text-[11.5px] text-stone-400">vs last month</span>
+              <span className="text-2xl font-bold text-stone-900 dark:text-stone-100">2.27%</span>
+              <span className="text-xs font-semibold text-rose-500">+1.1pp</span>
+              <span className="text-xs text-stone-400">vs last month</span>
             </div>
-            <div className="space-y-1.5 text-[12px]">
+            <div className="space-y-1.5 text-xs">
               <div className="flex justify-between"><span className="text-stone-500">Churned</span><span className="font-medium text-rose-500">44 subscribers</span></div>
               <div className="flex justify-between"><span className="text-stone-500">Total</span><span className="font-medium text-stone-700 dark:text-stone-300">1,940 subscribers</span></div>
             </div>
@@ -546,7 +546,7 @@ function SubscribersTab() {
         </ResponsiveContainer>
         <div className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2">
           {PLANS.map((p, i) => (
-            <div key={p.id} className="flex items-center gap-1.5 text-[11.5px] text-stone-500 dark:text-stone-400">
+            <div key={p.id} className="flex items-center gap-1.5 text-xs text-stone-500 dark:text-stone-400">
               <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: PLAN_COLORS[i] }} />{p.name}
             </div>
           ))}
@@ -580,7 +580,7 @@ export default function SubscriptionView() {
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-[13px] font-medium transition-colors duration-100
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors duration-100
               ${tab === t.key
                 ? "bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400"
                 : "text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/6"
@@ -604,9 +604,9 @@ export default function SubscriptionView() {
           <Card>
             <SectionLabel>Net Revenue Retention</SectionLabel>
             <div className="mb-3 flex items-baseline gap-2">
-              <span className="text-[26px] font-bold text-stone-900 dark:text-stone-100">97.0%</span>
-              <span className="text-[12px] font-semibold text-emerald-500">+0.6pp</span>
-              <span className="text-[11.5px] text-stone-400">vs last month</span>
+              <span className="text-2xl font-bold text-stone-900 dark:text-stone-100">97.0%</span>
+              <span className="text-xs font-semibold text-emerald-500">+0.6pp</span>
+              <span className="text-xs text-stone-400">vs last month</span>
             </div>
             <ResponsiveContainer width="100%" height={120}>
               <LineChart data={NRR_DATA} margin={{ top: 5, right: 8, left: -10, bottom: 5 }}>
@@ -623,19 +623,19 @@ export default function SubscriptionView() {
           <Card>
             <SectionLabel>Trial-to-Paid Funnel</SectionLabel>
             <div className="mb-4 flex items-baseline gap-2">
-              <span className="text-[26px] font-bold text-stone-900 dark:text-stone-100">41.2%</span>
-              <span className="text-[12px] text-stone-400">overall conversion</span>
+              <span className="text-2xl font-bold text-stone-900 dark:text-stone-100">41.2%</span>
+              <span className="text-xs text-stone-400">overall conversion</span>
             </div>
             <div className="flex items-end gap-5">
               <div className="flex flex-1 flex-col gap-1.5">
-                <p className="text-[15px] font-bold text-stone-900 dark:text-stone-100">1.13K</p>
-                <p className="text-[11px] text-stone-400 mb-1">Trial Started</p>
+                <p className="text-sm font-bold text-stone-900 dark:text-stone-100">1.13K</p>
+                <p className="text-xs text-stone-400 mb-1">Trial Started</p>
                 <div className="h-16 w-full rounded-lg bg-blue-500" />
               </div>
               <div className="w-px self-end h-16 bg-stone-200 dark:bg-white/10" />
               <div className="flex flex-1 flex-col gap-1.5">
-                <p className="text-[15px] font-bold text-stone-900 dark:text-stone-100">467</p>
-                <p className="text-[11px] text-stone-400 mb-1">Converted · 41.2%</p>
+                <p className="text-sm font-bold text-stone-900 dark:text-stone-100">467</p>
+                <p className="text-xs text-stone-400 mb-1">Converted · 41.2%</p>
                 <div className="flex h-16 w-full gap-1">
                   <div className="flex-1 rounded-lg bg-blue-100 dark:bg-blue-400/20" />
                   <div className="flex-1 self-end rounded-lg bg-blue-500" style={{ height: "55%" }} />
@@ -648,8 +648,8 @@ export default function SubscriptionView() {
           <Card>
             <SectionLabel>Expansion Revenue</SectionLabel>
             <div className="mb-3">
-              <span className="text-[22px] font-bold text-stone-900 dark:text-stone-100">$1.18</span>
-              <span className="ml-2 text-[11.5px] text-stone-400">last 6 months</span>
+              <span className="text-xl font-bold text-stone-900 dark:text-stone-100">$1.18</span>
+              <span className="ml-2 text-xs text-stone-400">last 6 months</span>
             </div>
             <ResponsiveContainer width="100%" height={120}>
               <AreaChart data={EXPANSION_DATA} margin={{ top: 5, right: 8, left: -10, bottom: 5 }}>

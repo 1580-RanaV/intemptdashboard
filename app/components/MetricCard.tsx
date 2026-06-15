@@ -27,7 +27,7 @@ function CustomTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
   return (
     <div
-      className="rounded-lg px-3 py-2 text-[12px] shadow-lg"
+      className="rounded-lg px-3 py-2 text-xs shadow-lg"
       style={{
         background: "var(--content-bg)",
         border: "1px solid var(--border)",
@@ -58,17 +58,17 @@ export default function MetricCard({
     >
       {/* Metric header */}
       <div className="mb-8">
-        <p className="text-[28px] font-extrabold text-stone-900 dark:text-stone-100 leading-none tracking-tight">
+        <p className="text-3xl font-extrabold text-stone-900 dark:text-stone-100 leading-none tracking-tight">
           {value}
         </p>
         <div className="flex items-center gap-1.5 mt-3">
-          <span className="text-[12.5px] text-stone-500 dark:text-stone-400">
+          <span className="text-xs text-stone-500 dark:text-stone-400">
             {label}
             {labelSub && <span className="text-stone-400 dark:text-stone-500"> {labelSub}</span>}
           </span>
           <Info size={12} className="text-stone-400 shrink-0" />
         </div>
-        <p className="text-[12px] font-medium text-amber-500 mt-4">{change}</p>
+        <p className="text-xs font-medium text-amber-500 mt-4">{change}</p>
       </div>
 
       {/* Chart or no-results */}
@@ -83,7 +83,7 @@ export default function MetricCard({
               <path d="M6 20v-1a6 6 0 0 1 12 0v1" />
             </svg>
           </div>
-          <p className="text-[13px] font-semibold text-stone-700 dark:text-stone-300">No results found</p>
+          <p className="text-sm font-semibold text-stone-700 dark:text-stone-300">No results found</p>
         </div>
       ) : (
         <div className="min-h-[220px] min-w-0">

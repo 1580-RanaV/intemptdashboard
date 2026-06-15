@@ -102,16 +102,24 @@ const nav: NavSection[] = [
 ];
 
 const projects = [
-  { name: "Dev Playground", initials: "DP", color: "#e05252" },
-  { name: "Linea", initials: "L", color: "#818cf8" },
+  { name: "Dev Playground",    initials: "DP", color: "#e05252" },
+  { name: "Linea",             initials: "L",  color: "#818cf8" },
+  { name: "StockInvest Platform", initials: "SI", color: "#16a34a" },
+  { name: "Blu AI",            initials: "BA", color: "#0080FF" },
+  { name: "Mobile App",        initials: "MA", color: "#f97316" },
+  { name: "Admin Console",     initials: "AC", color: "#0d9488" },
+  { name: "Data Pipeline",     initials: "DL", color: "#ec4899" },
+  { name: "Customer Portal",   initials: "CP", color: "#6366f1" },
+  { name: "Analytics Hub",     initials: "AH", color: "#f59e0b" },
+  { name: "Staging Env",       initials: "SE", color: "#64748b" },
 ];
 
 const organizations = [
-  { name: "fieldsusa", initials: "F", color: "#22c55e" },
-  { name: "Intempt External Use", initials: "IE", color: "#6366f1" },
-  { name: "Intempt Internal Use Only", initials: "II", color: "#8b5cf6", active: true },
-  { name: "Intempt Technologies", initials: "IT", color: "#0ea5e9" },
-  { name: "StockInvest.us", initials: "S", color: "#16a34a" },
+  { name: "fieldsusa",                  initials: "F",  color: "#22c55e" },
+  { name: "Intempt External Use",       initials: "IE", color: "#6366f1" },
+  { name: "Intempt Internal Use Only",  initials: "II", color: "#8b5cf6" },
+  { name: "Intempt Technologies",       initials: "IT", color: "#0ea5e9" },
+  { name: "StockInvest.us",             initials: "S",  color: "#16a34a" },
 ];
 
 function Avatar({
@@ -141,36 +149,35 @@ function Avatar({
 type WorkspaceItem = { name: string; initials: string; color: string; active?: boolean };
 
 function WorkspaceSwitcher() {
-  const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<WorkspaceItem>(projects[1]); // Linea
+  const [open, setOpen]                     = useState(false);
+  const [selectedProject, setSelectedProject] = useState<WorkspaceItem>(projects[1]);
+  const [selectedOrg, setSelectedOrg]         = useState<WorkspaceItem>(organizations[2]);
   const ref = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   useEffect(() => {
     function handle(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
     }
     document.addEventListener("mousedown", handle);
     return () => document.removeEventListener("mousedown", handle);
   }, []);
 
-  function select(item: WorkspaceItem) {
-    setSelected(item);
-    setOpen(false);
-  }
-
   return (
     <div ref={ref} className="relative px-3 pt-3 pb-2">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-full flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-stone-200/60 dark:hover:bg-white/6 transition-colors group"
+        className="w-full flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-stone-200/60 dark:hover:bg-white/6 transition-colors"
       >
-        <Avatar initials={selected.initials} color={selected.color} size={22} />
-        <span className="flex-1 text-left text-[13px] font-semibold text-stone-800 dark:text-stone-100 truncate">
-          {selected.name}
-        </span>
+        <Avatar initials={selectedProject.initials} color={selectedProject.color} size={22} />
+        <div className="flex-1 min-w-0 text-left">
+          <div className="text-xs font-semibold text-stone-800 dark:text-stone-100 truncate leading-tight">
+            {selectedProject.name}
+          </div>
+          <div className="text-xs text-stone-400 dark:text-stone-500 truncate leading-tight">
+            {selectedOrg.name}
+          </div>
+        </div>
         <ChevronDown
           size={13}
           className={`text-stone-400 dark:text-stone-500 transition-transform duration-150 shrink-0 ${open ? "rotate-180" : ""}`}
@@ -179,7 +186,7 @@ function WorkspaceSwitcher() {
 
       {open && (
         <div
-          className="absolute left-2 top-[calc(100%-4px)] z-50 overflow-hidden w-64 animate-card-in"
+          className="absolute left-2 top-[calc(100%-4px)] z-50 w-64 animate-card-in"
           style={{
             background: "var(--content-bg)",
             border: "1px solid var(--border)",
@@ -187,22 +194,22 @@ function WorkspaceSwitcher() {
             boxShadow: "0 8px 24px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06)",
           }}
         >
-          {/* Projects */}
+          {/* Organizations */}
           <div className="px-2 pt-2.5 pb-1">
             <p className="px-2 mb-1 text-[10px] font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-600">
-              Projects
+              Organizations
             </p>
-            {projects.map((p) => (
+            {organizations.map((o) => (
               <button
-                key={p.name}
-                onClick={() => select(p)}
+                key={o.name}
+                onClick={() => { setSelectedOrg(o); setOpen(false); }}
                 className="w-full flex items-center gap-2.5 px-2 py-1.5 rounded-md hover:bg-stone-100 dark:hover:bg-white/6 transition-colors group"
               >
-                <Avatar initials={p.initials} color={p.color} size={20} />
-                <span className="flex-1 text-left text-[12.5px] text-stone-700 dark:text-stone-300">
-                  {p.name}
+                <Avatar initials={o.initials} color={o.color} size={20} />
+                <span className="flex-1 text-left text-xs text-stone-700 dark:text-stone-300 truncate">
+                  {o.name}
                 </span>
-                {selected.name === p.name ? (
+                {selectedOrg.name === o.name ? (
                   <Check size={12} className="text-blue-500 shrink-0" />
                 ) : (
                   <span onClick={(e) => { e.stopPropagation(); router.push("/settings"); setOpen(false); }}>
@@ -215,30 +222,32 @@ function WorkspaceSwitcher() {
 
           <div className="mx-2 border-t border-stone-100 dark:border-stone-700/50" />
 
-          {/* Organizations */}
+          {/* Projects */}
           <div className="px-2 pt-2 pb-2.5">
             <p className="px-2 mb-1 text-[10px] font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-600">
-              Organizations
+              Projects
             </p>
-            {organizations.map((o) => (
-              <button
-                key={o.name}
-                onClick={() => select(o)}
-                className="w-full flex items-center gap-2.5 px-2 py-1.5 rounded-md hover:bg-stone-100 dark:hover:bg-white/6 transition-colors group"
-              >
-                <Avatar initials={o.initials} color={o.color} size={20} />
-                <span className="flex-1 text-left text-[12.5px] text-stone-700 dark:text-stone-300">
-                  {o.name}
-                </span>
-                {selected.name === o.name ? (
-                  <Check size={12} className="text-blue-500 shrink-0" />
-                ) : (
-                  <span onClick={(e) => { e.stopPropagation(); router.push("/settings"); setOpen(false); }}>
-                    <Settings size={12} className="text-stone-300 dark:text-stone-600 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 hover:text-stone-500" />
+            <div className="max-h-48 overflow-y-auto">
+              {projects.map((p) => (
+                <button
+                  key={p.name}
+                  onClick={() => { setSelectedProject(p); setOpen(false); }}
+                  className="w-full flex items-center gap-2.5 px-2 py-1.5 rounded-md hover:bg-stone-100 dark:hover:bg-white/6 transition-colors group"
+                >
+                  <Avatar initials={p.initials} color={p.color} size={20} />
+                  <span className="flex-1 text-left text-xs text-stone-700 dark:text-stone-300 truncate">
+                    {p.name}
                   </span>
-                )}
-              </button>
-            ))}
+                  {selectedProject.name === p.name ? (
+                    <Check size={12} className="text-blue-500 shrink-0" />
+                  ) : (
+                    <span onClick={(e) => { e.stopPropagation(); router.push("/settings"); setOpen(false); }}>
+                      <Settings size={12} className="text-stone-300 dark:text-stone-600 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 hover:text-stone-500" />
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       )}
@@ -285,7 +294,7 @@ function NavItemRow({
   const href = item.label === "Home" ? "/home" : view ? `/${view}` : "#";
   const rowClassName = `
     w-full flex items-center gap-2.5 px-3 py-1.25 rounded-md text-left
-    text-[13px] font-[450] transition-colors duration-100 group
+    text-sm font-[450] transition-colors duration-100 group
     ${isActive
       ? "bg-white dark:bg-white/8 text-stone-800 dark:text-stone-100 shadow-[0_1px_3px_rgba(0,0,0,0.08)]"
       : "text-stone-600 dark:text-stone-400 hover:bg-stone-200/60 dark:hover:bg-white/6 hover:text-stone-800 dark:hover:text-stone-100"
@@ -424,7 +433,7 @@ export default function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose
             className="rounded-md opacity-60"
             style={{ objectFit: "contain" }}
           />
-          <span className="flex-1 text-[12px] font-medium text-stone-400 dark:text-stone-600 tracking-tight">
+          <span className="flex-1 text-xs font-medium text-stone-400 dark:text-stone-600 tracking-tight">
             Intempt
           </span>
           <button className="w-5 h-5 rounded-full border border-stone-300 dark:border-stone-600 flex items-center justify-center hover:border-stone-400 dark:hover:border-stone-500 hover:bg-stone-100 dark:hover:bg-white/6 transition-colors shrink-0">

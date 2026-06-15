@@ -64,9 +64,9 @@ function SettingsRow({
   return (
     <div className="flex items-center justify-between py-4 border-b border-stone-100 dark:border-stone-700/40 last:border-0">
       <div className="flex-1 min-w-0 pr-8">
-        <p className="text-[13.5px] font-medium text-stone-700 dark:text-stone-200">{label}</p>
+        <p className="text-sm font-medium text-stone-700 dark:text-stone-200">{label}</p>
         {description && (
-          <p className="text-[12px] text-stone-400 dark:text-stone-500 mt-0.5">{description}</p>
+          <p className="text-xs text-stone-400 dark:text-stone-500 mt-0.5">{description}</p>
         )}
       </div>
       <div className="shrink-0">{children}</div>
@@ -77,7 +77,7 @@ function SettingsRow({
 function FakeSelect({ value }: { value: string }) {
   return (
     <button className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 hover:bg-stone-50 dark:hover:bg-stone-700 transition-colors">
-      <span className="text-[12.5px] text-stone-700 dark:text-stone-200">{value}</span>
+      <span className="text-xs text-stone-700 dark:text-stone-200">{value}</span>
       <ChevronLeft size={11} className="text-stone-400 -rotate-90" />
     </button>
   );
@@ -106,29 +106,29 @@ function FakeToggle({ on = false }: { on?: boolean }) {
 const contentMap: Record<string, React.ReactNode> = {
   about: (
     <div>
-      <h2 className="text-[17px] font-semibold text-stone-800 dark:text-stone-100 mb-6">About me</h2>
+      <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100 mb-6">About me</h2>
       <div className="flex items-center gap-4 mb-8 pb-6 border-b border-stone-100 dark:border-stone-700/40">
         <div className="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center text-white text-lg font-semibold">R</div>
         <div>
-          <p className="text-[13px] font-medium text-stone-700 dark:text-stone-200">Profile photo</p>
-          <p className="text-[12px] text-stone-400 mt-0.5">Upload a photo to personalize your account</p>
-          <button className="mt-2 text-[12px] text-blue-500 hover:text-blue-600 font-medium">Upload photo</button>
+          <p className="text-sm font-medium text-stone-700 dark:text-stone-200">Profile photo</p>
+          <p className="text-xs text-stone-400 mt-0.5">Upload a photo to personalize your account</p>
+          <button className="mt-2 text-xs text-blue-500 hover:text-blue-600 font-medium">Upload photo</button>
         </div>
       </div>
       <SettingsRow label="Full name" description="Your display name across the workspace">
-        <input className="px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-[12.5px] text-stone-700 dark:text-stone-200 w-48 outline-none focus:border-blue-400" defaultValue="Rana V" />
+        <input className="px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-xs text-stone-700 dark:text-stone-200 w-48 outline-none focus:border-blue-400" defaultValue="Rana V" />
       </SettingsRow>
       <SettingsRow label="Email address" description="Used for login and notifications">
-        <input className="px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-[12.5px] text-stone-400 w-48 outline-none" defaultValue="rana@intempt.com" disabled />
+        <input className="px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-xs text-stone-400 w-48 outline-none" defaultValue="rana@intempt.com" disabled />
       </SettingsRow>
       <SettingsRow label="Display name" description="Short name shown in conversations">
-        <input className="px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-[12.5px] text-stone-700 dark:text-stone-200 w-48 outline-none focus:border-blue-400" defaultValue="rana" />
+        <input className="px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-xs text-stone-700 dark:text-stone-200 w-48 outline-none focus:border-blue-400" defaultValue="rana" />
       </SettingsRow>
     </div>
   ),
   availability: (
     <div>
-      <h2 className="text-[17px] font-semibold text-stone-800 dark:text-stone-100 mb-6">My availability</h2>
+      <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100 mb-6">My availability</h2>
       <SettingsRow label="Status" description="Your current presence status">
         <FakeSelect value="Active" />
       </SettingsRow>
@@ -145,7 +145,7 @@ const contentMap: Record<string, React.ReactNode> = {
   ),
   connections: (
     <div>
-      <h2 className="text-[17px] font-semibold text-stone-800 dark:text-stone-100 mb-6">Connections</h2>
+      <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100 mb-6">Connections</h2>
       {[
         { name: "GitHub", desc: "Link pull requests and commits to issues", connected: true },
         { name: "Slack", desc: "Get notifications and create issues from Slack", connected: false },
@@ -153,7 +153,7 @@ const contentMap: Record<string, React.ReactNode> = {
         { name: "Figma", desc: "Embed Figma designs in your issues", connected: false },
       ].map((app) => (
         <SettingsRow key={app.name} label={app.name} description={app.desc}>
-          <button className={`px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors ${app.connected ? "border border-stone-200 dark:border-stone-600 text-stone-500 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800" : "bg-blue-500 text-white hover:bg-blue-600"}`}>
+          <button className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${app.connected ? "border border-stone-200 dark:border-stone-600 text-stone-500 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800" : "bg-blue-500 text-white hover:bg-blue-600"}`}>
             {app.connected ? "Disconnect" : "Connect"}
           </button>
         </SettingsRow>
@@ -162,7 +162,7 @@ const contentMap: Record<string, React.ReactNode> = {
   ),
   inbox: (
     <div>
-      <h2 className="text-[17px] font-semibold text-stone-800 dark:text-stone-100 mb-6">Inbox</h2>
+      <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100 mb-6">Inbox</h2>
       <SettingsRow label="Email notifications" description="Receive a digest of your inbox activity">
         <FakeSelect value="Daily digest" />
       </SettingsRow>
@@ -179,39 +179,39 @@ const contentMap: Record<string, React.ReactNode> = {
   ),
   domains: (
     <div>
-      <h2 className="text-[17px] font-semibold text-stone-800 dark:text-stone-100 mb-2">Domains</h2>
-      <p className="text-[12.5px] text-stone-400 dark:text-stone-500 mb-6">Verified domains allow members to join your organization automatically.</p>
+      <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100 mb-2">Domains</h2>
+      <p className="text-xs text-stone-400 dark:text-stone-500 mb-6">Verified domains allow members to join your organization automatically.</p>
       <div className="rounded-xl border border-stone-100 dark:border-stone-700/50 overflow-hidden mb-4">
         {["intempt.com", "intempt.io"].map((domain, i) => (
           <div key={domain} className={`flex items-center justify-between px-4 py-3 ${i > 0 ? "border-t border-stone-100 dark:border-stone-700/40" : ""}`}>
             <div className="flex items-center gap-3">
               <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
-              <span className="text-[13px] text-stone-700 dark:text-stone-300">{domain}</span>
+              <span className="text-sm text-stone-700 dark:text-stone-300">{domain}</span>
             </div>
-            <span className="text-[11px] text-emerald-500 font-medium">Verified</span>
+            <span className="text-xs text-emerald-500 font-medium">Verified</span>
           </div>
         ))}
       </div>
-      <button className="px-4 py-2 rounded-md bg-blue-500 text-white text-[12.5px] font-medium hover:bg-blue-600 transition-colors">Add domain</button>
+      <button className="px-4 py-2 rounded-md bg-blue-500 text-white text-xs font-medium hover:bg-blue-600 transition-colors">Add domain</button>
     </div>
   ),
   basic: (
     <div>
-      <h2 className="text-[17px] font-semibold text-stone-800 dark:text-stone-100 mb-6">Basic info</h2>
+      <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100 mb-6">Basic info</h2>
       <SettingsRow label="Project name" description="The display name for this project">
-        <input className="px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-[12.5px] text-stone-700 dark:text-stone-200 w-48 outline-none focus:border-blue-400" defaultValue="Linea" />
+        <input className="px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-xs text-stone-700 dark:text-stone-200 w-48 outline-none focus:border-blue-400" defaultValue="Linea" />
       </SettingsRow>
       <SettingsRow label="Description" description="Short description shown in project lists">
-        <input className="px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-[12.5px] text-stone-400 w-48 outline-none focus:border-blue-400" placeholder="Add a description…" />
+        <input className="px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-xs text-stone-400 w-48 outline-none focus:border-blue-400" placeholder="Add a description…" />
       </SettingsRow>
       <SettingsRow label="Identifier" description="Used in issue IDs (e.g. LIN-123)">
-        <input className="px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-[12.5px] text-stone-700 dark:text-stone-200 w-24 outline-none focus:border-blue-400" defaultValue="LIN" />
+        <input className="px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-xs text-stone-700 dark:text-stone-200 w-24 outline-none focus:border-blue-400" defaultValue="LIN" />
       </SettingsRow>
     </div>
   ),
   people: (
     <div>
-      <h2 className="text-[17px] font-semibold text-stone-800 dark:text-stone-100 mb-6">People</h2>
+      <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100 mb-6">People</h2>
       {[
         { name: "Rana V", email: "rana@intempt.com", role: "Admin", color: "#0080FF" },
         { name: "Beso", email: "beso@intempt.com", role: "Member", color: "#0080FF" },
@@ -219,22 +219,22 @@ const contentMap: Record<string, React.ReactNode> = {
         { name: "Markiian", email: "markiian@intempt.com", role: "Member", color: "#8b5cf6" },
       ].map((p) => (
         <div key={p.email} className="flex items-center gap-3 py-2.5 border-b border-stone-100 dark:border-stone-700/40 last:border-0">
-          <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-[11px] font-semibold shrink-0" style={{ background: p.color }}>
+          <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-semibold shrink-0" style={{ background: p.color }}>
             {p.name[0]}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-[13px] font-medium text-stone-700 dark:text-stone-200">{p.name}</p>
-            <p className="text-[11.5px] text-stone-400">{p.email}</p>
+            <p className="text-sm font-medium text-stone-700 dark:text-stone-200">{p.name}</p>
+            <p className="text-xs text-stone-400">{p.email}</p>
           </div>
           <FakeSelect value={p.role} />
         </div>
       ))}
-      <button className="mt-4 px-4 py-2 rounded-md bg-blue-500 text-white text-[12.5px] font-medium hover:bg-blue-600 transition-colors">Invite member</button>
+      <button className="mt-4 px-4 py-2 rounded-md bg-blue-500 text-white text-xs font-medium hover:bg-blue-600 transition-colors">Invite member</button>
     </div>
   ),
   messages: (
     <div>
-      <h2 className="text-[17px] font-semibold text-stone-800 dark:text-stone-100 mb-6">Messages</h2>
+      <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100 mb-6">Messages</h2>
       <SettingsRow label="Allow direct messages" description="Team members can send direct messages within the project">
         <FakeToggle on />
       </SettingsRow>
@@ -248,7 +248,7 @@ const contentMap: Record<string, React.ReactNode> = {
   ),
   meetings: (
     <div>
-      <h2 className="text-[17px] font-semibold text-stone-800 dark:text-stone-100 mb-6">Meetings</h2>
+      <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100 mb-6">Meetings</h2>
       <SettingsRow label="Default meeting duration" description="Default length when creating a new meeting">
         <FakeSelect value="30 minutes" />
       </SettingsRow>
@@ -282,7 +282,7 @@ export default function SettingsLayout({ onBack }: { onBack: () => void }) {
         {/* Back to app */}
         <button
           onClick={onBack}
-          className="flex items-center gap-1.5 px-4 py-4 text-[13px] text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-100 transition-colors"
+          className="flex items-center gap-1.5 px-4 py-4 text-sm text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-100 transition-colors"
         >
           <ChevronLeft size={14} />
           <span>Back to app</span>
@@ -302,7 +302,7 @@ export default function SettingsLayout({ onBack }: { onBack: () => void }) {
                     <button
                       key={item.key}
                       onClick={() => setSelected(item.key)}
-                      className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-md text-left text-[13px] font-[450] transition-colors duration-100 group
+                      className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-md text-left text-sm font-[450] transition-colors duration-100 group
                         ${isActive
                           ? "bg-white dark:bg-white/8 text-stone-800 dark:text-stone-100 shadow-[0_1px_3px_rgba(0,0,0,0.08)]"
                           : "text-stone-600 dark:text-stone-400 hover:bg-stone-200/60 dark:hover:bg-white/6 hover:text-stone-800 dark:hover:text-stone-100"

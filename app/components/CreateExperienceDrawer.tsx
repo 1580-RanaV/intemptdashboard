@@ -51,12 +51,12 @@ export default function CreateExperienceDrawer({ onClose }: { onClose: () => voi
         <>
           <button
             onClick={close}
-            className="px-4 py-2 rounded-lg text-[13px] font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/8 transition-colors"
+            className="px-4 py-2 rounded-lg text-sm font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/8 transition-colors"
           >
             Cancel
           </button>
           <button
-            className="px-5 py-2 rounded-lg text-[13px] font-semibold text-white transition-colors"
+            className="px-5 py-2 rounded-lg text-sm font-semibold text-white transition-colors"
             style={{ background: "#0080FF" }}
           >
             Create experience
@@ -73,7 +73,7 @@ export default function CreateExperienceDrawer({ onClose }: { onClose: () => voi
           <div key={group.key}>
             <div className="flex items-center gap-2 mb-3">
               {group.icon}
-              <span className="text-[13px] font-medium text-stone-600 dark:text-stone-400">
+              <span className="text-sm font-medium text-stone-600 dark:text-stone-400">
                 {group.label}
               </span>
             </div>
@@ -98,14 +98,14 @@ export default function CreateExperienceDrawer({ onClose }: { onClose: () => voi
                     >
                       {item.icon}
                     </div>
-                    <p className="text-[14px] font-semibold text-stone-800 dark:text-stone-100 mb-1.5">
+                    <p className="text-sm font-semibold text-stone-800 dark:text-stone-100 mb-1.5">
                       {item.title}
                     </p>
-                    <p className="text-[12.5px] text-stone-400 dark:text-stone-500 mb-3 leading-relaxed">
+                    <p className="text-xs text-stone-400 dark:text-stone-500 mb-3 leading-relaxed">
                       {item.desc}
                     </p>
                     <span
-                      className={`inline-block text-[11.5px] font-medium px-2.5 py-1 rounded-md ${item.tagColor}`}
+                      className={`inline-block text-xs font-medium px-2.5 py-1 rounded-md ${item.tagColor}`}
                     >
                       {item.tag}
                     </span>

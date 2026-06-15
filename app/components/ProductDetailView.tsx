@@ -20,8 +20,8 @@ const specs = [
 function Stat({ label, value, accent = false }: { label: string; value: string; accent?: boolean }) {
   return (
     <div>
-      <p className="text-[12px] font-medium text-slate-500 dark:text-slate-400">{label}</p>
-      <p className={`mt-1 text-[15px] font-semibold ${accent ? "text-blue-600 dark:text-blue-400" : "text-stone-900 dark:text-stone-100"}`}>
+      <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{label}</p>
+      <p className={`mt-1 text-sm font-semibold ${accent ? "text-blue-600 dark:text-blue-400" : "text-stone-900 dark:text-stone-100"}`}>
         {value || "-"}
       </p>
     </div>
@@ -33,7 +33,7 @@ export default function ProductDetailView() {
 
   return (
     <div className="flex-1 min-h-0 overflow-y-auto px-4 pb-4 pt-4 animate-fade-up">
-      <div className="mb-4 flex items-center gap-2 text-[13px]">
+      <div className="mb-4 flex items-center gap-2 text-sm">
         <Link href="/catalog" className="inline-flex items-center gap-1.5 text-slate-500 transition-colors hover:text-stone-900 dark:text-slate-400 dark:hover:text-stone-100">
           <ChevronLeft size={15} />
           Catalog
@@ -67,7 +67,7 @@ export default function ProductDetailView() {
 
         <main className="min-w-0 space-y-8">
           <div>
-            <h1 className="max-w-4xl text-[26px] font-bold leading-tight tracking-tight text-stone-950 dark:text-stone-50">
+            <h1 className="max-w-4xl text-2xl font-bold leading-tight tracking-tight text-stone-950 dark:text-stone-50">
               PavaShot C5 OC Rounds 5% Capsaicin .68 Cal Projectiles
             </h1>
             <div className="mt-7 grid gap-x-10 gap-y-5 md:grid-cols-2 xl:grid-cols-4">
@@ -79,22 +79,22 @@ export default function ProductDetailView() {
           </div>
 
           <section>
-            <h2 className="mb-3 text-[14px] font-semibold text-stone-900 dark:text-stone-100">Product Specifications</h2>
+            <h2 className="mb-3 text-sm font-semibold text-stone-900 dark:text-stone-100">Product Specifications</h2>
             <div className="grid gap-x-8 gap-y-4 md:grid-cols-2 xl:grid-cols-3">
               {specs.map(([label, value]) => (
                 <div key={label} className="min-w-0">
-                  <p className="text-[12px] font-medium text-slate-500 dark:text-slate-400">{label}</p>
+                  <p className="text-xs font-medium text-slate-500 dark:text-slate-400">{label}</p>
                   {label === "Link" ? (
-                    <a href={value} className="mt-1 flex min-w-0 items-center gap-1.5 text-[13px] font-normal text-blue-600 dark:text-blue-400">
+                    <a href={value} className="mt-1 flex min-w-0 items-center gap-1.5 text-sm font-normal text-blue-600 dark:text-blue-400">
                       <span className="truncate">{value}</span>
                       <ExternalLink size={12} className="shrink-0" />
                     </a>
                   ) : label === "Availability" ? (
-                    <span className="mt-1 inline-flex rounded-full bg-emerald-100 px-2.5 py-1 text-[12px] font-medium text-emerald-700 dark:bg-emerald-500/12 dark:text-emerald-300">
+                    <span className="mt-1 inline-flex rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-medium text-emerald-700 dark:bg-emerald-500/12 dark:text-emerald-300">
                       In stock
                     </span>
                   ) : (
-                    <p className="mt-1 truncate text-[13px] font-normal text-stone-900 dark:text-stone-100">{value || "-"}</p>
+                    <p className="mt-1 truncate text-sm font-normal text-stone-900 dark:text-stone-100">{value || "-"}</p>
                   )}
                 </div>
               ))}
@@ -102,8 +102,8 @@ export default function ProductDetailView() {
           </section>
 
           <section>
-            <h2 className="mb-3 text-[14px] font-semibold text-stone-900 dark:text-stone-100">Description</h2>
-            <p className="text-[13.5px] leading-7 text-stone-800 dark:text-stone-200">
+            <h2 className="mb-3 text-sm font-semibold text-stone-900 dark:text-stone-100">Description</h2>
+            <p className="text-sm leading-7 text-stone-800 dark:text-stone-200">
               PavaShot C5 OC Rounds are .68 caliber projectiles formulated with a 5% capsaicin payload for consistent less-lethal deployment. Designed for compatible PavaShot launcher systems, these rounds deliver a controlled irritant effect through reliable dispersal upon impact. Engineered for dependable feeding and performance, the C5 formulation provides a higher-strength OC option suitable for training and operational environments where increased effectiveness is required. Law Enforcement Agency purchase only. Verification may be required prior to order fulfillment.
             </p>
           </section>

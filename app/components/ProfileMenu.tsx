@@ -39,12 +39,12 @@ export default function ProfileMenu() {
         >
           {/* User info */}
           <div className="flex items-center gap-3 px-4 py-3.5">
-            <div className="w-8 h-8 rounded-full bg-stone-200 dark:bg-stone-700 flex items-center justify-center text-stone-500 dark:text-stone-400 text-[13px] font-semibold shrink-0">
+            <div className="w-8 h-8 rounded-full bg-stone-200 dark:bg-stone-700 flex items-center justify-center text-stone-500 dark:text-stone-400 text-sm font-semibold shrink-0">
               R
             </div>
             <div className="min-w-0">
-              <p className="text-[13px] font-bold text-stone-800 dark:text-stone-100 leading-none mb-1">rana</p>
-              <p className="text-[12px] text-stone-400 dark:text-stone-500 truncate leading-none">rana@intempt.com</p>
+              <p className="text-sm font-bold text-stone-800 dark:text-stone-100 leading-none mb-1">rana</p>
+              <p className="text-xs text-stone-400 dark:text-stone-500 truncate leading-none">rana@intempt.com</p>
             </div>
           </div>
 
@@ -58,11 +58,11 @@ export default function ProfileMenu() {
               className="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-stone-100 dark:hover:bg-white/6 transition-colors text-left"
             >
               <User size={15} className="text-stone-400 dark:text-stone-500 shrink-0" />
-              <span className="text-[13px] text-stone-700 dark:text-stone-300">Profile Settings</span>
+              <span className="text-sm text-stone-700 dark:text-stone-300">Profile Settings</span>
             </Link>
             <button className="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-red-50 dark:hover:bg-red-500/8 transition-colors text-left">
               <LogOut size={15} className="text-red-500 shrink-0" />
-              <span className="text-[13px] font-medium text-red-500">Log out</span>
+              <span className="text-sm font-medium text-red-500">Log out</span>
             </button>
           </div>
         </div>

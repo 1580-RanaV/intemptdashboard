@@ -107,7 +107,7 @@ export default function ThreeDotsMenu({
               key={item.label}
               type="button"
               onClick={() => { item.onClick?.(); closeMenu(); }}
-              className={`flex w-full items-center gap-2.5 px-3 py-2 text-left text-[13px] font-medium transition-colors ${
+              className={`flex w-full items-center gap-2.5 px-3 py-2 text-left text-sm font-medium transition-colors ${
                 danger
                   ? "text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10"
                   : "text-stone-900 hover:bg-stone-50 dark:text-stone-100 dark:hover:bg-white/6"

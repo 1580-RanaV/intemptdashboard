@@ -53,9 +53,9 @@ export default function SlidingSidebar({
           <div className="flex items-start justify-between gap-5">
             <div className="min-w-0 flex-1">
               {typeof title === "string"
-                ? <h2 className="mb-1 text-[18px] font-bold text-stone-900 dark:text-stone-100">{title}</h2>
+                ? <h2 className="mb-1 text-lg font-bold text-stone-900 dark:text-stone-100">{title}</h2>
                 : title}
-              {description ? <p className="text-[13px] leading-5 text-stone-500 dark:text-stone-400">{description}</p> : null}
+              {description ? <p className="text-sm leading-5 text-stone-500 dark:text-stone-400">{description}</p> : null}
             </div>
             <button
               onClick={close}
@@ -69,7 +69,7 @@ export default function SlidingSidebar({
         <div className="flex-1 overflow-y-auto px-7 pb-5">{children}</div>
 
         {footer ? (
-          <div className="flex shrink-0 items-center justify-end gap-3 px-7 py-5" style={{ borderTop: footerBorder ? "1px solid var(--border)" : "0" }}>
+          <div className="flex shrink-0 items-center justify-end gap-3 px-7 py-5">
             {typeof footer === "function" ? footer(close) : footer}
           </div>
         ) : null}
