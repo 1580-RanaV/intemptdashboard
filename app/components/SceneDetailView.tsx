@@ -7,7 +7,6 @@ import SlidingSidebar from "./SlidingSidebar";
 
 const IMG = "/scene.png";
 
-
 const SCENE_MD = `# Autumn Harvest
 
 ## Category
@@ -71,46 +70,39 @@ export default function SceneDetailView({ scene, onBack }: { scene: GridCard; on
         </div>
       </div>
 
-      {/* Details body */}
-      <div className="flex-1 overflow-y-auto px-6 py-6">
-        {/* Landscape image */}
-        <div className="relative w-full overflow-hidden rounded-2xl" style={{ height: 320 }}>
-          <img src={IMG} alt={scene.name} className="h-full w-full object-cover" />
-          <button className="absolute right-3 top-3 inline-flex h-8 items-center gap-1.5 rounded-lg bg-white/90 px-3 text-xs font-medium text-stone-700 backdrop-blur-sm transition-colors hover:bg-white dark:bg-black/50 dark:text-stone-200 dark:hover:bg-black/70">
-            <RefreshCw size={11} />
-            Regenerate image
-          </button>
+      {/* Body — 50/50 */}
+      <div className="flex flex-1 min-h-0 overflow-hidden">
+        {/* Left 50%: landscape image */}
+        <div className="flex flex-col items-center justify-center gap-4 p-8" style={{ flexBasis: "50%", flexShrink: 0 }}>
+          <div className="relative w-full max-w-120 overflow-hidden rounded-2xl shadow-md" style={{ aspectRatio: "4/3" }}>
+            <img src={IMG} alt={scene.name} className="h-full w-full object-cover" />
+            <button className="absolute right-3 top-3 inline-flex h-8 items-center gap-1.5 rounded-lg bg-white/90 px-3 text-xs font-medium text-stone-700 backdrop-blur-sm transition-colors hover:bg-white dark:bg-black/50 dark:text-stone-200 dark:hover:bg-black/70">
+              <RefreshCw size={11} />
+              Regenerate
+            </button>
+          </div>
         </div>
 
-        {/* Data grid — same pattern as AvatarDetailView */}
-        <div className="mt-7 grid grid-cols-3 gap-x-10 gap-y-7">
-          {/* Col 1 — Identity */}
+        {/* Right 50%: details */}
+        <div className="overflow-y-auto px-8 py-6" style={{ flexBasis: "50%" }}>
           <div className="flex flex-col gap-7">
             <Section title="Identity">
               <Row label="Name"     value={scene.name} />
               <Row label="Category" value="Seasonal" />
             </Section>
             <Section title="Block Summary">
-              <Row label="Lighting"  value="Earth Glow" />
-              <Row label="Camera"    value="Top Down" />
-              <Row label="Background" value="Kraft Paper" />
-              <Row label="Surface"   value="Rough Wood" />
+              <Row label="Lighting"    value="Earth Glow" />
+              <Row label="Camera"      value="Top Down" />
+              <Row label="Background"  value="Kraft Paper" />
+              <Row label="Surface"     value="Rough Wood" />
             </Section>
-          </div>
-
-          {/* Col 2 — More block */}
-          <div className="flex flex-col gap-7">
             <Section title="Style">
               <Row label="Color Palette" value="Terracotta Clay" />
               <Row label="Style"         value="Wabi Sabi" />
               <Row label="Scene"         value="Farm" />
               <Row label="Props"         value="Seasonal" />
-              <Row label="Materials"     value="Ingredients / Raw Materials" />
+              <Row label="Materials"     value="Ingredients, Raw materials" />
             </Section>
-          </div>
-
-          {/* Col 3 — Palette swatch */}
-          <div className="flex flex-col gap-7">
             <Section title="Palette Swatch">
               <div
                 className="h-12 w-full rounded-xl"

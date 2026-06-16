@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check, ChevronLeft, Copy, Shuffle, UserCircle2 } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Copy, Shuffle, UserCircle2 } from "lucide-react";
 import type { GridCard } from "./GridCardView";
 import SlidingSidebar from "./SlidingSidebar";
 
@@ -14,15 +14,17 @@ const IMAGES = [
   { label: "Product in hand" },
 ];
 
+type ActionKey = "details" | "remix" | "avatar";
+
 export default function AvatarDetailView({ avatar, onBack }: { avatar: GridCard; onBack: () => void }) {
-  const [activeAction, setActiveAction] = useState<"details" | "remix" | "avatar">("details");
+  const [activeAction, setActiveAction] = useState<ActionKey>("details");
   const [mdOpen, setMdOpen] = useState(false);
+  const [imgIdx, setImgIdx] = useState(0);
 
   return (
     <div className="relative flex h-full flex-col overflow-hidden animate-fade-up" style={{ background: "var(--content-bg)" }}>
       {/* Top bar */}
       <div className="shrink-0 flex items-center justify-between px-5 py-2.5 border-b" style={{ borderColor: "var(--border)" }}>
-        {/* Left: breadcrumb */}
         <div className="flex items-center gap-2 text-sm min-w-0 pr-4">
           <button
             onClick={onBack}
@@ -35,7 +37,6 @@ export default function AvatarDetailView({ avatar, onBack }: { avatar: GridCard;
           <span className="truncate font-medium text-stone-900 dark:text-stone-100">@{avatar.name}</span>
         </div>
 
-        {/* Right: action buttons as segmented pill */}
         <div className="shrink-0 flex items-center gap-0.5 rounded-lg bg-stone-100 dark:bg-white/8 p-0.5">
           <button
             onClick={() => setActiveAction("details")}
@@ -60,31 +61,35 @@ export default function AvatarDetailView({ avatar, onBack }: { avatar: GridCard;
         </div>
       </div>
 
-      {/* Details body — always visible */}
-      <div className="flex-1 overflow-y-auto px-6 py-6">
-        {/* 4 images */}
-        <div className="grid grid-cols-4 gap-3">
-          {IMAGES.map(({ label }, i) => (
-            <div key={label} className="relative overflow-hidden rounded-2xl aspect-4/5">
-              <img src={IMG} alt={label} className="h-full w-full object-cover object-top" />
-              <div
-                className="absolute inset-x-0 bottom-0 px-3 pb-3 pt-10"
-                style={{ background: "linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%)" }}
-              >
-                <p className="text-xs font-medium text-white">{label}</p>
-                {i === 0 && (
-                  <span className="mt-1 inline-flex items-center rounded-full bg-white/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white backdrop-blur-sm">
-                    Main
-                  </span>
-                )}
-              </div>
-            </div>
-          ))}
+      {/* Body — 50/50 */}
+      <div className="flex flex-1 min-h-0 overflow-hidden">
+        {/* Left 50%: image switcher */}
+        <div className="flex flex-col items-center justify-center gap-4 p-8" style={{ flexBasis: "50%", flexShrink: 0 }}>
+          <div className="w-100 overflow-hidden rounded-2xl shadow-md" style={{ aspectRatio: "3/4" }}>
+            <img src={IMG} alt={IMAGES[imgIdx].label} className="h-full w-full object-cover object-top" />
+          </div>
+          {/* Navigation */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setImgIdx((i) => (i - 1 + IMAGES.length) % IMAGES.length)}
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-500 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:bg-white/5 dark:hover:bg-white/10"
+            >
+              <ChevronLeft size={15} />
+            </button>
+            <span className="text-xs text-stone-400 dark:text-stone-500">
+              {IMAGES[imgIdx].label} · {imgIdx + 1} / {IMAGES.length}
+            </span>
+            <button
+              onClick={() => setImgIdx((i) => (i + 1) % IMAGES.length)}
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-500 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:bg-white/5 dark:hover:bg-white/10"
+            >
+              <ChevronRight size={15} />
+            </button>
+          </div>
         </div>
 
-        {/* Details grid */}
-        <div className="mt-7 grid grid-cols-3 gap-x-10 gap-y-7">
-          {/* Col 1 */}
+        {/* Right 50%: details */}
+        <div className="overflow-y-auto px-8 py-6" style={{ flexBasis: "50%" }}>
           <div className="flex flex-col gap-7">
             <Section title="Identity">
               <Row label="Name"        value={avatar.name} />
@@ -98,10 +103,6 @@ export default function AvatarDetailView({ avatar, onBack }: { avatar: GridCard;
               <Row label="Ethnicity" value="Black" />
               <Row label="Build"     value="Athletic" />
             </Section>
-          </div>
-
-          {/* Col 2 */}
-          <div className="flex flex-col gap-7">
             <Section title="Characteristics">
               <Row label="Use Cases"   value="SaaS, Fintech, B2B, Agency" />
               <Row label="Expressions" value="Confident, Engaged" />
@@ -114,20 +115,13 @@ export default function AvatarDetailView({ avatar, onBack }: { avatar: GridCard;
               <Row label="Gender" value="Male" />
               <Row label="Age"    value="32–42" />
             </Section>
-          </div>
-
-          {/* Col 3 */}
-          <div className="flex flex-col gap-7">
             <Section title="Wardrobe">
               <Row label="Style 1" value="Blazer over tee" />
               <Row label="Style 2" value="Crewneck" />
               <Row label="Style 3" value="Button-down" />
-            </Section>
-            <Section title="Photography Notes">
-              <p className="text-sm text-stone-600 dark:text-stone-400">Office or modern interior.</p>
+              <Row label="Setting" value="Office or modern interior." />
             </Section>
             <Section title="Voice">
-              <Row label="Voice"      value="Assigned" />
               <Row label="Stability"  value="0.6" />
               <Row label="Similarity" value="0.8" />
               <Row label="Style"      value="0.3" />
@@ -137,6 +131,7 @@ export default function AvatarDetailView({ avatar, onBack }: { avatar: GridCard;
         </div>
       </div>
 
+      {/* avatar.md shelf */}
       {mdOpen && (
         <SlidingSidebar
           title="avatar.md"

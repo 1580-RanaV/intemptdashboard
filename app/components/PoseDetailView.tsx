@@ -44,11 +44,11 @@ export default function PoseDetailView({ pose, onBack }: { pose: GridCard; onBac
         </div>
       </div>
 
-      {/* Body — 40/60 split */}
+      {/* Body — 50/50 */}
       <div className="flex flex-1 min-h-0 overflow-hidden">
-        {/* Left 40%: centered portrait photo */}
+        {/* Left 50%: centered portrait photo */}
         <div className="flex items-center justify-center p-8" style={{ flexBasis: "50%", flexShrink: 0 }}>
-          <div className="w-70 overflow-hidden rounded-2xl shadow-md" style={{ aspectRatio: "3/4" }}>
+          <div className="w-90 overflow-hidden rounded-2xl shadow-md" style={{ aspectRatio: "3/4" }}>
             <img src={IMG} alt={pose.name} className="h-full w-full object-cover object-top" />
           </div>
         </div>
