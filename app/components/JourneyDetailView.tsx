@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
-  BarChart2, CalendarDays, ChevronDown, ChevronLeft, CheckCircle2,
+  BarChart2, CalendarDays, ChevronDown, ChevronLeft, CheckCircle2, Clock,
   Copy, Filter, Pause, Plus, Route, Settings, Trash2, Upload, Zap, Circle, X,
 } from "lucide-react";
 import SlidingSidebar from "./SlidingSidebar";
@@ -289,6 +289,16 @@ function JourneyCanvas({ onTriggerOpen }: { onTriggerOpen: () => void }) {
   const isPanning = useRef(false);
   const panStart = useRef({ mx: 0, my: 0, ox: 0, oy: 0 });
   const canvasRef = useRef<HTMLDivElement>(null);
+  const [readyOpen, setReadyOpen] = useState(false);
+  const readyRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handle(e: MouseEvent) {
+      if (readyRef.current && !readyRef.current.contains(e.target as Node)) setReadyOpen(false);
+    }
+    document.addEventListener("mousedown", handle);
+    return () => document.removeEventListener("mousedown", handle);
+  }, []);
 
   function addAfter(index: number) {
     const newNode: CanvasNode = {
@@ -330,11 +340,43 @@ function JourneyCanvas({ onTriggerOpen }: { onTriggerOpen: () => void }) {
     <div className="flex-1 relative overflow-hidden">
       {/* Floating action buttons — no wrapper bg */}
       <div className="absolute top-4 right-4 z-10 flex items-center gap-2 pointer-events-none">
-        <button className="pointer-events-auto inline-flex h-9 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-medium text-stone-700 dark:text-stone-200 bg-white/85 dark:bg-zinc-900/85 backdrop-blur-sm shadow-sm transition-colors hover:bg-white dark:hover:bg-zinc-800" style={{ borderColor: "var(--border)" }}>
-          <CheckCircle2 size={13} className="text-emerald-500" />
-          Ready
-          <ChevronDown size={11} className="text-stone-400" />
-        </button>
+        <div ref={readyRef} className="pointer-events-auto relative">
+          <button
+            onClick={() => setReadyOpen((o) => !o)}
+            className="inline-flex h-9 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-medium text-stone-700 dark:text-stone-200 bg-white/85 dark:bg-zinc-900/85 backdrop-blur-sm shadow-sm transition-colors hover:bg-white dark:hover:bg-zinc-800"
+            style={{ borderColor: "var(--border)" }}
+          >
+            <CheckCircle2 size={13} className="text-emerald-500" />
+            Ready
+            <ChevronDown size={11} className="text-stone-400" />
+          </button>
+
+          {readyOpen && (
+            <div
+              className="absolute right-0 top-[calc(100%+6px)] w-64 rounded-xl shadow-lg border overflow-hidden z-20"
+              style={{ background: "var(--content-bg)", borderColor: "var(--border)" }}
+            >
+              <div className="px-4 pt-3 pb-1">
+                <p className="text-xs font-semibold text-stone-400 dark:text-stone-500 uppercase tracking-wide">Pre-publish checklist</p>
+              </div>
+              <div>
+                {[
+                  { icon: <CheckCircle2 size={15} className="text-emerald-500 shrink-0" />, label: "Trigger", sub: "Configured" },
+                  { icon: <Clock size={15} className="text-amber-400 shrink-0" />, label: "Goal", sub: "Not set (optional)" },
+                  { icon: <CheckCircle2 size={15} className="text-emerald-500 shrink-0" />, label: "Journey steps", sub: "2 steps configured" },
+                ].map(({ icon, label, sub }) => (
+                  <div key={label} className="flex items-start gap-3 px-4 py-3">
+                    <span className="mt-0.5">{icon}</span>
+                    <div>
+                      <p className="text-sm font-semibold text-stone-800 dark:text-stone-100">{label}</p>
+                      <p className="text-xs text-stone-400 dark:text-stone-500">{sub}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
         <button className="pointer-events-auto inline-flex h-9 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-medium text-stone-700 dark:text-stone-200 bg-white/85 dark:bg-zinc-900/85 backdrop-blur-sm shadow-sm transition-colors hover:bg-white dark:hover:bg-zinc-800" style={{ borderColor: "var(--border)" }}>
           <Pause size={12} />
           Pause

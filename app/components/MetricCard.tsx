@@ -15,6 +15,7 @@ interface Props {
   change: string;
   data: DataPoint[];
   noResults?: boolean;
+  variantLabel?: { letter: string; name: string; color: string };
 }
 
 function yFmt(v: number) {
@@ -47,6 +48,7 @@ export default function MetricCard({
   change,
   data,
   noResults = false,
+  variantLabel,
 }: Props) {
   return (
     <div
@@ -121,6 +123,17 @@ export default function MetricCard({
               />
             </AreaChart>
           </ResponsiveContainer>
+        </div>
+      )}
+
+      {/* Variant label */}
+      {variantLabel && (
+        <div className="flex items-center gap-2 mt-3 pt-3 border-t" style={{ borderColor: "var(--border)" }}>
+          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: variantLabel.color }}>
+            {variantLabel.letter}
+          </span>
+          <span className="text-xs font-semibold text-stone-800 dark:text-stone-100">{variantLabel.name}</span>
+          <span className="text-xs text-stone-400 dark:text-stone-500">Impressions: 0 (0.0%) · Users: 0 (0.0%)</span>
         </div>
       )}
     </div>

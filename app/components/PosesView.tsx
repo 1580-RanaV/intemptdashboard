@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import GridCardView, { GridCard } from "./GridCardView";
+import PoseDetailView from "./PoseDetailView";
 
 const IMG = "/pose.png";
 
@@ -9,7 +11,7 @@ const POSES: GridCard[] = [
   { id: "sitting",      name: "Sitting",     gradient: ["#d0c8c0", "#a89888"], image: IMG },
   { id: "walking",      name: "Walking",     gradient: ["#c0d0c0", "#90a890"], image: IMG },
   { id: "pointing",     name: "Pointing",    gradient: ["#d0c8d8", "#a098b8"], image: IMG },
-  { id: "arms-crossed", name: "ArmsCrossed", gradient: ["#bcc8d4", "#8ca0b4"], image: IMG },
+  { id: "arms-crossed", name: "Arms Crossed", gradient: ["#bcc8d4", "#8ca0b4"], image: IMG },
   { id: "waving",       name: "Waving",      gradient: ["#d4c8bc", "#b0a090"], image: IMG },
   { id: "thinking",     name: "Thinking",    gradient: ["#c8d4cc", "#98b0a0"], image: IMG },
   { id: "reading",      name: "Reading",     gradient: ["#d0ccc8", "#b0a8a0"], image: IMG },
@@ -18,6 +20,12 @@ const POSES: GridCard[] = [
 ];
 
 export default function PosesView() {
+  const [selected, setSelected] = useState<GridCard | null>(null);
+
+  if (selected) {
+    return <PoseDetailView pose={selected} onBack={() => setSelected(null)} />;
+  }
+
   return (
     <GridCardView
       createLabel="Custom pose"
@@ -25,6 +33,7 @@ export default function PosesView() {
       items={POSES}
       searchPlaceholder="Search poses..."
       newLabel="New pose"
+      onCardClick={setSelected}
     />
   );
 }

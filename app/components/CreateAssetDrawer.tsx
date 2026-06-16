@@ -32,12 +32,12 @@ export default function CreateAssetDrawer({ onClose }: { onClose: () => void }) 
         <>
           <button
             onClick={close}
-            className="rounded-lg px-4 py-2 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-white/8"
+            className="inline-flex h-9 items-center rounded-lg px-4 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-white/8"
           >
             Cancel
           </button>
           <button
-            className="rounded-lg px-5 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            className="inline-flex h-9 items-center rounded-lg px-5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
             style={{ background: "#0080FF" }}
           >
             Create asset
@@ -45,31 +45,21 @@ export default function CreateAssetDrawer({ onClose }: { onClose: () => void }) 
         </>
       )}
     >
-      <div className="space-y-1.5">
+      <div className="flex flex-col gap-0.5">
         {ASSET_TYPES.map(({ key, label, icon: Icon }) => {
           const isSelected = selected === key;
           return (
             <button
               key={key}
               onClick={() => setSelected(key)}
-              className="flex w-full items-center gap-3.5 rounded-xl px-4 py-3 text-left transition-all duration-100"
-              style={{
-                border: isSelected ? "1.5px solid #0080FF" : "1.5px solid var(--border)",
-                background: isSelected ? "rgba(0,128,255,0.04)" : "var(--content-bg)",
-              }}
+              className={`flex w-full items-center gap-3.5 rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors duration-100 ${
+                isSelected
+                  ? "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400"
+                  : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/6 hover:text-stone-800 dark:hover:text-stone-200"
+              }`}
             >
-              <span className={isSelected ? "text-blue-500" : "text-stone-400 dark:text-stone-500"}>
-                <Icon size={17} />
-              </span>
-              <span
-                className={`text-sm font-medium ${
-                  isSelected
-                    ? "text-blue-600 dark:text-blue-400"
-                    : "text-stone-700 dark:text-stone-300"
-                }`}
-              >
-                {label}
-              </span>
+              <Icon size={17} className={isSelected ? "text-blue-500 shrink-0" : "shrink-0 text-stone-400 dark:text-stone-500"} />
+              {label}
             </button>
           );
         })}

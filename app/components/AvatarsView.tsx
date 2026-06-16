@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import AvatarDetailView from "./AvatarDetailView";
 import GridCardView, { GridCard } from "./GridCardView";
 
 const IMG = "/avatar.png";
@@ -19,6 +21,12 @@ const AVATARS: GridCard[] = [
 ];
 
 export default function AvatarsView() {
+  const [selected, setSelected] = useState<GridCard | null>(null);
+
+  if (selected) {
+    return <AvatarDetailView avatar={selected} onBack={() => setSelected(null)} />;
+  }
+
   return (
     <GridCardView
       createLabel="Custom avatar"
@@ -26,6 +34,7 @@ export default function AvatarsView() {
       items={AVATARS}
       searchPlaceholder="Search avatars..."
       newLabel="New avatar"
+      onCardClick={setSelected}
     />
   );
 }

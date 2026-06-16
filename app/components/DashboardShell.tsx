@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu } from "lucide-react";
 import BluChat from "./BluChat";
 import NotificationsMenu from "./NotificationsMenu";
@@ -11,6 +11,12 @@ import ThemeToggle from "./ThemeToggle";
 export default function DashboardShell({ children }: { children: React.ReactNode }) {
   const [bluOpen, setBluOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    const handler = () => setBluOpen(true);
+    window.addEventListener("open-blu-chat", handler);
+    return () => window.removeEventListener("open-blu-chat", handler);
+  }, []);
 
   return (
     <div className="flex h-full" style={{ background: "var(--main-bg)" }}>

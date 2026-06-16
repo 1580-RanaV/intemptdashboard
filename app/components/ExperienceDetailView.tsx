@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
-  BarChart3, ChevronDown, ChevronLeft, ChevronRight, ChevronUp,
+  BarChart3, Calendar, ChevronDown, ChevronLeft, ChevronRight, ChevronUp,
   Clock, Crosshair, ExternalLink, FileText,
   FlaskConical, Info, Minus, MoreHorizontal, Pencil, Plus, X,
 } from "lucide-react";
@@ -395,8 +395,7 @@ function ResultsControlBar() {
 
   return (
     <div
-      className="mx-5 flex items-center gap-3 rounded-xl border px-4 py-2.5"
-      style={{ background: "var(--content-bg)", borderColor: "var(--border)" }}
+      className="mx-5 flex items-center gap-3 px-4 py-2.5"
     >
       {/* Compare */}
       <div className="flex items-center gap-2 shrink-0">
@@ -500,7 +499,7 @@ export default function ExperienceDetailView({ id }: { id: string }) {
               }`}
             >
               {t.icon}
-              {t.key === "setup" ? "Setup" : t.key === "results" ? "Results" : "Report"}
+              {t.key === "setup" ? "Setup" : t.key === "results" ? "Results" : "Summary"}
             </button>
           ))}
         </div>
@@ -576,12 +575,14 @@ export default function ExperienceDetailView({ id }: { id: string }) {
               label="Cumulative users"
               change="-- vs. previous period"
               data={USERS_DATA}
+              variantLabel={{ letter: "A", name: "Control", color: "#3B82F6" }}
             />
             <MetricCard
               value="24,276"
               label="Cumulative impressions"
               change="-- vs. previous period"
               data={IMPRESSIONS_DATA}
+              variantLabel={{ letter: "B", name: "Variant 1", color: "#8B5CF6" }}
             />
           </div>
 
@@ -589,14 +590,141 @@ export default function ExperienceDetailView({ id }: { id: string }) {
           <div className="pb-4">
             <ResultsControlBar />
           </div>
+
+          {/* Metrics sections */}
+          <div className="flex flex-col gap-4 px-5 pb-6">
+            {/* Primary Metrics */}
+            <div className="rounded-xl border" style={{ background: "var(--content-bg)", borderColor: "var(--border)" }}>
+              <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: "var(--border)" }}>
+                <p className="text-sm font-semibold text-stone-800 dark:text-stone-100">Primary Metrics</p>
+              </div>
+              <div className="flex items-center justify-center px-5 py-12">
+                <p className="text-sm text-stone-400 dark:text-stone-500">Primary metrics will appear once the experience collects data</p>
+              </div>
+            </div>
+
+            {/* Secondary Metrics */}
+            <div className="rounded-xl border" style={{ background: "var(--content-bg)", borderColor: "var(--border)" }}>
+              <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: "var(--border)" }}>
+                <p className="text-sm font-semibold text-stone-800 dark:text-stone-100">Secondary Metrics</p>
+              </div>
+              <div className="flex items-center justify-center px-5 py-12">
+                <p className="text-sm text-stone-400 dark:text-stone-500">Secondary metrics will appear once the experience collects data</p>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
       {activeTab === "report" && (
-        <div className="flex-1 flex items-center justify-center text-stone-400 dark:text-stone-600">
-          <div className="text-center">
-            <FileText size={32} className="mx-auto mb-3 opacity-40" />
-            <p className="text-sm font-medium text-stone-500 dark:text-stone-400">Reports are generated after the experience ends</p>
+        <div className="flex-1 overflow-y-auto">
+          <div className="flex flex-col gap-4 px-5 py-5 max-w-3xl mx-auto">
+
+            {/* Header row */}
+            <div className="flex items-start justify-between gap-6">
+              {/* Left: title + status */}
+              <div className="flex flex-col gap-2">
+                <span className="text-sm font-semibold text-stone-800 dark:text-stone-100">{exp.title}</span>
+                <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  Active
+                </span>
+              </div>
+              {/* Right: date + day pills */}
+              <div className="flex flex-col items-end gap-2 shrink-0">
+                <span className="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium text-stone-600 dark:text-stone-300" style={{ borderColor: "var(--border)" }}>
+                  <Calendar size={11} className="text-stone-400 shrink-0" />
+                  Feb 23, 2026 – Jul 1, 2034
+                </span>
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center rounded-lg border px-2.5 py-1 text-xs font-medium text-stone-500 dark:text-stone-400" style={{ borderColor: "var(--border)" }}>3050 days planned</span>
+                  <span className="inline-flex items-center rounded-lg border px-2.5 py-1 text-xs font-medium text-emerald-600 dark:text-emerald-400" style={{ borderColor: "var(--border)" }}>113 days completed</span>
+                  <span className="inline-flex items-center rounded-lg border px-2.5 py-1 text-xs font-medium text-amber-600 dark:text-amber-400" style={{ borderColor: "var(--border)" }}>2937 days left</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Hypothesis */}
+            <div className="rounded-xl border" style={{ background: "var(--content-bg)", borderColor: "var(--border)" }}>
+              <div className="px-5 py-4">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-3">Hypothesis</p>
+                <p className="text-sm text-stone-400 dark:text-stone-500 italic">No hypothesis recorded.</p>
+              </div>
+            </div>
+
+            {/* Setup */}
+            <div className="rounded-xl border" style={{ background: "var(--content-bg)", borderColor: "var(--border)" }}>
+              <div className="px-5 py-4">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-stone-400 dark:text-stone-500 mb-3">Setup</p>
+                <div className="flex items-center gap-8">
+                  {[
+                    { letter: "A", name: "Control",   color: "#3B82F6" },
+                    { letter: "B", name: "Variant 1", color: "#8B5CF6" },
+                  ].map(({ letter, name, color }) => (
+                    <div key={letter} className="flex items-center gap-2">
+                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: color }}>
+                        {letter}
+                      </span>
+                      <span className="text-xs font-semibold text-stone-800 dark:text-stone-100">{name}</span>
+                      <span className="text-xs text-stone-400 dark:text-stone-500">Impressions: 0 (0.0%) · Users: 0 (0.0%)</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Settings row */}
+            <div className="rounded-xl border px-5 py-4 flex items-center gap-6" style={{ background: "var(--content-bg)", borderColor: "var(--border)" }}>
+              {/* Left: compare */}
+              <div className="flex shrink-0 items-center gap-2">
+                <span className="text-xs text-stone-500 dark:text-stone-400 whitespace-nowrap">Compare</span>
+                <span className="inline-flex h-7 shrink-0 items-center gap-1 rounded-lg border px-2.5 text-xs font-medium text-stone-700 dark:text-stone-200 whitespace-nowrap" style={{ borderColor: "var(--border)" }}>All <ChevronDown size={10} className="text-stone-400" /></span>
+                <span className="text-xs text-stone-500 dark:text-stone-400 whitespace-nowrap">relative to</span>
+                <span className="inline-flex h-7 shrink-0 items-center gap-1 rounded-lg border px-2.5 text-xs font-medium text-stone-700 dark:text-stone-200 whitespace-nowrap" style={{ borderColor: "var(--border)" }}>Control <ChevronDown size={10} className="text-stone-400" /></span>
+              </div>
+              <div className="flex-1" />
+              {/* Right: 2×2 grid of pills */}
+              <div className="grid grid-cols-2 gap-2 shrink-0">
+                {[
+                  { label: "CI: 90%  α = 0.1",         active: false },
+                  { label: "CUPED : Yes",               active: true  },
+                  { label: "Sequential Testing : Yes",  active: true  },
+                  { label: "BH : No",                   active: false },
+                ].map(({ label, active }) => (
+                  <span key={label} className={`inline-flex h-7 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-medium whitespace-nowrap ${active ? "border-blue-200 bg-blue-50 text-blue-600 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-400" : "text-stone-500 dark:text-stone-400"}`} style={{ borderColor: active ? undefined : "var(--border)" }}>
+                    <Info size={10} className={active ? "text-blue-400 shrink-0" : "text-stone-400 shrink-0"} />
+                    {label}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Primary Metrics */}
+            <div className="rounded-xl border" style={{ background: "var(--content-bg)", borderColor: "var(--border)" }}>
+              <div className="px-5 py-4 border-b" style={{ borderColor: "var(--border)" }}>
+                <p className="text-sm font-semibold text-stone-800 dark:text-stone-100">Primary Metrics</p>
+              </div>
+              <div className="flex flex-col items-center justify-center py-14 gap-3">
+                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: "linear-gradient(135deg,#c7dcfa 0%,#dde8fc 100%)" }}>
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0080FF" strokeWidth="1.6"><circle cx="12" cy="8" r="4" /><path d="M6 20v-1a6 6 0 0 1 12 0v1" /></svg>
+                </div>
+                <p className="text-sm font-medium text-stone-500 dark:text-stone-400">No data for selected metrics</p>
+              </div>
+            </div>
+
+            {/* Secondary Metrics */}
+            <div className="rounded-xl border" style={{ background: "var(--content-bg)", borderColor: "var(--border)" }}>
+              <div className="px-5 py-4 border-b" style={{ borderColor: "var(--border)" }}>
+                <p className="text-sm font-semibold text-stone-800 dark:text-stone-100">Secondary Metrics</p>
+              </div>
+              <div className="flex flex-col items-center justify-center py-14 gap-3">
+                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: "linear-gradient(135deg,#c7dcfa 0%,#dde8fc 100%)" }}>
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0080FF" strokeWidth="1.6"><circle cx="12" cy="8" r="4" /><path d="M6 20v-1a6 6 0 0 1 12 0v1" /></svg>
+                </div>
+                <p className="text-sm font-medium text-stone-500 dark:text-stone-400">This experience doesn&apos;t have selected secondary metrics.</p>
+              </div>
+            </div>
+
           </div>
         </div>
       )}
