@@ -180,7 +180,7 @@ export default function DealsView() {
   return (
     <div className="relative flex flex-1 flex-col min-h-0 overflow-y-auto overflow-x-hidden">
       <div className="flex items-center gap-1 px-4 pt-3 shrink-0">
-        <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50 text-sm font-medium text-blue-600 transition-colors duration-100 dark:bg-blue-500/10 dark:text-blue-400">
+        <button className="flex items-center gap-2 px-3 h-9 rounded-lg bg-blue-50 text-sm font-medium text-blue-600 transition-colors duration-100 dark:bg-blue-500/10 dark:text-blue-400">
           <Table2 size={15} />
           Table
         </button>
@@ -194,7 +194,7 @@ export default function DealsView() {
           action={
             <button
               onClick={() => setDrawerOpen(true)}
-              className="flex shrink-0 items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-medium text-white transition-opacity hover:opacity-90"
+              className="flex h-9 shrink-0 items-center gap-1.5 rounded-lg px-3.5 text-xs font-medium text-white transition-opacity hover:opacity-90"
               style={{ background: "#0080FF" }}
             >
               <Plus size={14} />

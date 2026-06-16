@@ -125,7 +125,7 @@ function VariantsCard() {
         icon={<FlaskConical size={15} />}
         title="Variants"
         action={
-          <button className="inline-flex items-center gap-1.5 rounded-lg bg-stone-100 px-2.5 py-1.5 text-xs font-medium text-stone-700 transition-colors hover:bg-stone-200 dark:bg-white/8 dark:text-stone-200 dark:hover:bg-white/12">
+          <button className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-stone-100 px-2.5 text-xs font-medium text-stone-700 transition-colors hover:bg-stone-200 dark:bg-white/8 dark:text-stone-200 dark:hover:bg-white/12">
             <Plus size={14} />
             Add variant
           </button>
@@ -248,7 +248,7 @@ function ConfigTile({
       </div>
       <button
         onClick={onConfigure}
-        className="shrink-0 inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium text-stone-600 dark:text-stone-300 transition-colors hover:bg-stone-50 dark:hover:bg-white/5"
+        className="shrink-0 inline-flex h-9 items-center gap-1.5 rounded-lg border px-3 text-xs font-medium text-stone-600 dark:text-stone-300 transition-colors hover:bg-stone-50 dark:hover:bg-white/5"
         style={{ borderColor: "var(--border)" }}
       >
         Configure
@@ -311,7 +311,7 @@ const CI_OPTIONS = [
 
 function SelectChip({ label }: { label: string }) {
   return (
-    <button className="inline-flex items-center gap-1 rounded-lg border px-2.5 py-1 text-xs font-semibold text-stone-700 dark:text-stone-200 hover:bg-stone-50 dark:hover:bg-white/5 transition-colors" style={{ borderColor: "var(--border)" }}>
+    <button className="inline-flex h-9 items-center gap-1 rounded-lg border px-2.5 text-xs font-semibold text-stone-700 dark:text-stone-200 hover:bg-stone-50 dark:hover:bg-white/5 transition-colors" style={{ borderColor: "var(--border)" }}>
       {label}
       <ChevronDown size={11} className="text-stone-400" />
     </button>
@@ -335,7 +335,7 @@ function CIBadge() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium text-stone-500 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/5 transition-colors"
+        className="inline-flex h-9 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-medium text-stone-500 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/5 transition-colors"
         style={{ borderColor: "var(--border)" }}
       >
         <Info size={11} className="text-stone-400 shrink-0" />
@@ -377,7 +377,7 @@ function ToggleBadge({ label }: { label: string }) {
   return (
     <button
       onClick={() => setOn((v) => !v)}
-      className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium transition-colors ${
+      className={`inline-flex h-9 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-medium transition-colors ${
         on
           ? "border-blue-200 bg-blue-50 text-blue-600 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-400"
           : "text-stone-500 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/5"
@@ -493,7 +493,7 @@ export default function ExperienceDetailView({ id }: { id: string }) {
             <button
               key={t.key}
               onClick={() => setActiveTab(t.key)}
-              className={`flex h-7 items-center gap-1.5 rounded-md px-2.5 text-xs font-medium transition-all ${
+              className={`flex h-9 items-center gap-1.5 rounded-md px-2.5 text-xs font-medium transition-all ${
                 activeTab === t.key
                   ? "bg-white dark:bg-white/12 text-stone-900 dark:text-stone-100 shadow-sm"
                   : "text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
@@ -533,14 +533,14 @@ export default function ExperienceDetailView({ id }: { id: string }) {
             <div className="flex shrink-0 items-center gap-2">
               <button
                 onClick={() => setShelf("schedule")}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-stone-100 px-3 py-2 text-[12.5px] font-medium text-stone-700 transition-colors hover:bg-stone-200 dark:bg-white/8 dark:text-stone-200 dark:hover:bg-white/12"
+                className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-stone-100 px-3 text-xs font-medium text-stone-700 transition-colors hover:bg-stone-200 dark:bg-white/8 dark:text-stone-200 dark:hover:bg-white/12"
               >
                 <Clock size={14} />
                 Schedule
               </button>
               <button
                 onClick={() => setShelf("targeting")}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-stone-100 px-3 py-2 text-[12.5px] font-medium text-stone-700 transition-colors hover:bg-stone-200 dark:bg-white/8 dark:text-stone-200 dark:hover:bg-white/12"
+                className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-stone-100 px-3 text-xs font-medium text-stone-700 transition-colors hover:bg-stone-200 dark:bg-white/8 dark:text-stone-200 dark:hover:bg-white/12"
               >
                 <Crosshair size={14} />
                 Targeting
@@ -611,11 +611,11 @@ export default function ExperienceDetailView({ id }: { id: string }) {
             <>
               <button
                 onClick={close}
-                className="rounded-lg px-4 py-2 text-[13px] font-medium text-stone-600 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-white/8"
+                className="inline-flex h-9 items-center rounded-lg px-4 text-[13px] font-medium text-stone-600 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-white/8"
               >
                 Cancel
               </button>
-              <button className="rounded-lg px-5 py-2 text-[13px] font-semibold text-white transition-opacity hover:opacity-90" style={{ background: "#0080FF" }}>
+              <button className="inline-flex h-9 items-center rounded-lg px-5 text-xs font-semibold text-white transition-opacity hover:opacity-90" style={{ background: "#0080FF" }}>
                 Save
               </button>
             </>

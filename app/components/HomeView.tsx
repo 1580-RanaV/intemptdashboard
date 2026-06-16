@@ -631,7 +631,7 @@ export default function HomeView() {
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors duration-100 ${
+            className={`flex items-center gap-2 px-3 h-9 rounded-lg text-sm font-medium transition-colors duration-100 ${
               tab === t.key
                 ? "bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400"
                 : "text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/6"

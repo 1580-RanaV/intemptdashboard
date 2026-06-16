@@ -72,12 +72,12 @@ function AddToLiveMeetingDrawer({ onClose }: { onClose: () => void }) {
         <>
           <button
             onClick={close}
-            className="rounded-lg px-4 py-2 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-white/8"
+            className="inline-flex h-9 items-center rounded-lg px-4 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-white/8"
           >
             Cancel
           </button>
           <button
-            className="rounded-lg px-5 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+            className="inline-flex h-9 items-center rounded-lg px-5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
             style={{ background: "#0080FF" }}
           >
             Join meeting
@@ -146,7 +146,7 @@ export default function MeetingsView() {
   return (
     <div className="flex flex-1 flex-col min-h-0 relative overflow-hidden">
       <div className="flex items-center gap-1 px-4 pt-3 shrink-0">
-        <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50 text-sm font-medium text-blue-600 transition-colors duration-100 dark:bg-blue-500/10 dark:text-blue-400">
+        <button className="flex h-9 items-center gap-2 px-3 rounded-lg bg-blue-50 text-sm font-medium text-blue-600 transition-colors duration-100 dark:bg-blue-500/10 dark:text-blue-400">
           <Table2 size={15} />
           Table
         </button>
@@ -160,7 +160,7 @@ export default function MeetingsView() {
           action={
             <button
               onClick={() => setDrawerOpen(true)}
-              className="flex shrink-0 items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-medium text-white transition-opacity hover:opacity-90"
+              className="flex h-9 shrink-0 items-center gap-1.5 rounded-lg px-3.5 text-xs font-medium text-white transition-opacity hover:opacity-90"
               style={{ background: "#0080FF" }}
             >
               <Plus size={14} />

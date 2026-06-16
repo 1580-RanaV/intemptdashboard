@@ -68,7 +68,7 @@ function FormatButtons({ active }: { active: string }) {
 function MiniDropdown({ label, fullWidth = true }: { label: string; fullWidth?: boolean }) {
   return (
     <button
-      className={`flex items-center justify-between rounded-lg border px-2.5 py-1.5 text-left text-xs font-medium text-stone-600 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-white/5 mt-1.5 ${fullWidth ? "w-full" : ""}`}
+      className={`flex items-center justify-between rounded-lg border px-2.5 h-9  text-left text-xs font-medium text-stone-600 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-white/5 mt-1.5 ${fullWidth ? "w-full" : ""}`}
       style={{ borderColor: "var(--border)" }}
     >
       <span>{label}</span>
@@ -121,7 +121,7 @@ function FunnelStepItem({ number, event }: { number: number; event: string }) {
           {number}
         </span>
         <button
-          className="flex flex-1 items-center justify-between rounded-lg border px-2.5 py-1.5 text-left text-xs font-medium text-stone-700 dark:text-stone-300 transition-colors hover:bg-stone-50 dark:hover:bg-white/5"
+          className="flex flex-1 items-center justify-between rounded-lg border px-2.5 h-9  text-left text-xs font-medium text-stone-700 dark:text-stone-300 transition-colors hover:bg-stone-50 dark:hover:bg-white/5"
           style={{ borderColor: "var(--border)" }}
         >
           <span>{event}</span>
@@ -204,7 +204,7 @@ export default function BoardDetailView({ id }: { id: string }) {
                     <button
                       key={u}
                       onClick={() => setUnit(u.toLowerCase() as "users" | "accounts")}
-                      className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                      className={`px-2.5 h-9  rounded-lg text-xs font-medium transition-colors ${
                         unit === u.toLowerCase()
                           ? "bg-stone-100 dark:bg-white/10 text-stone-900 dark:text-stone-100"
                           : "text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"
@@ -236,7 +236,7 @@ export default function BoardDetailView({ id }: { id: string }) {
                           <p className="mb-1.5 text-xs font-semibold text-stone-600 dark:text-stone-300">{item.label}</p>
                           <div className="flex items-center gap-1.5">
                             <button
-                              className="flex flex-1 items-center justify-between rounded-lg border px-2.5 py-1.5 text-left text-xs font-medium text-stone-700 dark:text-stone-300 transition-colors hover:bg-stone-50 dark:hover:bg-white/5"
+                              className="flex flex-1 items-center justify-between rounded-lg border px-2.5 h-9  text-left text-xs font-medium text-stone-700 dark:text-stone-300 transition-colors hover:bg-stone-50 dark:hover:bg-white/5"
                               style={{ borderColor: "var(--border)" }}
                             >
                               <span>{item.event}</span>
@@ -307,7 +307,7 @@ export default function BoardDetailView({ id }: { id: string }) {
                           </div>
                         </div>
                         <button
-                          className="flex flex-1 items-center justify-between rounded-lg border px-2.5 py-1.5 text-left text-xs font-medium text-stone-600 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-white/5"
+                          className="flex flex-1 items-center justify-between rounded-lg border px-2.5 h-9  text-left text-xs font-medium text-stone-600 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:text-stone-300 dark:hover:bg-white/5"
                           style={{ borderColor: "var(--border)" }}
                         >
                           <span>days</span>

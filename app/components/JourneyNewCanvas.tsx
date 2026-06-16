@@ -65,7 +65,7 @@ const ENTRY_OPTIONS: { key: EntryFreq; label: string; desc: string }[] = [
 
 function Chip({ children }: { children: React.ReactNode }) {
   return (
-    <button className="inline-flex items-center gap-1 rounded-lg border px-2.5 py-1 text-xs font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-white/5 transition-colors" style={{ borderColor: "var(--border)" }}>
+    <button className="inline-flex h-9 items-center gap-1 rounded-lg border px-2.5 text-xs font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-white/5 transition-colors" style={{ borderColor: "var(--border)" }}>
       {children}
       <ChevronDown size={11} className="text-stone-400 shrink-0" />
     </button>
@@ -95,8 +95,8 @@ function TriggerShelf({ onClose }: { onClose: () => void }) {
       onClose={onClose}
       footer={(close) => (
         <>
-          <button onClick={close} className="rounded-lg px-4 py-2 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-white/8">Cancel</button>
-          <button className="rounded-lg px-5 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: "#0080FF" }}>Save</button>
+          <button onClick={close} className="inline-flex h-9 items-center rounded-lg px-4 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-white/8">Cancel</button>
+          <button className="inline-flex h-9 items-center rounded-lg px-5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: "#0080FF" }}>Save</button>
         </>
       )}
     >

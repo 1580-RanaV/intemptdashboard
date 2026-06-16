@@ -149,7 +149,7 @@ export default function CatalogView() {
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors duration-100
+            className={`flex items-center gap-2 px-3 h-9 rounded-lg text-sm font-medium transition-colors duration-100
               ${tab === t.key
                 ? "bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400"
                 : "text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/6"
@@ -173,7 +173,7 @@ export default function CatalogView() {
               rows={SOURCE_ROWS}
               action={
                 <button
-                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-medium text-white transition-opacity hover:opacity-90 shrink-0"
+                  className="flex h-9 items-center gap-1.5 px-3.5 rounded-lg text-xs font-medium text-white transition-opacity hover:opacity-90 shrink-0"
                   style={{ background: "#0080FF" }}
                 >
                   <Plus size={13} />

@@ -197,7 +197,7 @@ export default function DateRangePicker() {
         </div>
 
         {/* Granularity — sits right after presets */}
-        <button className="ml-3 flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-stone-200 dark:border-stone-700 text-xs text-stone-600 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors">
+        <button className="ml-3 flex h-9 items-center gap-1.5 px-3 rounded-lg border border-stone-200 dark:border-stone-700 text-xs text-stone-600 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors">
           Day <ChevronDown size={11} className="text-stone-400" />
         </button>
       </div>

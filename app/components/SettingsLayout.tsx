@@ -76,7 +76,7 @@ function SettingsRow({
 
 function FakeSelect({ value }: { value: string }) {
   return (
-    <button className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 hover:bg-stone-50 dark:hover:bg-stone-700 transition-colors">
+    <button className="flex h-9 items-center gap-2 px-3 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 hover:bg-stone-50 dark:hover:bg-stone-700 transition-colors">
       <span className="text-xs text-stone-700 dark:text-stone-200">{value}</span>
       <ChevronLeft size={11} className="text-stone-400 -rotate-90" />
     </button>
@@ -116,13 +116,13 @@ const contentMap: Record<string, React.ReactNode> = {
         </div>
       </div>
       <SettingsRow label="Full name" description="Your display name across the workspace">
-        <input className="px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-xs text-stone-700 dark:text-stone-200 w-48 outline-none focus:border-blue-400" defaultValue="Rana V" />
+        <input className="px-3 h-9 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-xs text-stone-700 dark:text-stone-200 w-48 outline-none focus:border-blue-400" defaultValue="Rana V" />
       </SettingsRow>
       <SettingsRow label="Email address" description="Used for login and notifications">
-        <input className="px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-xs text-stone-400 w-48 outline-none" defaultValue="rana@intempt.com" disabled />
+        <input className="px-3 h-9 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-xs text-stone-400 w-48 outline-none" defaultValue="rana@intempt.com" disabled />
       </SettingsRow>
       <SettingsRow label="Display name" description="Short name shown in conversations">
-        <input className="px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-xs text-stone-700 dark:text-stone-200 w-48 outline-none focus:border-blue-400" defaultValue="rana" />
+        <input className="px-3 h-9 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-xs text-stone-700 dark:text-stone-200 w-48 outline-none focus:border-blue-400" defaultValue="rana" />
       </SettingsRow>
     </div>
   ),
@@ -153,7 +153,7 @@ const contentMap: Record<string, React.ReactNode> = {
         { name: "Figma", desc: "Embed Figma designs in your issues", connected: false },
       ].map((app) => (
         <SettingsRow key={app.name} label={app.name} description={app.desc}>
-          <button className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${app.connected ? "border border-stone-200 dark:border-stone-600 text-stone-500 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800" : "bg-blue-500 text-white hover:bg-blue-600"}`}>
+          <button className={`inline-flex h-9 items-center rounded-md px-3 text-xs font-medium transition-colors ${app.connected ? "border border-stone-200 dark:border-stone-600 text-stone-500 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800" : "bg-blue-500 text-white hover:bg-blue-600"}`}>
             {app.connected ? "Disconnect" : "Connect"}
           </button>
         </SettingsRow>
@@ -192,20 +192,20 @@ const contentMap: Record<string, React.ReactNode> = {
           </div>
         ))}
       </div>
-      <button className="px-4 py-2 rounded-md bg-blue-500 text-white text-xs font-medium hover:bg-blue-600 transition-colors">Add domain</button>
+      <button className="inline-flex h-9 items-center rounded-md px-4 bg-blue-500 text-white text-xs font-medium hover:bg-blue-600 transition-colors">Add domain</button>
     </div>
   ),
   basic: (
     <div>
       <h2 className="text-base font-semibold text-stone-800 dark:text-stone-100 mb-6">Basic info</h2>
       <SettingsRow label="Project name" description="The display name for this project">
-        <input className="px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-xs text-stone-700 dark:text-stone-200 w-48 outline-none focus:border-blue-400" defaultValue="Linea" />
+        <input className="px-3 h-9 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-xs text-stone-700 dark:text-stone-200 w-48 outline-none focus:border-blue-400" defaultValue="Linea" />
       </SettingsRow>
       <SettingsRow label="Description" description="Short description shown in project lists">
-        <input className="px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-xs text-stone-400 w-48 outline-none focus:border-blue-400" placeholder="Add a description…" />
+        <input className="px-3 h-9 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-xs text-stone-400 w-48 outline-none focus:border-blue-400" placeholder="Add a description…" />
       </SettingsRow>
       <SettingsRow label="Identifier" description="Used in issue IDs (e.g. LIN-123)">
-        <input className="px-3 py-1.5 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-xs text-stone-700 dark:text-stone-200 w-24 outline-none focus:border-blue-400" defaultValue="LIN" />
+        <input className="px-3 h-9 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-xs text-stone-700 dark:text-stone-200 w-24 outline-none focus:border-blue-400" defaultValue="LIN" />
       </SettingsRow>
     </div>
   ),
@@ -229,7 +229,7 @@ const contentMap: Record<string, React.ReactNode> = {
           <FakeSelect value={p.role} />
         </div>
       ))}
-      <button className="mt-4 px-4 py-2 rounded-md bg-blue-500 text-white text-xs font-medium hover:bg-blue-600 transition-colors">Invite member</button>
+      <button className="mt-4 inline-flex h-9 items-center rounded-md px-4 bg-blue-500 text-white text-xs font-medium hover:bg-blue-600 transition-colors">Invite member</button>
     </div>
   ),
   messages: (

@@ -51,12 +51,12 @@ export default function CreateExperienceDrawer({ onClose }: { onClose: () => voi
         <>
           <button
             onClick={close}
-            className="px-4 py-2 rounded-lg text-sm font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/8 transition-colors"
+            className="inline-flex h-9 items-center rounded-lg px-4 text-sm font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/8 transition-colors"
           >
             Cancel
           </button>
           <button
-            className="px-5 py-2 rounded-lg text-sm font-semibold text-white transition-colors"
+            className="inline-flex h-9 items-center rounded-lg px-5 text-sm font-semibold text-white transition-colors"
             style={{ background: "#0080FF" }}
           >
             Create experience

@@ -72,7 +72,7 @@ export default function DesignSystemView() {
           />
         </div>
 
-        <button className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-stone-200 bg-white px-3 text-xs font-medium text-stone-600 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:bg-white/3 dark:text-stone-300 dark:hover:bg-white/6">
+        <button className="inline-flex h-7 items-center gap-1.5 rounded-lg border border-stone-200 bg-white px-3 text-xs font-medium text-stone-600 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:bg-white/3 dark:text-stone-300 dark:hover:bg-white/6">
           <Filter size={13} />
           Filter
         </button>

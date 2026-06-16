@@ -64,7 +64,7 @@ export default function ConnectionsView() {
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors duration-100
+            className={`flex items-center gap-2 px-3 h-9 rounded-lg text-sm font-medium transition-colors duration-100
               ${tab === t.key
                 ? "bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400"
                 : "text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/6"
@@ -89,7 +89,7 @@ export default function ConnectionsView() {
             }
             action={
               <button
-                className="flex shrink-0 items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-medium text-white transition-opacity hover:opacity-90"
+                className="flex shrink-0 items-center gap-1.5 rounded-lg px-3.5 h-9 text-xs font-medium text-white transition-opacity hover:opacity-90"
                 style={{ background: "#0080FF" }}
               >
                 <Plus size={14} />
@@ -110,13 +110,13 @@ export default function ConnectionsView() {
             action={
               <div className="flex items-center gap-2">
                 <button
-                  className="flex shrink-0 items-center gap-1.5 rounded-lg border border-stone-200 bg-white px-3.5 py-2 text-xs font-medium text-stone-700 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:bg-white/[0.03] dark:text-stone-200 dark:hover:bg-white/6"
+                  className="flex shrink-0 items-center gap-1.5 rounded-lg border border-stone-200 bg-white px-3.5 h-9 text-xs font-medium text-stone-700 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:bg-white/[0.03] dark:text-stone-200 dark:hover:bg-white/6"
                 >
                   <Plus size={14} />
                   Create public key
                 </button>
                 <button
-                  className="flex shrink-0 items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-medium text-white transition-opacity hover:opacity-90"
+                  className="flex shrink-0 items-center gap-1.5 rounded-lg px-3.5 h-9 text-xs font-medium text-white transition-opacity hover:opacity-90"
                   style={{ background: "#0080FF" }}
                 >
                   <Plus size={14} />

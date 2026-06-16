@@ -126,7 +126,7 @@ const INITIAL_FILTERS: FilterRow[] = [
 
 function Chip({ children }: { children: React.ReactNode }) {
   return (
-    <button className="inline-flex items-center gap-1 rounded-lg border px-2.5 py-1 text-xs font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-white/5 transition-colors" style={{ borderColor: "var(--border)" }}>
+    <button className="inline-flex h-9 items-center gap-1 rounded-lg border px-2.5 text-xs font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-white/5 transition-colors" style={{ borderColor: "var(--border)" }}>
       {children}
       <ChevronDown size={11} className="text-stone-400 shrink-0" />
     </button>
@@ -159,10 +159,10 @@ function TriggerShelf({ onClose }: { onClose: () => void }) {
       onClose={onClose}
       footer={(close) => (
         <>
-          <button onClick={close} className="rounded-lg px-4 py-2 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-white/8">
+          <button onClick={close} className="inline-flex h-9 items-center rounded-lg px-4 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-white/8">
             Cancel
           </button>
-          <button className="rounded-lg px-5 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: "#0080FF" }}>
+          <button className="inline-flex h-9 items-center rounded-lg px-5 text-sm font-semibold text-white transition-opacity hover:opacity-90" style={{ background: "#0080FF" }}>
             Save
           </button>
         </>
@@ -330,17 +330,17 @@ function JourneyCanvas({ onTriggerOpen }: { onTriggerOpen: () => void }) {
     <div className="flex-1 relative overflow-hidden">
       {/* Floating action buttons — no wrapper bg */}
       <div className="absolute top-4 right-4 z-10 flex items-center gap-2 pointer-events-none">
-        <button className="pointer-events-auto inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-medium text-stone-700 dark:text-stone-200 bg-white/85 dark:bg-zinc-900/85 backdrop-blur-sm shadow-sm transition-colors hover:bg-white dark:hover:bg-zinc-800" style={{ borderColor: "var(--border)" }}>
+        <button className="pointer-events-auto inline-flex h-9 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-medium text-stone-700 dark:text-stone-200 bg-white/85 dark:bg-zinc-900/85 backdrop-blur-sm shadow-sm transition-colors hover:bg-white dark:hover:bg-zinc-800" style={{ borderColor: "var(--border)" }}>
           <CheckCircle2 size={13} className="text-emerald-500" />
           Ready
           <ChevronDown size={11} className="text-stone-400" />
         </button>
-        <button className="pointer-events-auto inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-medium text-stone-700 dark:text-stone-200 bg-white/85 dark:bg-zinc-900/85 backdrop-blur-sm shadow-sm transition-colors hover:bg-white dark:hover:bg-zinc-800" style={{ borderColor: "var(--border)" }}>
+        <button className="pointer-events-auto inline-flex h-9 items-center gap-1.5 rounded-lg border px-2.5 text-xs font-medium text-stone-700 dark:text-stone-200 bg-white/85 dark:bg-zinc-900/85 backdrop-blur-sm shadow-sm transition-colors hover:bg-white dark:hover:bg-zinc-800" style={{ borderColor: "var(--border)" }}>
           <Pause size={12} />
           Pause
         </button>
         <button
-          className="pointer-events-auto inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-medium text-white shadow-sm transition-opacity hover:opacity-90"
+          className="pointer-events-auto inline-flex h-9 items-center gap-1.5 rounded-lg px-2.5 text-xs font-medium text-white shadow-sm transition-opacity hover:opacity-90"
           style={{ background: "#0080FF" }}
         >
           <Upload size={12} />
@@ -416,7 +416,7 @@ const MSG_ROWS: TableRow[] = [
 function MiniSelect({ label, icon }: { label: string; icon?: React.ReactNode }) {
   return (
     <button
-      className="inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium text-stone-600 dark:text-stone-300 transition-colors hover:bg-stone-50 dark:hover:bg-white/5"
+      className="inline-flex h-9 items-center gap-1.5 rounded-lg border px-3 text-xs font-medium text-stone-600 dark:text-stone-300 transition-colors hover:bg-stone-50 dark:hover:bg-white/5"
       style={{ borderColor: "var(--border)" }}
     >
       {icon}
@@ -668,7 +668,7 @@ export default function JourneyDetailView({ id }: { id: string }) {
               <button
                 key={t.key}
                 onClick={() => setTab(t.key)}
-                className={`flex h-7 items-center gap-1.5 rounded-md px-2.5 text-xs font-medium transition-all ${
+                className={`flex h-9 items-center gap-1.5 rounded-md px-2.5 text-xs font-medium transition-all ${
                   activeTab === t.key
                     ? "bg-white dark:bg-white/12 text-stone-900 dark:text-stone-100 shadow-sm"
                     : "text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"

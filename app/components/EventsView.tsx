@@ -197,7 +197,7 @@ function EventDetailSidebar({ row, onClose }: { row: LiveRow; onClose: () => voi
       onClose={onClose}
       footerBorder={false}
       footer={
-        <button className="inline-flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-medium text-white transition-opacity hover:opacity-90" style={{ background: "#0080FF" }}>
+        <button className="inline-flex h-9 items-center gap-1.5 rounded-lg px-3.5 text-xs font-medium text-white transition-opacity hover:opacity-90" style={{ background: "#0080FF" }}>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
           View Event JSON
         </button>
@@ -284,7 +284,7 @@ export default function EventsView() {
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors duration-100
+            className={`flex h-9 items-center gap-2 px-3 rounded-lg text-sm font-medium transition-colors duration-100
               ${tab === t.key
                 ? "bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400"
                 : "text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/6"
@@ -311,7 +311,7 @@ export default function EventsView() {
             action={
               <button
                 onClick={() => setDrawerOpen(true)}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-medium text-white transition-opacity hover:opacity-90 shrink-0"
+                className="flex items-center gap-1.5 px-3.5 h-9 rounded-lg text-xs font-medium text-white transition-opacity hover:opacity-90 shrink-0"
                 style={{ background: "#0080FF" }}
               >
                 <Plus size={14} />
