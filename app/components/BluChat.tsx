@@ -188,6 +188,8 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
     setPlusOpen(false);
     setReferencesOpen(false);
     setSelectedReference(null);
+
+    window.dispatchEvent(new CustomEvent("blu-image-generate", { detail: { text } }));
   }
 
   return (

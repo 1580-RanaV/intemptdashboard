@@ -102,6 +102,16 @@ body {
   animation: logo-pulse 1.6s ease-in-out infinite;
 }
 
+@keyframes shimmer-sweep {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes reveal-image {
+  0%   { opacity: 0.5; filter: blur(24px); }
+  100% { opacity: 1;   filter: blur(0px); }
+}
+
 /* ─── Scrollbars ─────────────────────────────────────────────── */
 .chat-scroll {
   scrollbar-width: thin;

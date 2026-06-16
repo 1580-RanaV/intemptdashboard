@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   AlignLeft, Bell, Braces, FileText, Image, Mail,
   MessageCircle, MessageSquare, Upload, Code,
@@ -22,6 +23,12 @@ const ASSET_TYPES = [
 
 export default function CreateAssetDrawer({ onClose }: { onClose: () => void }) {
   const [selected, setSelected] = useState("image");
+  const router = useRouter();
+
+  function handleCreate() {
+    onClose();
+    router.push(`/asset-library/new/${selected}`);
+  }
 
   return (
     <SlidingSidebar
@@ -37,6 +44,7 @@ export default function CreateAssetDrawer({ onClose }: { onClose: () => void }) 
             Cancel
           </button>
           <button
+            onClick={handleCreate}
             className="inline-flex h-9 items-center rounded-lg px-5 text-sm font-semibold text-white transition-opacity hover:opacity-90"
             style={{ background: "#0080FF" }}
           >
