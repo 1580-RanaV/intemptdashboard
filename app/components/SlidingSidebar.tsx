@@ -9,6 +9,7 @@ export default function SlidingSidebar({
   children,
   footer,
   footerBorder = true,
+  contentClassName,
   onClose,
 }: {
   title: React.ReactNode;
@@ -16,6 +17,7 @@ export default function SlidingSidebar({
   children: React.ReactNode;
   footer?: React.ReactNode | ((close: () => void) => React.ReactNode);
   footerBorder?: boolean;
+  contentClassName?: string;
   onClose: () => void;
 }) {
   const [visible, setVisible] = useState(false);
@@ -66,7 +68,7 @@ export default function SlidingSidebar({
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-7 pb-5">{children}</div>
+        <div className={`flex-1 overflow-y-auto ${contentClassName ?? "px-7 pb-5"}`}>{children}</div>
 
         {footer ? (
           <div className="flex shrink-0 items-center justify-end gap-3 px-7 py-5">

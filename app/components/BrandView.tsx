@@ -305,7 +305,7 @@ function KnowledgeBaseView() {
         searchPlaceholder="Search knowledge..."
         action={
           <button
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-medium text-white transition-opacity hover:opacity-90 shrink-0"
+            className="flex shrink-0 items-center gap-1.5 rounded-lg px-3.5 h-9 text-xs font-medium text-white transition-opacity hover:opacity-90"
             style={{ background: "#0080FF" }}
           >
             <Plus size={14} />

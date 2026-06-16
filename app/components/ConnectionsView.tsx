@@ -1,30 +1,45 @@
 "use client";
 
-import { CalendarDays, Globe, Info, KeyRound, Mail, MousePointer2, Plus, ShieldCheck, Workflow } from "lucide-react";
-import { useState } from "react";
-import DashboardTable, { TableColumn } from "./DashboardTable";
+import { CalendarDays, Copy, Globe, Info, KeyRound, Mail, MousePointer2, Pencil, Plus, RefreshCw, ShieldCheck, Trash2, Workflow } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useRef, useState } from "react";
+import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
+import AddIntegrationDrawer from "./AddIntegrationDrawer";
+import CreateApiKeyDrawer from "./CreateApiKeyDrawer";
 
 const tabs = [
   { key: "connections", label: "Connections", icon: <Workflow size={15} /> },
-  { key: "api-keys", label: "API Keys", icon: <KeyRound size={15} /> },
-  { key: "domains", label: "Domains", icon: <Globe size={15} /> },
+  { key: "api-keys",    label: "API Keys",    icon: <KeyRound size={15} /> },
+  { key: "domains",     label: "Domains",     icon: <Globe size={15} /> },
 ];
 
 const CONNECTION_COLUMNS: TableColumn[] = [
-  { key: "name", label: "Name", width: "13%" },
-  { key: "integration", label: "Integration", width: "18%" },
-  { key: "type", label: "Type", width: "11%" },
-  { key: "status", label: "Status", width: "13%" },
-  { key: "lastSync", label: "Last Sync", width: "16%" },
+  { key: "name",        label: "Name",         width: "13%" },
+  { key: "integration", label: "Integration",  width: "18%" },
+  { key: "type",        label: "Type",         width: "11%" },
+  { key: "status",      label: "Status",       width: "13%" },
+  { key: "lastSync",    label: "Last Sync",    width: "16%" },
   { key: "lastUpdated", label: "Last Updated", width: "17%" },
-  { key: "createdBy", label: "Created By", width: "12%" },
+  { key: "createdBy",   label: "Created By",   width: "12%" },
 ];
 
 const API_KEY_COLUMNS: TableColumn[] = [
-  { key: "name", label: "Name", width: "28%" },
-  { key: "key", label: "Key", width: "34%" },
+  { key: "name",     label: "Name",     width: "28%" },
+  { key: "key",      label: "Key",      width: "34%" },
   { key: "modified", label: "Modified", width: "20%" },
-  { key: "labels", label: "Labels", width: "18%" },
+  { key: "labels",   label: "Labels",   width: "18%" },
+];
+
+const INITIAL_API_KEYS: TableRow[] = [
+  {
+    id: "1",
+    cells: {
+      name:     "1756039631343251456",
+      key:      "a37729af45b0430f9d0d21a2979331c2.1ce99933b19649f297b8cf2a45473dc5",
+      modified: "Apr 16, 2026",
+      labels:   "Full access",
+    },
+  },
 ];
 
 const domainSections = [
@@ -55,10 +70,70 @@ const domainSections = [
 ];
 
 export default function ConnectionsView() {
-  const [tab, setTab] = useState("connections");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const tab = searchParams.get("tab") ?? "connections";
+  const [addOpen, setAddOpen] = useState(false);
+  const [createKeyOpen, setCreateKeyOpen] = useState(false);
+  const [apiKeyRows, setApiKeyRows] = useState<TableRow[]>(INITIAL_API_KEYS);
+  const [renamingId, setRenamingId] = useState<string | null>(null);
+  const [renameValue, setRenameValue] = useState("");
+  const commitRef = useRef(false);
+
+  function setTab(key: string) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", key);
+    router.replace(`?${params.toString()}`, { scroll: false });
+  }
+
+  function startRename(row: TableRow) {
+    commitRef.current = false;
+    setRenamingId(row.id);
+    setRenameValue(String(row.cells.name));
+  }
+
+  function commitRename(id: string, value: string) {
+    if (commitRef.current) return;
+    commitRef.current = true;
+    setApiKeyRows((prev) =>
+      prev.map((r) => r.id === id ? { ...r, cells: { ...r.cells, name: value.trim() || r.cells.name } } : r)
+    );
+    setRenamingId(null);
+  }
+
+  function makeMenuItems(row: TableRow) {
+    return [
+      { label: "Rename",     icon: Pencil,    onClick: () => startRename(row) },
+      { label: "Copy",       icon: Copy,      onClick: () => navigator.clipboard.writeText(String(row.cells.key)) },
+      { label: "Regenerate", icon: RefreshCw },
+      { label: "Delete",     icon: Trash2,    tone: "danger" as const, onClick: () => setApiKeyRows((prev) => prev.filter((r) => r.id !== row.id)) },
+    ];
+  }
+
+  const displayRows: TableRow[] = apiKeyRows.map((row) => ({
+    ...row,
+    menuItems: makeMenuItems(row),
+    cells: {
+      ...row.cells,
+      name: renamingId === row.id ? (
+        <input
+          autoFocus
+          value={renameValue}
+          onChange={(e) => setRenameValue(e.target.value)}
+          onBlur={() => commitRename(row.id, renameValue)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") { e.currentTarget.blur(); }
+            if (e.key === "Escape") { commitRef.current = true; setRenamingId(null); }
+          }}
+          onClick={(e) => e.stopPropagation()}
+          className="w-full rounded border border-blue-400 bg-white px-2 py-1 text-sm font-medium text-stone-900 outline-none ring-2 ring-blue-500/10 dark:bg-stone-900 dark:text-stone-100"
+        />
+      ) : row.cells.name,
+    },
+  }));
 
   return (
-    <div className="flex flex-1 flex-col min-h-0 overflow-y-auto">
+    <div className="relative flex flex-1 flex-col min-h-0 overflow-y-auto">
       <div className="flex items-center gap-1 px-4 pt-3 shrink-0">
         {tabs.map((t) => (
           <button
@@ -89,6 +164,7 @@ export default function ConnectionsView() {
             }
             action={
               <button
+                onClick={() => setAddOpen(true)}
                 className="flex shrink-0 items-center gap-1.5 rounded-lg px-3.5 h-9 text-xs font-medium text-white transition-opacity hover:opacity-90"
                 style={{ background: "#0080FF" }}
               >
@@ -100,29 +176,20 @@ export default function ConnectionsView() {
         ) : tab === "api-keys" ? (
           <DashboardTable
             columns={API_KEY_COLUMNS}
-            rows={[]}
+            rows={displayRows}
             searchPlaceholder="Search API keys..."
             emptyState={
-              <span>
-                No API keys yet. Create a key to start authenticating requests.
-              </span>
+              <span>No API keys yet. Create a key to start authenticating requests.</span>
             }
             action={
-              <div className="flex items-center gap-2">
-                <button
-                  className="flex shrink-0 items-center gap-1.5 rounded-lg border border-stone-200 bg-white px-3.5 h-9 text-xs font-medium text-stone-700 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:bg-white/[0.03] dark:text-stone-200 dark:hover:bg-white/6"
-                >
-                  <Plus size={14} />
-                  Create public key
-                </button>
-                <button
-                  className="flex shrink-0 items-center gap-1.5 rounded-lg px-3.5 h-9 text-xs font-medium text-white transition-opacity hover:opacity-90"
-                  style={{ background: "#0080FF" }}
-                >
-                  <Plus size={14} />
-                  Create key
-                </button>
-              </div>
+              <button
+                onClick={() => setCreateKeyOpen(true)}
+                className="flex shrink-0 items-center gap-1.5 rounded-lg px-3.5 h-9 text-xs font-medium text-white transition-opacity hover:opacity-90"
+                style={{ background: "#0080FF" }}
+              >
+                <Plus size={14} />
+                Create key
+              </button>
             }
           />
         ) : (
@@ -135,10 +202,7 @@ export default function ConnectionsView() {
 
               <div className="grid gap-x-12 gap-y-10 lg:grid-cols-2">
                 {domainSections.map((section) => (
-                  <section
-                    key={section.title}
-                    className="min-h-[142px] px-1"
-                  >
+                  <section key={section.title} className="min-h-35.5 px-1">
                     <div className="mb-2 flex items-center gap-2.5 text-stone-950 dark:text-stone-50">
                       {section.icon}
                       <h3 className="text-base font-semibold">{section.title}</h3>
@@ -152,6 +216,14 @@ export default function ConnectionsView() {
           </div>
         )}
       </div>
+
+      {addOpen && <AddIntegrationDrawer onClose={() => setAddOpen(false)} />}
+      {createKeyOpen && (
+        <CreateApiKeyDrawer
+          onClose={() => setCreateKeyOpen(false)}
+          onCreate={(row) => setApiKeyRows((prev) => [...prev, row])}
+        />
+      )}
     </div>
   );
 }

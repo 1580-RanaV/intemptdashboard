@@ -64,28 +64,27 @@ export default function AvatarDetailView({ avatar, onBack }: { avatar: GridCard;
       {/* Body — 50/50 */}
       <div className="flex flex-1 min-h-0 overflow-hidden">
         {/* Left 50%: image switcher */}
-        <div className="flex flex-col items-center justify-center gap-4 p-8" style={{ flexBasis: "50%", flexShrink: 0 }}>
-          <div className="w-100 overflow-hidden rounded-2xl shadow-md" style={{ aspectRatio: "3/4" }}>
-            <img src={IMG} alt={IMAGES[imgIdx].label} className="h-full w-full object-cover object-top" />
-          </div>
-          {/* Navigation */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setImgIdx((i) => (i - 1 + IMAGES.length) % IMAGES.length)}
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-500 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:bg-white/5 dark:hover:bg-white/10"
-            >
-              <ChevronLeft size={15} />
-            </button>
+        <div className="flex items-center justify-center gap-3 p-8" style={{ flexBasis: "50%", flexShrink: 0 }}>
+          <button
+            onClick={() => setImgIdx((i) => (i - 1 + IMAGES.length) % IMAGES.length)}
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-500 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:bg-white/5 dark:hover:bg-white/10"
+          >
+            <ChevronLeft size={15} />
+          </button>
+          <div className="flex flex-col items-center gap-2">
+            <div className="w-100 overflow-hidden rounded-2xl shadow-md" style={{ aspectRatio: "3/4" }}>
+              <img src={IMG} alt={IMAGES[imgIdx].label} className="h-full w-full object-cover object-top" />
+            </div>
             <span className="text-xs text-stone-400 dark:text-stone-500">
               {IMAGES[imgIdx].label} · {imgIdx + 1} / {IMAGES.length}
             </span>
-            <button
-              onClick={() => setImgIdx((i) => (i + 1) % IMAGES.length)}
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-500 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:bg-white/5 dark:hover:bg-white/10"
-            >
-              <ChevronRight size={15} />
-            </button>
           </div>
+          <button
+            onClick={() => setImgIdx((i) => (i + 1) % IMAGES.length)}
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-500 transition-colors hover:bg-stone-50 dark:border-stone-700 dark:bg-white/5 dark:hover:bg-white/10"
+          >
+            <ChevronRight size={15} />
+          </button>
         </div>
 
         {/* Right 50%: details */}
