@@ -14,6 +14,7 @@ import EventsView from "./EventsView";
 import HomeView from "./HomeView";
 import CatalogView from "./CatalogView";
 import ConnectionsView from "./ConnectionsView";
+import { Suspense } from "react";
 import ExperiencesView from "./ExperiencesView";
 import FeedsView from "./FeedsView";
 import GenericView from "./GenericView";
@@ -56,7 +57,7 @@ export default function DashboardView({ view = "home" }: { view?: string }) {
   if (view === "feeds") return <FeedsView />;
   if (view === "journeys") return <JourneysView />;
   if (view === "experiences") return <ExperiencesView />;
-  if (view === "connections") return <ConnectionsView />;
+  if (view === "connections") return <Suspense><ConnectionsView /></Suspense>;
   if (view === "users") return <UsersView />;
   if (view === "meetings") return <MeetingsView />;
   if (view === "scheduler") return <SchedulerView />;
