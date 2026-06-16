@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   BarChart3, ChevronDown, ChevronLeft, ChevronRight, ChevronUp,
   Clock, Crosshair, ExternalLink, FileText,
-  FlaskConical, Info, MoreHorizontal, Pencil, Plus, X,
+  FlaskConical, Info, Minus, MoreHorizontal, Pencil, Plus, X,
 } from "lucide-react";
 import SlidingSidebar from "./SlidingSidebar";
+import DateRangePicker from "./DateRangePicker";
+import MetricCard from "./MetricCard";
 
 // ── Data ───────────────────────────────────────────────────────────────────────
 
@@ -256,6 +258,194 @@ function ConfigTile({
   );
 }
 
+// ── Results chart data ─────────────────────────────────────────────────────────
+
+const USERS_DATA = [
+  { date: "Jun 1",  value: 0       },
+  { date: "Jun 2",  value: 120     },
+  { date: "Jun 3",  value: 340     },
+  { date: "Jun 4",  value: 580     },
+  { date: "Jun 5",  value: 920     },
+  { date: "Jun 6",  value: 1340    },
+  { date: "Jun 7",  value: 1820    },
+  { date: "Jun 8",  value: 2410    },
+  { date: "Jun 9",  value: 3050    },
+  { date: "Jun 10", value: 3780    },
+  { date: "Jun 11", value: 4530    },
+  { date: "Jun 12", value: 5390    },
+  { date: "Jun 13", value: 6270    },
+  { date: "Jun 14", value: 7140    },
+];
+
+const IMPRESSIONS_DATA = USERS_DATA.map((d) => ({ ...d, value: Math.round(d.value * 3.4) }));
+
+// ── Hypothesis card ────────────────────────────────────────────────────────────
+
+function HypothesisCard() {
+  const [text, setText] = useState("");
+
+  return (
+    <div className="flex flex-col gap-1.5">
+      <textarea
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Add your hypothesis here..."
+        rows={4}
+        className="w-full resize-none rounded-xl border bg-stone-50 dark:bg-white/3 px-4 py-3 text-sm text-stone-800 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-600 outline-none transition-colors focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10"
+        style={{ borderColor: "var(--border)" }}
+      />
+    </div>
+  );
+}
+
+// ── Results control bar ────────────────────────────────────────────────────────
+
+const CI_OPTIONS = [
+  { ci: 80, alpha: 0.2  },
+  { ci: 85, alpha: 0.15 },
+  { ci: 90, alpha: 0.1  },
+  { ci: 95, alpha: 0.05 },
+  { ci: 98, alpha: 0.02 },
+  { ci: 99, alpha: 0.01 },
+];
+
+function SelectChip({ label }: { label: string }) {
+  return (
+    <button className="inline-flex items-center gap-1 rounded-lg border px-2.5 py-1 text-xs font-semibold text-stone-700 dark:text-stone-200 hover:bg-stone-50 dark:hover:bg-white/5 transition-colors" style={{ borderColor: "var(--border)" }}>
+      {label}
+      <ChevronDown size={11} className="text-stone-400" />
+    </button>
+  );
+}
+
+function CIBadge() {
+  const [selected, setSelected] = useState(CI_OPTIONS[1]);
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handle(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handle);
+    return () => document.removeEventListener("mousedown", handle);
+  }, []);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium text-stone-500 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/5 transition-colors"
+        style={{ borderColor: "var(--border)" }}
+      >
+        <Info size={11} className="text-stone-400 shrink-0" />
+        CI: {selected.ci}%&nbsp;&nbsp;α = {selected.alpha}
+      </button>
+
+      {open && (
+        <div
+          className="absolute bottom-[calc(100%+6px)] left-0 z-50 w-44 rounded-xl overflow-hidden animate-card-in"
+          style={{ background: "var(--content-bg)", border: "1px solid var(--border)", boxShadow: "0 8px 24px rgba(0,0,0,0.10)" }}
+        >
+          {CI_OPTIONS.map((opt) => {
+            const active = opt.ci === selected.ci;
+            return (
+              <button
+                key={opt.ci}
+                onClick={() => { setSelected(opt); setOpen(false); }}
+                className={`flex w-full items-center justify-between px-4 py-2.5 text-xs transition-colors ${
+                  active
+                    ? "bg-stone-100 dark:bg-white/8 font-semibold text-stone-900 dark:text-stone-100"
+                    : "text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/5"
+                }`}
+              >
+                <span>{opt.ci}%</span>
+                <span className={active ? "text-stone-500 dark:text-stone-400" : "text-stone-400 dark:text-stone-500"}>
+                  α = {opt.alpha}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ToggleBadge({ label }: { label: string }) {
+  const [on, setOn] = useState(false);
+  return (
+    <button
+      onClick={() => setOn((v) => !v)}
+      className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-medium transition-colors ${
+        on
+          ? "border-blue-200 bg-blue-50 text-blue-600 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-400"
+          : "text-stone-500 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/5"
+      }`}
+      style={{ borderColor: on ? undefined : "var(--border)" }}
+    >
+      <Info size={11} className={on ? "text-blue-400 shrink-0" : "text-stone-400 shrink-0"} />
+      {label} : {on ? "Yes" : "No"}
+    </button>
+  );
+}
+
+function ResultsControlBar() {
+  const [zoom, setZoom] = useState(50);
+
+  return (
+    <div
+      className="mx-5 flex items-center gap-3 rounded-xl border px-4 py-2.5"
+      style={{ background: "var(--content-bg)", borderColor: "var(--border)" }}
+    >
+      {/* Compare */}
+      <div className="flex items-center gap-2 shrink-0">
+        <span className="text-xs text-stone-400 dark:text-stone-500">Compare</span>
+        <SelectChip label="All" />
+        <span className="text-xs text-stone-400 dark:text-stone-500">relative to</span>
+        <SelectChip label="Control" />
+      </div>
+
+      <div className="flex-1" />
+
+      {/* Zoom */}
+      <div className="flex items-center gap-2 shrink-0">
+        <span className="text-xs text-stone-400 dark:text-stone-500">Zoom</span>
+        <button
+          onClick={() => setZoom((z) => Math.max(0, z - 10))}
+          className="flex h-5 w-5 items-center justify-center rounded text-stone-400 hover:text-stone-600 dark:hover:text-stone-300 transition-colors"
+        >
+          <Minus size={11} />
+        </button>
+        <input
+          type="range"
+          min={0}
+          max={100}
+          value={zoom}
+          onChange={(e) => setZoom(Number(e.target.value))}
+          className="w-20 accent-blue-500"
+        />
+        <button
+          onClick={() => setZoom((z) => Math.min(100, z + 10))}
+          className="flex h-5 w-5 items-center justify-center rounded text-stone-400 hover:text-stone-600 dark:hover:text-stone-300 transition-colors"
+        >
+          <Plus size={11} />
+        </button>
+      </div>
+
+      <div className="h-4 w-px bg-stone-200 dark:bg-stone-700 shrink-0" />
+
+      {/* Stat badges */}
+      <div className="flex items-center gap-1.5 shrink-0">
+        <CIBadge />
+        <ToggleBadge label="CUPED" />
+        <ToggleBadge label="Sequential Testing" />
+        <ToggleBadge label="BH" />
+      </div>
+    </div>
+  );
+}
+
 // ── Main view ──────────────────────────────────────────────────────────────────
 
 type TabKey = "setup" | "results" | "report";
@@ -370,10 +560,34 @@ export default function ExperienceDetailView({ id }: { id: string }) {
       )}
 
       {activeTab === "results" && (
-        <div className="flex-1 flex items-center justify-center text-stone-400 dark:text-stone-600">
-          <div className="text-center">
-            <BarChart3 size={32} className="mx-auto mb-3 opacity-40" />
-            <p className="text-sm font-medium text-stone-500 dark:text-stone-400">Results will appear here once the experience is running</p>
+        <div className="flex-1 overflow-y-auto">
+          <div className="flex flex-col gap-5 px-5 pt-4 pb-1">
+            <HypothesisCard />
+          </div>
+
+          <div className="flex items-center shrink-0 pr-3 pt-1">
+            <div className="flex-1"><DateRangePicker /></div>
+          </div>
+
+          {/* Metric cards */}
+          <div className="flex gap-4 px-4 pt-3 pb-3 animate-fade-up">
+            <MetricCard
+              value="7,140"
+              label="Cumulative users"
+              change="-- vs. previous period"
+              data={USERS_DATA}
+            />
+            <MetricCard
+              value="24,276"
+              label="Cumulative impressions"
+              change="-- vs. previous period"
+              data={IMPRESSIONS_DATA}
+            />
+          </div>
+
+          {/* Control bar */}
+          <div className="pb-4">
+            <ResultsControlBar />
           </div>
         </div>
       )}

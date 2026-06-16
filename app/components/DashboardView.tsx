@@ -1,6 +1,5 @@
 "use client";
 
-import { UserCheck } from "lucide-react";
 import AccountsView from "./AccountsView";
 import AssetLibraryView from "./AssetLibraryView";
 import AvatarsView from "./AvatarsView";
@@ -22,10 +21,9 @@ import JourneysView from "./JourneysView";
 import MeetingsView from "./MeetingsView";
 import SchedulerView from "./SchedulerView";
 import UsersView from "./UsersView";
+import SubscribersView from "./SubscribersView";
 
-const GENERIC_VIEWS: Record<string, { label: string; icon: React.ReactNode }> = {
-  subscribers: { label: "Create subscriber", icon: <UserCheck size={18} /> },
-};
+const GENERIC_VIEWS: Record<string, { label: string; icon: React.ReactNode }> = {};
 
 export function HomeEmpty() {
   return (
@@ -64,6 +62,7 @@ export default function DashboardView({ view = "home" }: { view?: string }) {
   if (view === "scheduler") return <SchedulerView />;
   if (view === "boards") return <BoardsView />;
   if (view === "events") return <EventsView />;
+  if (view === "subscribers") return <SubscribersView />;
   if (view === "avatars") return <AvatarsView />;
   if (view === "poses") return <PosesView />;
   if (view === "scenes") return <ScenesView />;

@@ -49,9 +49,14 @@ const nav: NavSection[] = [
     items: [
       { label: "Home", icon: <Home size={15} /> },
       { label: "Brand", icon: <Palette size={15} /> },
-      { label: "Users", icon: <Users size={15} /> },
-      { label: "Events", icon: <Activity size={15} /> },
-      { label: "Subscribers", icon: <UserCheck size={15} /> },
+      {
+        label: "Users",
+        icon: <Users size={15} />,
+        children: [
+          { label: "Events", icon: <Activity size={15} /> },
+          { label: "Subscribers", icon: <UserCheck size={15} /> },
+        ],
+      },
       { label: "Connections", icon: <Plug size={15} /> },
     ],
   },

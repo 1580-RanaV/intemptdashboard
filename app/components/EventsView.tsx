@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { BarChart2, LayoutDashboard, Plus, Table2 } from "lucide-react";
 import CreateEventDrawer from "./CreateEventDrawer";
 import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
 import SlidingSidebar from "./SlidingSidebar";
@@ -263,12 +263,16 @@ function LiveTab({ onRowSelect }: { onRowSelect: (row: LiveRow | null) => void }
 // ── view ───────────────────────────────────────────────────────────────────────
 
 const TABS = [
-  { key: "events", label: "Events" },
-  { key: "live",   label: "Live"   },
+  { key: "table",     label: "Table",     icon: <Table2 size={14} /> },
+  { key: "board",     label: "Board",     icon: <LayoutDashboard size={14} /> },
+  { key: "analytics", label: "Analytics", icon: <BarChart2 size={14} /> },
+  { key: "live",      label: "Live",      icon: null },
 ] as const;
 
+type Tab = typeof TABS[number]["key"];
+
 export default function EventsView() {
-  const [tab, setTab]             = useState<"events" | "live">("events");
+  const [tab, setTab]               = useState<Tab>("table");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [selectedLive, setSelectedLive] = useState<LiveRow | null>(null);
 
@@ -286,14 +290,20 @@ export default function EventsView() {
                 : "text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/6"
               }`}
           >
-            {t.label}
+            {t.icon}
+            {t.key === "live" ? (
+              <span className="flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-blue-500 shrink-0 animate-pulse" />
+                Live
+              </span>
+            ) : t.label}
           </button>
         ))}
       </div>
 
       {/* Content */}
       <div key={tab} className="flex-1 min-h-0 flex flex-col px-4 pt-4 pb-4 animate-fade-up">
-        {tab === "events" ? (
+        {tab === "table" && (
           <DashboardTable
             columns={COLUMNS}
             rows={ROWS}
@@ -309,9 +319,24 @@ export default function EventsView() {
               </button>
             }
           />
-        ) : (
-          <LiveTab onRowSelect={setSelectedLive} />
         )}
+        {tab === "board" && (
+          <div className="flex flex-1 h-full items-center justify-center">
+            <div className="text-center space-y-1.5">
+              <LayoutDashboard size={24} className="mx-auto text-stone-300 dark:text-stone-600" />
+              <p className="text-sm font-medium text-stone-500 dark:text-stone-400">Board view coming soon</p>
+            </div>
+          </div>
+        )}
+        {tab === "analytics" && (
+          <div className="flex flex-1 h-full items-center justify-center">
+            <div className="text-center space-y-1.5">
+              <BarChart2 size={24} className="mx-auto text-stone-300 dark:text-stone-600" />
+              <p className="text-sm font-medium text-stone-500 dark:text-stone-400">Analytics view coming soon</p>
+            </div>
+          </div>
+        )}
+        {tab === "live" && <LiveTab onRowSelect={setSelectedLive} />}
       </div>
 
       {drawerOpen && <CreateEventDrawer onClose={() => setDrawerOpen(false)} />}

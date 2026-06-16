@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 import { BarChart2, LayoutDashboard, Plus, Table2 } from "lucide-react";
-import CreateUserDrawer from "./CreateUserDrawer";
 import DashboardTable, { TableColumn } from "./DashboardTable";
 
-const USER_COLUMNS: TableColumn[] = [
-  { key: "user", label: "User", width: "22%" },
-  { key: "accountName", label: "Account name", width: "22%" },
-  { key: "email", label: "Email", width: "24%" },
-  { key: "jobTitle", label: "Job title", width: "16%" },
-  { key: "intemptTags", label: "Intempt tags", width: "16%" },
+const COLUMNS: TableColumn[] = [
+  { key: "name",       label: "Name",           width: "22%" },
+  { key: "email",      label: "Email",          width: "24%" },
+  { key: "status",     label: "Status",         width: "12%" },
+  { key: "consent",    label: "Consent",        width: "14%" },
+  { key: "subscribed", label: "Subscribed date", width: "14%" },
+  { key: "source",     label: "Source",         width: "14%" },
 ];
 
 const TABS = [
@@ -21,12 +21,11 @@ const TABS = [
 
 type Tab = typeof TABS[number]["key"];
 
-export default function UsersView() {
-  const [tab, setTab]             = useState<Tab>("table");
-  const [drawerOpen, setDrawerOpen] = useState(false);
+export default function SubscribersView() {
+  const [tab, setTab] = useState<Tab>("table");
 
   return (
-    <div className="relative flex flex-1 flex-col min-h-0 overflow-y-auto">
+    <div className="flex-1 flex flex-col min-h-0 relative overflow-hidden">
       <div className="flex items-center gap-1 px-4 pt-3 shrink-0">
         {TABS.map((t) => (
           <button
@@ -44,21 +43,20 @@ export default function UsersView() {
         ))}
       </div>
 
-      <div key={tab} className="flex-1 min-h-0 px-4 pb-4 pt-4 animate-fade-up">
+      <div key={tab} className="flex-1 min-h-0 flex flex-col px-4 pt-4 pb-4 animate-fade-up">
         {tab === "table" && (
           <DashboardTable
-            columns={USER_COLUMNS}
+            columns={COLUMNS}
             rows={[]}
-            searchPlaceholder="Search users..."
-            emptyState="No users yet."
+            searchPlaceholder="Search subscribers..."
+            emptyState="No subscribers yet."
             action={
               <button
-                onClick={() => setDrawerOpen(true)}
                 className="flex shrink-0 items-center gap-1.5 rounded-lg px-3.5 py-2 text-xs font-medium text-white transition-opacity hover:opacity-90"
                 style={{ background: "#0080FF" }}
               >
                 <Plus size={14} />
-                Create user
+                Create subscriber
               </button>
             }
           />
@@ -80,8 +78,6 @@ export default function UsersView() {
           </div>
         )}
       </div>
-
-      {drawerOpen && <CreateUserDrawer onClose={() => setDrawerOpen(false)} />}
     </div>
   );
 }
