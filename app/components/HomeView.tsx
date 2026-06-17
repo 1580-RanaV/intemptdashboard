@@ -13,6 +13,7 @@ import {
 import {
   Globe, LayoutGrid, Activity, ChevronDown, Info,
   TrendingDown, UserPlus, ShoppingCart, Users, HistoryIcon,
+  Send, MailOpen, MousePointerClick, ChevronRight,
 } from "lucide-react";
 import DateRangePicker from "./DateRangePicker";
 
@@ -623,6 +624,269 @@ function EngagementView() {
   );
 }
 
+// ── Metric card — generic, reusable ───────────────────────────────────────────
+//
+// Pass any Lucide icon component; the card renders it at two sizes itself.
+// Drop it anywhere — it carries its own layout and never leaks outside concerns.
+
+import { type LucideIcon } from "lucide-react";
+
+type MetricCardProps = {
+  icon: LucideIcon;
+  label: string;
+  value: number;
+};
+
+function MetricCard({ icon: Icon, label, value }: MetricCardProps) {
+  return (
+    <div
+      className="relative flex flex-col justify-between overflow-hidden rounded-xl p-4 cursor-pointer hover:shadow-md transition-shadow"
+      style={{ background: "var(--content-bg)", border: "1px solid var(--border)", minHeight: 140 }}
+    >
+      {/* Top row: icon badge + chevron */}
+      <div className="flex items-start justify-between">
+        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-stone-100 dark:bg-white/8 text-blue-500">
+          <Icon size={16} />
+        </span>
+        <ChevronRight size={14} className="text-stone-300 dark:text-stone-600 mt-0.5" />
+      </div>
+
+      {/* Value + label */}
+      <div className="mt-4">
+        <p className="text-3xl font-bold text-stone-800 dark:text-stone-100 leading-none mb-1.5">
+          {value.toLocaleString()}
+        </p>
+        <p className="text-sm text-stone-500 dark:text-stone-400">{label}</p>
+      </div>
+
+      {/* Watermark — same icon rendered large, faint */}
+      <span className="pointer-events-none absolute -bottom-2 -right-2 text-blue-500 opacity-[0.07] dark:opacity-[0.1]">
+        <Icon size={72} />
+      </span>
+    </div>
+  );
+}
+
+// ── Sales tab ─────────────────────────────────────────────────────────────────
+
+type SalesMetricDef = {
+  id: string;
+  label: string;
+  icon: LucideIcon;
+  value: number;
+};
+
+// TODO: replace with real API data
+const SALES_METRICS: SalesMetricDef[] = [
+  { id: "emails-sent",   label: "Emails sent",    icon: Send,               value: 1284 },
+  { id: "emails-opened", label: "Emails opened",  icon: MailOpen,           value:  437 },
+  { id: "links-clicked", label: "Links clicked",  icon: MousePointerClick,  value:   96 },
+];
+
+function SalesTab() {
+  return (
+    <div className="px-6 pt-6 animate-fade-up">
+      <div className="max-w-2xl">
+        <Greeting />
+        <SalesSetupChecklist />
+      </div>
+      <div className="mt-6 -ml-4">
+        <DateRangePicker />
+      </div>
+      <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl">
+        {SALES_METRICS.map((m) => (
+          <MetricCard key={m.id} icon={m.icon} label={m.label} value={m.value} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Coming soon placeholder ────────────────────────────────────────────────────
+
+function ComingSoon() {
+  return (
+    <div className="flex flex-1 items-center justify-center animate-fade-up">
+      <div className="text-center">
+        <p className="text-base font-semibold text-stone-700 dark:text-stone-200">Coming soon</p>
+        <p className="mt-1.5 text-sm text-stone-400 dark:text-stone-500">This section is on the way.</p>
+      </div>
+    </div>
+  );
+}
+
+// ── Shared setup checklist ────────────────────────────────────────────────────
+//
+// Step config (titles/descs/CTAs) is static.
+// Completion state is local for demo; swap `initialCompleted` with a real API
+// hook at the call-site and the component needs zero changes.
+
+type SetupStepDef = {
+  id: string;
+  title: string;
+  desc: string;
+  action: string;
+};
+
+type SetupChecklistProps = {
+  title: string;
+  steps: SetupStepDef[];
+  // Seed from API; component manages live state internally for demo interactivity.
+  initialCompleted?: Set<string>;
+};
+
+function SetupChecklist({ title, steps, initialCompleted = new Set() }: SetupChecklistProps) {
+  const [completedIds, setCompletedIds] = useState<Set<string>>(new Set(initialCompleted));
+  // "fading" tracks steps mid-animation so we can swap icon before opacity settles
+  const [fadingIds, setFadingIds] = useState<Set<string>>(new Set());
+  // card close animation
+  const [closing, setClosing] = useState(false);
+  const [closed, setClosed] = useState(false);
+
+  function handleAction(id: string) {
+    if (completedIds.has(id) || fadingIds.has(id)) return;
+
+    // Start fade on this step
+    setFadingIds((prev) => new Set([...prev, id]));
+
+    // After row fades out, mark it done and clear fading flag
+    setTimeout(() => {
+      setFadingIds((prev) => { const n = new Set(prev); n.delete(id); return n; });
+      setCompletedIds((prev) => {
+        const next = new Set([...prev, id]);
+        // All done → collapse the card after a short celebration pause
+        if (next.size === steps.length) {
+          setTimeout(() => setClosing(true), 900);
+        }
+        return next;
+      });
+    }, 420);
+  }
+
+  if (closed) return null;
+
+  const completedCount = completedIds.size;
+  const total = steps.length;
+  const pct = Math.round((completedCount / total) * 100);
+
+  return (
+    <div
+      style={{
+        maxHeight: closing ? 0 : 800,
+        opacity: closing ? 0 : 1,
+        marginTop: closing ? 0 : undefined,
+        overflow: "hidden",
+        transition: "max-height 0.45s cubic-bezier(0.4,0,0.8,0.6), opacity 0.32s ease, margin-top 0.45s ease",
+      }}
+      onTransitionEnd={() => { if (closing) setClosed(true); }}
+    >
+      <div className="mt-6 mb-2 rounded-xl border border-stone-200 dark:border-stone-700/50 overflow-hidden" style={{ background: "var(--content-bg)" }}>
+        {/* Header */}
+        <div className="px-5 pt-4 pb-3">
+          <div className="flex items-center justify-between gap-4 mb-2.5">
+            <p className="text-sm font-semibold text-stone-800 dark:text-stone-100">{title}</p>
+            <span className="shrink-0 text-xs text-stone-400 dark:text-stone-500">
+              {completedCount} of {total} completed
+            </span>
+          </div>
+          <div className="h-1.5 w-full rounded-full bg-stone-100 dark:bg-stone-700/50 overflow-hidden">
+            <div className="h-full rounded-full bg-blue-500 transition-all duration-500" style={{ width: `${pct}%` }} />
+          </div>
+        </div>
+
+        {/* Steps */}
+        <div className="divide-y divide-stone-100 dark:divide-stone-700/40">
+          {steps.map((step, i) => {
+            const done = completedIds.has(step.id);
+            const fading = fadingIds.has(step.id);
+            return (
+              <div
+                key={step.id}
+                style={{ opacity: done || fading ? 0.4 : 1, transition: "opacity 0.4s ease" }}
+                className="flex items-center gap-4 px-5 py-3.5"
+              >
+                {/* Circle indicator */}
+                {done ? (
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-500">
+                    <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                ) : (
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 border-stone-200 dark:border-stone-600">
+                    <span className="text-[10px] font-semibold text-stone-400 dark:text-stone-500 leading-none">{i + 1}</span>
+                  </span>
+                )}
+
+                {/* Text */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium leading-none mb-0.5 text-stone-700 dark:text-stone-200">{step.title}</p>
+                  {step.desc && <p className="text-xs text-stone-400 dark:text-stone-500 leading-snug">{step.desc}</p>}
+                </div>
+
+                {/* Action — hidden once done or fading */}
+                {!done && !fading && (
+                  <button
+                    onClick={() => handleAction(step.id)}
+                    className="shrink-0 h-8 px-3.5 rounded-lg border border-stone-200 dark:border-stone-600 text-xs font-medium text-stone-600 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors"
+                  >
+                    {step.action}
+                  </button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Brand checklist (design tab) ──────────────────────────────────────────────
+
+const BRAND_STEPS: SetupStepDef[] = [
+  { id: "connect-website",  title: "Connect your website",    desc: "Crawl brand colors, logo, and fonts automatically", action: "Connect" },
+  { id: "design-system",    title: "Choose a design system",  desc: "Lock tokens for colors, type, radius, elevation",   action: "Open"    },
+  { id: "define-avatars",   title: "Define avatars",          desc: "Models, poses, and wardrobe for visuals",           action: "Open"    },
+  { id: "setup-scenes",     title: "Set up scenes",           desc: "Lighting, camera, surface and mood",                action: "Open"    },
+];
+
+// TODO: replace with real API call — e.g. useQuery("/api/brand/setup-progress")
+function useBrandSetupProgress(): Set<string> { return new Set(["connect-website"]); }
+
+function BrandSetupChecklist() {
+  return (
+    <SetupChecklist
+      title="Finish brand setup to get the best from Blu"
+      steps={BRAND_STEPS}
+      initialCompleted={useBrandSetupProgress()}
+    />
+  );
+}
+
+// ── Sales checklist (sales tab) ───────────────────────────────────────────────
+
+const SALES_SETUP_STEPS: SetupStepDef[] = [
+  { id: "create-account",    title: "Create an account",    desc: "", action: "Open"    },
+  { id: "connect-email",     title: "Connect your email",   desc: "", action: "Connect" },
+  { id: "connect-calendar",  title: "Connect your calendar",desc: "", action: "Connect" },
+];
+
+// TODO: replace with real API call — e.g. useQuery("/api/sales/setup-progress")
+function useSalesSetupProgress(): Set<string> {
+  return new Set(["create-account"]);
+}
+
+function SalesSetupChecklist() {
+  return (
+    <SetupChecklist
+      title="Complete your setup to unlock full potential"
+      steps={SALES_SETUP_STEPS}
+      initialCompleted={useSalesSetupProgress()}
+    />
+  );
+}
+
 // ── main export ───────────────────────────────────────────────────────────────
 
 const HOME_TABS = [
@@ -662,17 +926,21 @@ export default function HomeView() {
         ))}
       </div>
 
-      <div key={tab} className="px-6 pt-6 animate-fade-up">
-        <div className="max-w-2xl">
-          <Greeting />
-        </div>
-        {tab === "design" && <HeroVideo />}
-        {tab === "design" && (
+      {tab === "design" && (
+        <div key="design" className="px-6 pt-6 animate-fade-up">
+          <div className="max-w-2xl">
+            <Greeting />
+            <BrandSetupChecklist />
+          </div>
+          <HeroVideo />
           <div className="max-w-2xl">
             <RecentDesigns />
           </div>
-        )}
-      </div>
+        </div>
+      )}
+      {tab === "sales"     && <SalesTab key="sales" />}
+      {tab === "marketing" && <ComingSoon key="marketing" />}
+      {tab === "analytics" && <ComingSoon key="analytics" />}
     </div>
   );
 }

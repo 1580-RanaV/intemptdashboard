@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Mail, MessageSquare, Image, ArrowRight } from "lucide-react";
+import { Mail, MessageSquare, Image } from "lucide-react";
 
 type AssetType = "email" | "sms" | "image";
 
@@ -49,7 +49,7 @@ export default function RecentDesigns() {
           onClick={() => router.push("/asset-library")}
           className="flex items-center gap-1 text-xs font-medium text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-100 transition-colors"
         >
-          View all <ArrowRight size={12} />
+          View all
         </button>
       </div>
 
