@@ -4,10 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
-  BarChart3, Calendar, ChevronDown, ChevronLeft, ChevronRight, ChevronUp,
+  BarChart3, Calendar, ChevronDown, ChevronRight, ChevronUp,
   Clock, Crosshair, ExternalLink, FileText,
   FlaskConical, Info, Minus, MoreHorizontal, Pencil, Plus, X,
 } from "lucide-react";
+import BackButton from "./BackButton";
 import SlidingSidebar from "./SlidingSidebar";
 import DateRangePicker from "./DateRangePicker";
 import MetricCard from "./MetricCard";
@@ -475,14 +476,7 @@ export default function ExperienceDetailView({ id }: { id: string }) {
       >
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm min-w-0 pr-4">
-          <Link
-            href="/experiences"
-            className="inline-flex shrink-0 items-center gap-1.5 text-slate-500 transition-colors hover:text-stone-900 dark:text-slate-400 dark:hover:text-stone-100"
-          >
-            <ChevronLeft size={15} />
-            Experiences
-          </Link>
-          <span className="shrink-0 text-slate-300 dark:text-slate-600">/</span>
+          <BackButton href="/experiences" />
           <span className="truncate font-medium text-stone-900 dark:text-stone-100">{exp.title}</span>
         </div>
 

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Check, ChevronLeft, ChevronRight, Copy, Shuffle, UserCircle2 } from "lucide-react";
 import type { GridCard } from "./GridCardView";
 import SlidingSidebar from "./SlidingSidebar";
+import BackButton from "./BackButton";
 
 const IMG = "/avatar.png";
 
@@ -26,14 +27,7 @@ export default function AvatarDetailView({ avatar, onBack }: { avatar: GridCard;
       {/* Top bar */}
       <div className="shrink-0 flex items-center justify-between px-5 py-2.5 border-b" style={{ borderColor: "var(--border)" }}>
         <div className="flex items-center gap-2 text-sm min-w-0 pr-4">
-          <button
-            onClick={onBack}
-            className="inline-flex shrink-0 items-center gap-1.5 text-slate-500 transition-colors hover:text-stone-900 dark:text-slate-400 dark:hover:text-stone-100"
-          >
-            <ChevronLeft size={15} />
-            Avatars
-          </button>
-          <span className="shrink-0 text-slate-300 dark:text-slate-600">/</span>
+          <BackButton onClick={onBack} />
           <span className="truncate font-medium text-stone-900 dark:text-stone-100">@{avatar.name}</span>
         </div>
 

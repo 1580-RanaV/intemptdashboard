@@ -222,8 +222,8 @@ export default function AssetLibraryView() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-    <div className="relative flex flex-1 flex-col min-h-0 overflow-y-auto overflow-x-hidden">
-      <div className="px-4 pb-4 pt-4 animate-fade-up">
+    <div className="relative flex flex-1 flex-col min-h-0 overflow-x-hidden">
+      <div className="flex flex-col px-4 pb-4 pt-4 animate-fade-up">
         <DashboardTable
           columns={COLUMNS}
           rows={ROWS}

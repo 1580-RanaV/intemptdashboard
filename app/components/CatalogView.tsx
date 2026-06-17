@@ -165,13 +165,13 @@ export default function CatalogView() {
         ))}
       </div>
 
-      <div key={tab} className="flex-1 min-h-0 animate-fade-up">
+      <div key={tab} className="flex-1 min-h-0 flex flex-col animate-fade-up">
         {tab === "products" ? (
-          <div className="px-4 pt-4 pb-4">
+          <div className="flex flex-col px-4 pt-4 pb-4">
             <DashboardTable columns={PRODUCT_COLUMNS} rows={PRODUCT_ROWS} />
           </div>
         ) : (
-          <div className="px-4 pt-4 pb-4">
+          <div className="flex flex-col px-4 pt-4 pb-4">
             <DashboardTable
               columns={SOURCE_COLUMNS}
               rows={SOURCE_ROWS}

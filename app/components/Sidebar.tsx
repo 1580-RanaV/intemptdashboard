@@ -346,30 +346,65 @@ function NavItemRow({
 function CollapsibleSection({
   section,
   activeItem,
+  forcedCollapsed = false,
+  draggable: isDraggable = false,
+  isDragOver = false,
+  isDragSrc = false,
+  onDragStart,
+  onDragOver,
+  onDrop,
+  onDragEnd,
 }: {
   section: NavSection;
   activeItem: string;
+  forcedCollapsed?: boolean;
+  draggable?: boolean;
+  isDragOver?: boolean;
+  isDragSrc?: boolean;
+  onDragStart?: () => void;
+  onDragOver?: () => void;
+  onDrop?: () => void;
+  onDragEnd?: () => void;
 }) {
   const [open, setOpen] = useState(true);
+  const showItems = open && !forcedCollapsed;
 
   return (
-    <div>
+    <div
+      draggable={isDraggable}
+      onDragStart={onDragStart}
+      onDragOver={(e) => { e.preventDefault(); onDragOver?.(); }}
+      onDrop={(e) => { e.preventDefault(); onDrop?.(); }}
+      onDragEnd={onDragEnd}
+      className="relative"
+      style={{
+        opacity: isDragSrc ? 0.4 : 1,
+        borderTop: isDragOver ? "2px solid #0080FF" : "2px solid transparent",
+        transition: "opacity 0.15s ease, border-color 0.1s ease",
+      }}
+    >
       {section.heading ? (
         <button
           onClick={() => setOpen((o) => !o)}
-          className="w-full flex items-center gap-1 px-3 mb-1.5 group"
+          className="w-full flex items-center gap-2 px-3 py-1.5 mb-0.5 rounded-md group hover:bg-stone-200/60 dark:hover:bg-white/6 transition-colors duration-100 cursor-grab active:cursor-grabbing"
         >
-          <span className="flex-1 text-left text-[10px] font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-600 leading-none">
+          <span className="flex-1 text-left text-xs font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-600">
             {section.heading}
           </span>
           <ChevronRight
             size={10}
-            className={`text-stone-400 dark:text-stone-600 transition-transform duration-150 ${open ? "rotate-90" : ""}`}
+            className={`text-stone-400 dark:text-stone-600 transition-transform duration-200 ${showItems ? "rotate-90" : ""}`}
           />
         </button>
       ) : null}
 
-      {open && (
+      <div
+        className="overflow-hidden"
+        style={{
+          maxHeight: showItems ? 600 : 0,
+          transition: "max-height 0.22s ease",
+        }}
+      >
         <div className="space-y-px">
           {section.items.map((item) => (
             <NavItemRow
@@ -379,7 +414,7 @@ function CollapsibleSection({
             />
           ))}
         </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -387,6 +422,35 @@ function CollapsibleSection({
 export default function Sidebar({ isOpen, onClose, bluOpen }: { isOpen?: boolean; onClose?: () => void; bluOpen?: boolean }) {
   const pathname = usePathname();
   const currentView = pathname === "/home" ? "Home" : Object.entries(NAV_VIEWS).find(([, view]) => pathname === `/${view}`)?.[0] ?? "";
+
+  const [navSections, setNavSections] = useState<NavSection[]>(nav);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragSrc, setDragSrc] = useState<number | null>(null);
+  const [dragOver, setDragOver] = useState<number | null>(null);
+
+  function handleDragStart(idx: number) {
+    setIsDragging(true);
+    setDragSrc(idx);
+  }
+  function handleDragOver(idx: number) {
+    if (navSections[idx].heading && idx !== dragSrc) setDragOver(idx);
+  }
+  function handleDrop(idx: number) {
+    if (dragSrc !== null && dragSrc !== idx && navSections[idx].heading) {
+      const next = [...navSections];
+      const [moved] = next.splice(dragSrc, 1);
+      next.splice(idx > dragSrc ? idx - 1 : idx, 0, moved);
+      setNavSections(next);
+    }
+    setIsDragging(false);
+    setDragSrc(null);
+    setDragOver(null);
+  }
+  function handleDragEnd() {
+    setIsDragging(false);
+    setDragSrc(null);
+    setDragOver(null);
+  }
 
   const navRef = useRef<HTMLElement>(null);
   const [topFade, setTopFade] = useState(false);
@@ -445,11 +509,19 @@ export default function Sidebar({ isOpen, onClose, bluOpen }: { isOpen?: boolean
             style={{ opacity: topFade ? 1 : 0, background: "linear-gradient(to bottom, var(--main-bg) 0%, transparent 100%)" }}
           />
           <nav ref={navRef} className="h-full overflow-y-auto px-2 py-2 space-y-5">
-            {nav.map((section, si) => (
+            {navSections.map((section, si) => (
               <CollapsibleSection
-                key={si}
+                key={section.heading ?? "__top__"}
                 section={section}
                 activeItem={currentView}
+                forcedCollapsed={isDragging && !!section.heading}
+                draggable={!!section.heading}
+                isDragOver={isDragging && dragOver === si}
+                isDragSrc={dragSrc === si}
+                onDragStart={() => handleDragStart(si)}
+                onDragOver={() => handleDragOver(si)}
+                onDrop={() => handleDrop(si)}
+                onDragEnd={handleDragEnd}
               />
             ))}
           </nav>

@@ -152,7 +152,7 @@ export default function MeetingsView() {
         </button>
       </div>
 
-      <div className="flex-1 min-h-0 px-4 pb-4 pt-4 animate-fade-up">
+      <div className="flex-1 min-h-0 flex flex-col px-4 pb-4 pt-4 animate-fade-up">
         <DashboardTable
           columns={MEETING_COLUMNS}
           rows={MEETING_ROWS}

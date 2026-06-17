@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronLeft, Shuffle } from "lucide-react";
+import { Shuffle } from "lucide-react";
 import type { GridCard } from "./GridCardView";
+import BackButton from "./BackButton";
 
 const IMG = "/pose.png";
 
@@ -16,14 +17,7 @@ export default function PoseDetailView({ pose, onBack }: { pose: GridCard; onBac
       {/* Top bar */}
       <div className="shrink-0 flex items-center justify-between px-5 py-2.5 border-b" style={{ borderColor: "var(--border)" }}>
         <div className="flex items-center gap-2 text-sm min-w-0 pr-4">
-          <button
-            onClick={onBack}
-            className="inline-flex shrink-0 items-center gap-1.5 text-slate-500 transition-colors hover:text-stone-900 dark:text-slate-400 dark:hover:text-stone-100"
-          >
-            <ChevronLeft size={15} />
-            Poses
-          </button>
-          <span className="shrink-0 text-slate-300 dark:text-slate-600">/</span>
+          <BackButton onClick={onBack} />
           <span className="truncate font-medium text-stone-900 dark:text-stone-100">{pose.name}</span>
         </div>
 

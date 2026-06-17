@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import BackButton from "../BackButton";
 import {
-  CalendarDays, ChevronDown, ChevronLeft, ChevronRight,
+  CalendarDays, ChevronDown, ChevronRight,
   Clock, Copy, Filter, GripVertical, Layers, MapPin, Plus, Tag, Trash2, X,
 } from "lucide-react";
 import { BOARDS_DATA } from "./boardsData";
@@ -157,14 +158,7 @@ export default function BoardDetailView({ id }: { id: string }) {
         style={{ background: "var(--content-bg)", borderColor: "var(--border)" }}
       >
         <div className="flex items-center gap-2 text-sm min-w-0 pr-4">
-          <Link
-            href="/boards"
-            className="inline-flex shrink-0 items-center gap-1.5 text-slate-500 transition-colors hover:text-stone-900 dark:text-slate-400 dark:hover:text-stone-100"
-          >
-            <ChevronLeft size={15} />
-            Boards
-          </Link>
-          <span className="shrink-0 text-slate-300 dark:text-slate-600">/</span>
+          <BackButton href="/boards" />
           <span className="truncate font-medium text-stone-900 dark:text-stone-100">{board.title}</span>
         </div>
 

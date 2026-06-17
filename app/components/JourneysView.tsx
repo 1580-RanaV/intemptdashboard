@@ -102,7 +102,7 @@ const JOURNEY_ROWS: TableRow[] = [
 
 export default function JourneysView() {
   return (
-    <div className="flex-1 flex flex-col min-h-0 overflow-y-auto">
+    <div className="flex-1 flex flex-col min-h-0">
       {/* Topbar */}
       <div className="flex items-center shrink-0 pr-3 pt-3">
         <div className="flex-1"><DateRangePicker /></div>
@@ -124,7 +124,7 @@ export default function JourneysView() {
         />
       </div>
 
-      <div className="min-h-0 px-4 pb-4 animate-fade-up">
+      <div className="flex flex-col min-h-0 px-4 pb-4 animate-fade-up">
         <DashboardTable
           columns={JOURNEY_COLUMNS}
           rows={JOURNEY_ROWS}

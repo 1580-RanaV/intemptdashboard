@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
+import BackButton from "./BackButton";
 import {
   ChevronLeft, ChevronRight, Filter, GripVertical,
   MoreHorizontal, Plus, Route, RotateCcw,
@@ -431,14 +432,7 @@ export default function DashboardCanvasView({ id }: { id: string }) {
       {/* Header */}
       <div className="shrink-0 px-4 pt-5 pb-1">
         <div className="flex items-center gap-2 text-sm mb-1">
-          <Link
-            href="/boards"
-            className="inline-flex items-center gap-1.5 text-slate-500 transition-colors hover:text-stone-900 dark:text-slate-400 dark:hover:text-stone-100"
-          >
-            <ChevronLeft size={15} />
-            Boards
-          </Link>
-          <span className="text-slate-300 dark:text-slate-600">/</span>
+          <BackButton href="/boards" />
           <span className="truncate font-medium text-stone-900 dark:text-stone-100">OrderPage</span>
         </div>
 

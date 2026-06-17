@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft } from "lucide-react";
+import BackButton from "./BackButton";
 
 type CanvasItem =
   | { id: string; state: "generating" }
@@ -86,14 +86,7 @@ export default function ImageCanvasView({ onBack }: { onBack: () => void }) {
         className="shrink-0 flex items-center gap-3 px-4 py-2.5 border-b"
         style={{ background: "var(--content-bg)", borderColor: "var(--border)" }}
       >
-        <button
-          onClick={onBack}
-          className="inline-flex items-center gap-1.5 text-sm text-stone-500 transition-colors hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100"
-        >
-          <ChevronLeft size={15} />
-          Asset library
-        </button>
-        <span className="text-stone-300 dark:text-stone-600 select-none">/</span>
+        <BackButton onClick={onBack} />
         <span className="text-sm font-medium text-stone-900 dark:text-stone-100">Untitled image</span>
       </div>
 

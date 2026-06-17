@@ -1,23 +1,131 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   BadgeCheck,
   BookOpen,
   Building2,
+  Check,
   ChevronDown,
   FileText,
   Fingerprint,
   Folder,
+  Link2,
   MessageSquare,
   Pencil,
   Plus,
   ShieldCheck,
   Sparkles,
   Target,
+  Upload,
 } from "lucide-react";
 import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
+import SlidingSidebar from "./SlidingSidebar";
+
+type Palette = { id: string; name: string; colors: [string, string, string, string] };
+
+const DESIGN_THEMES: Palette[] = [
+  { id: "alexandria",  name: "Alexandria",  colors: ["#7B6FA8", "#C9A8D4", "#2D2050", "#F0ECF8"] },
+  { id: "ocean-drift", name: "Ocean Drift", colors: ["#1E6FA8", "#5BA8D4", "#0A2840", "#D4ECF8"] },
+  { id: "sage-garden", name: "Sage Garden", colors: ["#5A8A6A", "#A8D4B0", "#1C3828", "#E4F4E8"] },
+  { id: "ember",       name: "Ember",       colors: ["#C85A3A", "#E8A888", "#5C1A08", "#FCE8D8"] },
+  { id: "midnight",    name: "Midnight",    colors: ["#2A3A5C", "#8898C0", "#0A1230", "#D8DCF0"] },
+  { id: "blossom",     name: "Blossom",     colors: ["#D868A0", "#F0B8D4", "#5C1840", "#FCE8F4"] },
+  { id: "stone-age",   name: "Stone Age",   colors: ["#A89070", "#D4C0A8", "#3C2C1C", "#F4EDE4"] },
+  { id: "citrus",      name: "Citrus",      colors: ["#D4A820", "#E8D870", "#5C4000", "#FDF8D8"] },
+];
+
+function ColorRect({ colors, className = "" }: { colors: readonly string[]; className?: string }) {
+  return (
+    <div className={`flex overflow-hidden rounded ${className}`}>
+      {colors.map((c, i) => (
+        <div key={i} className="flex-1" style={{ background: c }} />
+      ))}
+    </div>
+  );
+}
+
+function ThemeSelect() {
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(DESIGN_THEMES[0]);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [rect, setRect] = useState<{ top: number; left: number; width: number } | null>(null);
+
+  function openDropdown() {
+    if (triggerRef.current) {
+      const r = triggerRef.current.getBoundingClientRect();
+      setRect({ top: r.bottom, left: r.left, width: r.width });
+    }
+    setOpen((o) => !o);
+  }
+
+  useEffect(() => {
+    function onOutside(e: MouseEvent) {
+      const t = e.target as Node;
+      if (
+        triggerRef.current && !triggerRef.current.contains(t) &&
+        dropdownRef.current && !dropdownRef.current.contains(t)
+      ) setOpen(false);
+    }
+    if (open) document.addEventListener("mousedown", onOutside);
+    return () => document.removeEventListener("mousedown", onOutside);
+  }, [open]);
+
+  return (
+    <div className="block min-w-0">
+      <span className="mb-1.5 block text-[10.5px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+        Default Theme
+      </span>
+      <button
+        ref={triggerRef}
+        onClick={openDropdown}
+        className="h-10 w-full flex items-center gap-2.5 rounded-lg border border-stone-200 bg-white px-3 text-sm font-medium text-stone-900 outline-none transition-colors hover:border-stone-300 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 dark:border-stone-700 dark:bg-white/[0.035] dark:text-stone-100"
+      >
+        <ColorRect colors={selected.colors} className="h-5 w-10 shrink-0" />
+        <span className="flex-1 text-left">{selected.name}</span>
+        <ChevronDown size={14} className={`text-slate-400 transition-transform duration-150 ${open ? "rotate-180" : ""}`} />
+      </button>
+
+      {open && rect && (
+        <div
+          ref={dropdownRef}
+          className="rounded-xl overflow-hidden py-1"
+          style={{
+            position: "fixed",
+            top: rect.top,
+            left: rect.left,
+            width: rect.width,
+            zIndex: 9999,
+            background: "var(--content-bg)",
+            border: "1px solid var(--border)",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+          }}
+        >
+          {DESIGN_THEMES.map((theme) => {
+            const isActive = theme.id === selected.id;
+            return (
+              <button
+                key={theme.id}
+                onClick={() => { setSelected(theme); setOpen(false); }}
+                className={`w-full flex items-center gap-3 px-3 py-2 text-left transition-colors ${
+                  isActive
+                    ? "bg-stone-50 dark:bg-white/5"
+                    : "hover:bg-stone-50 dark:hover:bg-white/4"
+                }`}
+              >
+                <ColorRect colors={theme.colors} className="h-6 w-14 shrink-0" />
+                <span className="flex-1 text-sm text-stone-800 dark:text-stone-100">{theme.name}</span>
+                {isActive && <Check size={13} className="text-blue-500 shrink-0" />}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
 
 const tabs = [
   { key: "identity", label: "Identity", icon: <Fingerprint size={15} /> },
@@ -252,7 +360,7 @@ function IdentityContent() {
               <div className="grid gap-3 lg:grid-cols-3">
                 <EditableField label="Name" initialValue="FieldsUSA" />
                 <EditableField label="Website" initialValue="https://fieldsusa.com" />
-                <EditableField label="Default Theme" initialValue="FieldsUSA Tactical" select />
+                <ThemeSelect />
               </div>
           </AccordionSection>
 
@@ -297,7 +405,7 @@ function IdentityContent() {
   );
 }
 
-function KnowledgeBaseView() {
+function KnowledgeBaseView({ onUpload }: { onUpload: () => void }) {
   return (
     <div className="flex-1 min-h-0 px-4 pb-4 pt-4 animate-fade-up">
       <DashboardTable
@@ -306,6 +414,7 @@ function KnowledgeBaseView() {
         searchPlaceholder="Search knowledge..."
         action={
           <button
+            onClick={onUpload}
             className="flex shrink-0 items-center gap-1.5 rounded-lg px-3.5 h-9 text-xs font-medium text-white transition-opacity hover:opacity-90"
             style={{ background: "#0080FF" }}
           >
@@ -318,14 +427,101 @@ function KnowledgeBaseView() {
   );
 }
 
+function KnowledgeShelf({ onClose }: { onClose: () => void }) {
+  const [shelfMethod, setShelfMethod] = useState<"file" | "url" | null>(null);
+  const [url, setUrl] = useState("");
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  function handleContinue(close: () => void) {
+    if (shelfMethod === "file") { fileRef.current?.click(); close(); }
+    else if (shelfMethod === "url" && url.trim()) close();
+  }
+
+  return (
+    <>
+      <input ref={fileRef} type="file" accept=".pdf,.doc,.docx,.md,.txt" className="sr-only" />
+      <SlidingSidebar
+        title="Upload knowledge"
+        description="Add brand guidelines, messaging frameworks, and tone-of-voice documents."
+        onClose={onClose}
+        footer={(close) => (
+          <>
+            <button
+              onClick={close}
+              className="inline-flex h-9 items-center rounded-lg px-4 text-sm font-medium text-stone-600 transition-colors hover:bg-stone-100 dark:text-stone-300 dark:hover:bg-white/8"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => handleContinue(close)}
+              disabled={!shelfMethod || (shelfMethod === "url" && !url.trim())}
+              className="inline-flex h-9 items-center rounded-lg px-5 text-sm font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+              style={{ background: "#0080FF" }}
+            >
+              Continue
+            </button>
+          </>
+        )}
+      >
+        <div className="flex flex-col gap-1.5">
+          <button
+            onClick={() => setShelfMethod("file")}
+            className={`flex w-full items-center gap-3.5 rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors duration-100 ${
+              shelfMethod === "file"
+                ? "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400"
+                : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/6 hover:text-stone-800 dark:hover:text-stone-200"
+            }`}
+          >
+            <Upload size={17} className={`shrink-0 ${shelfMethod === "file" ? "text-blue-500" : "text-stone-400 dark:text-stone-500"}`} />
+            <div>
+              <p className="font-semibold">Upload a file</p>
+              <p className="mt-0.5 text-xs text-stone-400 dark:text-stone-500">PDF, DOCX, MD, or TXT — we'll parse it into structured knowledge.</p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => setShelfMethod("url")}
+            className={`flex w-full items-center gap-3.5 rounded-xl px-4 py-3 text-left text-sm font-medium transition-colors duration-100 ${
+              shelfMethod === "url"
+                ? "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400"
+                : "text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/6 hover:text-stone-800 dark:hover:text-stone-200"
+            }`}
+          >
+            <Link2 size={17} className={`shrink-0 ${shelfMethod === "url" ? "text-blue-500" : "text-stone-400 dark:text-stone-500"}`} />
+            <div>
+              <p className="font-semibold">Enter a URL</p>
+              <p className="mt-0.5 text-xs text-stone-400 dark:text-stone-500">Import content from a webpage or public document link.</p>
+            </div>
+          </button>
+
+          {shelfMethod === "url" && (
+            <div className="mt-1 px-1">
+              <input
+                autoFocus
+                type="url"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                placeholder="https://example.com/brand-guide"
+                className="h-10 w-full rounded-lg border border-stone-200 bg-white px-3 text-sm text-stone-900 outline-none transition-colors placeholder:text-stone-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 dark:border-stone-700 dark:bg-white/[0.035] dark:text-stone-100"
+              />
+            </div>
+          )}
+        </div>
+      </SlidingSidebar>
+    </>
+  );
+}
+
 export default function BrandView() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tab = tabs.some((t) => t.key === searchParams.get("tab")) ? searchParams.get("tab")! : "identity";
   function setTab(key: string) { router.replace(`/brand?tab=${key}`); }
 
+  const [shelfOpen, setShelfOpen] = useState(false);
+
   return (
-    <div className="flex flex-col flex-1 min-h-0">
+    <div className="relative flex flex-col flex-1 min-h-0">
       <div className="flex items-center gap-1 px-4 pt-3 shrink-0">
         {tabs.map((t) => (
           <button
@@ -343,7 +539,9 @@ export default function BrandView() {
         ))}
       </div>
 
-      {tab === "identity" ? <IdentityContent /> : <KnowledgeBaseView />}
+      {tab === "identity" ? <IdentityContent /> : <KnowledgeBaseView onUpload={() => setShelfOpen(true)} />}
+
+      {shelfOpen && <KnowledgeShelf onClose={() => setShelfOpen(false)} />}
     </div>
   );
 }

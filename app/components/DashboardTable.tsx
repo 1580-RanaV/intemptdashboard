@@ -13,7 +13,7 @@ export type TableCell = {
 
 export type TableStatus = {
   label: string;
-  tone: "green" | "gray" | "blue";
+  tone: "green" | "gray" | "blue" | "red";
 };
 
 export type TableColumn = {
@@ -44,14 +44,16 @@ function isStatus(value: React.ReactNode | TableCell | TableStatus): value is Ta
 function StatusPill({ status }: { status: TableStatus }) {
   const tone = {
     green: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/12 dark:text-emerald-300",
-    gray: "bg-stone-100 text-stone-600 dark:bg-white/8 dark:text-stone-300",
-    blue: "bg-blue-50 text-blue-600 dark:bg-blue-500/12 dark:text-blue-300",
+    gray:  "bg-stone-100 text-stone-600 dark:bg-white/8 dark:text-stone-300",
+    blue:  "bg-blue-50 text-blue-600 dark:bg-blue-500/12 dark:text-blue-300",
+    red:   "bg-red-50 text-red-600 dark:bg-red-500/12 dark:text-red-400",
   }[status.tone];
 
   const dot = {
     green: "bg-emerald-500",
-    gray: "bg-slate-400",
-    blue: "bg-blue-500",
+    gray:  "bg-slate-400",
+    blue:  "bg-blue-500",
+    red:   "bg-red-500",
   }[status.tone];
 
   return (
@@ -272,15 +274,15 @@ export default function DashboardTable({
       </div>}
       {hideToolbar && action && <div className="mb-3 flex justify-end shrink-0">{action}</div>}
       <div
-        className="flex-1 min-h-0 overflow-hidden rounded-xl"
+        className="flex-1 min-h-0 overflow-hidden rounded-xl flex flex-col"
         style={{
           border: "1px solid var(--border)",
           background: "var(--content-bg)",
         }}
       >
-        <div className="overflow-auto h-full">
+        <div className="flex-1 min-h-0 overflow-auto">
           <table className="w-full min-w-[980px] border-separate border-spacing-0 text-left">
-          <thead>
+          <thead className="sticky top-0 z-10">
             <tr className="bg-stone-50 dark:bg-white/[0.035]">
               {columns.map((column) => (
                 <th

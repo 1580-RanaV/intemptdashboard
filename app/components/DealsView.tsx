@@ -178,7 +178,7 @@ export default function DealsView() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-    <div className="relative flex flex-1 flex-col min-h-0 overflow-y-auto overflow-x-hidden">
+    <div className="relative flex flex-1 flex-col min-h-0 overflow-x-hidden">
       <div className="flex items-center gap-1 px-4 pt-3 shrink-0">
         <button className="flex items-center gap-2 px-3 h-9 rounded-lg bg-blue-50 text-sm font-medium text-blue-600 transition-colors duration-100 dark:bg-blue-500/10 dark:text-blue-400">
           <Table2 size={15} />
@@ -186,7 +186,7 @@ export default function DealsView() {
         </button>
       </div>
 
-      <div className="flex-1 min-h-0 px-4 pb-4 pt-4 animate-fade-up">
+      <div className="flex-1 min-h-0 flex flex-col px-4 pb-4 pt-4 animate-fade-up">
         <DashboardTable
           columns={COLUMNS}
           rows={ROWS}

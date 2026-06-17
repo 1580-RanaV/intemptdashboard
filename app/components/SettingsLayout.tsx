@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import {
   AlertTriangle, CalendarDays, ChevronLeft, Clock, Copy, Globe,
-  Inbox, Info, Link2, MessageSquare, Plus, Trash2, User, Users, X,
+  Inbox, Info, Link2, MessageSquare, PanelLeftOpen, Plus, Trash2, User, Users, X,
 } from "lucide-react";
 
 type SettingsItem = {
@@ -963,75 +963,105 @@ function DeleteRow({ target, label, desc }: { target: DeleteTarget; label: strin
 
 
 function MobileNav({ selected, onBack, onNav }: { selected: string; onBack: () => void; onNav: (key: string) => void }) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [leftFade, setLeftFade] = useState(false);
-  const [rightFade, setRightFade] = useState(true);
-
-  function checkFades() {
-    const el = scrollRef.current;
-    if (!el) return;
-    setLeftFade(el.scrollLeft > 8);
-    setRightFade(Math.ceil(el.scrollLeft + el.clientWidth) < el.scrollWidth - 8);
-  }
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    checkFades();
-    el.addEventListener("scroll", checkFades, { passive: true });
-    const ro = new ResizeObserver(checkFades);
-    ro.observe(el);
-    return () => { el.removeEventListener("scroll", checkFades); ro.disconnect(); };
-  }, []);
+  const [open, setOpen] = useState(false);
+  const currentSection = settingsNav.find((s) => s.items.some((i) => i.key === selected));
+  const currentItem = currentSection?.items.find((i) => i.key === selected);
 
   return (
-    <div className="md:hidden flex items-center gap-3 px-3 pt-3 pb-1 shrink-0">
-      <button
-        onClick={onBack}
-        className="flex items-center gap-1 text-sm text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-100 transition-colors shrink-0"
-      >
-        <ChevronLeft size={14} />
-        <span>Back</span>
-      </button>
-      <div className="relative flex-1 min-w-0">
-        {/* Left fade */}
-        <div
-          className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-8 transition-opacity duration-200"
-          style={{ opacity: leftFade ? 1 : 0, background: "linear-gradient(to right, var(--main-bg) 0%, transparent 100%)" }}
-        />
-        {/* Scrollable pill row */}
-        <div
-          ref={scrollRef}
-          className="overflow-x-auto pb-1"
-          style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(148,163,184,0.4) transparent" }}
+    <>
+      {/* Top bar */}
+      <div className="md:hidden flex items-center gap-1 px-3 pt-3 pb-2 shrink-0">
+        <button
+          onClick={() => setOpen(true)}
+          className="flex items-center justify-center w-8 h-8 rounded-md text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-white/8 transition-colors"
         >
-          <div className="flex items-center gap-1 w-max px-0.5">
-            {settingsNav.flatMap((s) => s.items).map((item) => {
-              const isActive = selected === item.key;
-              return (
-                <button
-                  key={item.key}
-                  onClick={() => onNav(item.key)}
-                  className={`flex items-center gap-1.5 px-3 h-8 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${
-                    isActive
-                      ? "text-white"
-                      : "text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/8"
-                  }`}
-                  style={isActive ? { background: "#0080FF" } : undefined}
-                >
-                  {item.label}
-                </button>
-              );
-            })}
+          <PanelLeftOpen size={16} />
+        </button>
+        <button
+          onClick={onBack}
+          className="flex items-center gap-1 text-sm text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-100 transition-colors px-1"
+        >
+          <ChevronLeft size={14} />
+          <span>Back</span>
+        </button>
+        {currentSection && currentItem && (
+          <div className="ml-auto flex items-center gap-1 pr-1">
+            <button
+              onClick={() => setOpen(true)}
+              className="text-sm text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300 transition-colors"
+            >
+              {currentSection.heading}
+            </button>
+            <span className="text-sm text-stone-300 dark:text-stone-600">/</span>
+            <span className="text-sm font-medium text-stone-700 dark:text-stone-200">{currentItem.label}</span>
           </div>
-        </div>
-        {/* Right fade */}
-        <div
-          className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-8 transition-opacity duration-200"
-          style={{ opacity: rightFade ? 1 : 0, background: "linear-gradient(to left, var(--main-bg) 0%, transparent 100%)" }}
-        />
+        )}
       </div>
-    </div>
+
+      {/* Backdrop */}
+      <div
+        className="md:hidden fixed inset-0 z-40 transition-opacity duration-200"
+        style={{
+          background: "rgba(0,0,0,0.3)",
+          opacity: open ? 1 : 0,
+          pointerEvents: open ? "auto" : "none",
+        }}
+        onClick={() => setOpen(false)}
+      />
+
+      {/* Slide-in drawer */}
+      <div
+        className="md:hidden fixed inset-y-0 left-0 z-50 flex flex-col w-64 shadow-xl transition-transform duration-200 ease-out"
+        style={{
+          background: "var(--main-bg)",
+          transform: open ? "translateX(0)" : "translateX(-100%)",
+        }}
+      >
+        <button
+          onClick={onBack}
+          className="flex items-center gap-1.5 px-4 py-4 text-sm text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-100 transition-colors"
+        >
+          <ChevronLeft size={14} />
+          <span>Back to app</span>
+        </button>
+
+        <nav className="flex-1 overflow-y-auto px-2 pb-4 space-y-4">
+          {settingsNav.map((section) => (
+            <div key={section.heading}>
+              <p className="px-3 mb-1 text-[10px] font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-600">
+                {section.heading}
+              </p>
+              <div className="space-y-px">
+                {section.items.map((item) => {
+                  const isActive = selected === item.key;
+                  return (
+                    <button
+                      key={item.key}
+                      onClick={() => { onNav(item.key); setOpen(false); }}
+                      className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-md text-left text-sm font-[450] transition-colors duration-100 group
+                        ${isActive
+                          ? "bg-white dark:bg-white/8 text-stone-800 dark:text-stone-100 shadow-[0_1px_3px_rgba(0,0,0,0.08)]"
+                          : "text-stone-600 dark:text-stone-400 hover:bg-stone-200/60 dark:hover:bg-white/6 hover:text-stone-800 dark:hover:text-stone-100"
+                        }`}
+                    >
+                      <span className={isActive ? "text-blue-600" : "text-stone-400 dark:text-stone-600 group-hover:text-stone-600 dark:group-hover:text-stone-400"}>
+                        {item.icon}
+                      </span>
+                      {item.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-2 px-4 py-3.5 shrink-0">
+          <Image src="/logo.png" alt="Intempt" width={18} height={18} className="rounded-md opacity-60" style={{ objectFit: "contain" }} />
+          <span className="flex-1 text-xs font-medium text-stone-400 dark:text-stone-600 tracking-tight">Intempt</span>
+        </div>
+      </div>
+    </>
   );
 }
 

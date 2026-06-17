@@ -156,7 +156,7 @@ export default function ExperiencesView() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-    <div className="flex-1 flex flex-col min-h-0 relative overflow-y-auto overflow-x-hidden">
+    <div className="flex-1 flex flex-col min-h-0 relative overflow-x-hidden">
       {/* Topbar */}
       <div className="flex items-center shrink-0 pr-3 pt-3 gap-2">
         <div className="flex-1"><DateRangePicker /></div>
@@ -179,7 +179,7 @@ export default function ExperiencesView() {
         />
       </div>
 
-      <div className="min-h-0 px-4 pb-4 animate-fade-up">
+      <div className="flex flex-col min-h-0 px-4 pb-4 animate-fade-up">
         <DashboardTable
           columns={EXPERIENCE_COLUMNS}
           rows={EXPERIENCE_ROWS}

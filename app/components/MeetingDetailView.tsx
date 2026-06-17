@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import BackButton from "./BackButton";
 import {
   CalendarDays,
-  ChevronLeft,
   ChevronDown,
   Clock,
   Copy,
@@ -273,11 +273,7 @@ export default function MeetingDetailView() {
     <div className="flex flex-1 min-h-0 flex-col animate-fade-up">
       <div className="flex shrink-0 items-center justify-between gap-3 px-4 py-4">
         <div className="flex min-w-0 items-center gap-2 text-sm">
-          <Link href="/meetings" className="inline-flex items-center gap-1.5 text-slate-500 transition-colors hover:text-stone-900 dark:text-slate-400 dark:hover:text-stone-100">
-            <ChevronLeft size={15} />
-            Meetings
-          </Link>
-          <span className="text-slate-300 dark:text-slate-600">/</span>
+          <BackButton href="/meetings" />
           <span className="truncate font-medium text-stone-900 dark:text-stone-100">R&amp;D check-in</span>
         </div>
       </div>

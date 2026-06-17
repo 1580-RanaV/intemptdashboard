@@ -66,7 +66,7 @@ const FEED_ROWS: TableRow[] = [
 
 export default function FeedsView() {
   return (
-    <div className="flex-1 min-h-0 px-4 pb-4 pt-4">
+    <div className="flex-1 min-h-0 flex flex-col px-4 pb-4 pt-4">
       <DashboardTable
         columns={FEED_COLUMNS}
         rows={FEED_ROWS}

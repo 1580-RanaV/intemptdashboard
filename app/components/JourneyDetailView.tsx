@@ -4,9 +4,10 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
-  BarChart2, CalendarDays, ChevronDown, ChevronLeft, CheckCircle2, Clock,
+  BarChart2, CalendarDays, ChevronDown, CheckCircle2, Clock,
   Copy, Filter, Pause, Plus, Route, Settings, Trash2, Upload, Zap, Circle, X,
 } from "lucide-react";
+import BackButton from "./BackButton";
 import SlidingSidebar from "./SlidingSidebar";
 import DateRangePicker from "./DateRangePicker";
 import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
@@ -682,14 +683,7 @@ export default function JourneyDetailView({ id }: { id: string }) {
       >
         {/* Left: breadcrumb */}
         <div className="flex items-center gap-2 text-sm min-w-0 pr-4">
-          <Link
-            href="/journeys"
-            className="inline-flex shrink-0 items-center gap-1.5 text-slate-500 transition-colors hover:text-stone-900 dark:text-slate-400 dark:hover:text-stone-100"
-          >
-            <ChevronLeft size={15} />
-            Journeys
-          </Link>
-          <span className="shrink-0 text-slate-300 dark:text-slate-600">/</span>
+          <BackButton href="/journeys" />
           <span
             className={`shrink-0 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold ${
               isLive
