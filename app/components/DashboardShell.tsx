@@ -6,7 +6,7 @@ import BluChat from "./BluChat";
 import NotificationsMenu from "./NotificationsMenu";
 import ProfileMenu from "./ProfileMenu";
 import Sidebar from "./Sidebar";
-import ThemeToggle from "./ThemeToggle";
+import UpgradeButton from "./UpgradeButton";
 
 export default function DashboardShell({ children }: { children: React.ReactNode }) {
   const [bluOpen, setBluOpen] = useState(false);
@@ -50,7 +50,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
           </button>
 
 <NotificationsMenu />
-          <ThemeToggle />
+          <UpgradeButton />
           <ProfileMenu />
         </div>
 

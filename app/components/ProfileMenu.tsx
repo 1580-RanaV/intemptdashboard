@@ -1,12 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { Settings, LogOut } from "lucide-react";
+import { LogOut, Moon, Settings, Sun } from "lucide-react";
 
 export default function ProfileMenu() {
   const [open, setOpen] = useState(false);
+  const [dark, setDark] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setDark(document.documentElement.classList.contains("dark"));
+  }, []);
 
   useEffect(() => {
     function handle(e: MouseEvent) {
@@ -18,13 +24,19 @@ export default function ProfileMenu() {
     return () => document.removeEventListener("mousedown", handle);
   }, []);
 
+  function toggleTheme(next: boolean) {
+    document.documentElement.classList.toggle("dark", next);
+    localStorage.setItem("theme", next ? "dark" : "light");
+    setDark(next);
+  }
+
   return (
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center text-white text-[10px] font-semibold cursor-pointer hover:bg-blue-700 transition-colors"
+        className="w-7 h-7 rounded-full overflow-hidden cursor-pointer ring-2 ring-transparent hover:ring-blue-400 transition-all"
       >
-        R
+        <Image src="/dp.png" alt="Profile" width={28} height={28} className="w-full h-full object-cover" />
       </button>
 
       {open && (
@@ -39,8 +51,8 @@ export default function ProfileMenu() {
         >
           {/* User info */}
           <div className="flex items-center gap-3 px-4 py-3.5">
-            <div className="w-8 h-8 rounded-full bg-stone-200 dark:bg-stone-700 flex items-center justify-center text-stone-500 dark:text-stone-400 text-sm font-semibold shrink-0">
-              R
+            <div className="w-8 h-8 rounded-full overflow-hidden shrink-0">
+              <Image src="/dp.png" alt="Profile" width={32} height={32} className="w-full h-full object-cover" />
             </div>
             <div className="min-w-0">
               <p className="text-sm font-bold text-stone-800 dark:text-stone-100 leading-none mb-1">rana</p>
@@ -49,6 +61,34 @@ export default function ProfileMenu() {
           </div>
 
           <div className="mx-4 border-t border-stone-100 dark:border-stone-700/50" />
+
+          {/* Appearance toggle */}
+          <div className="px-3 pt-2.5 pb-1">
+            <div className="flex items-center gap-0.5 rounded-lg bg-stone-100 dark:bg-white/8 p-0.5">
+              <button
+                onClick={() => toggleTheme(false)}
+                className={`flex flex-1 items-center justify-center gap-1.5 h-8 rounded-md text-xs font-medium transition-all ${
+                  !dark
+                    ? "bg-white dark:bg-white/12 text-stone-900 dark:text-stone-100 shadow-sm"
+                    : "text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
+                }`}
+              >
+                <Sun size={12} />
+                Light
+              </button>
+              <button
+                onClick={() => toggleTheme(true)}
+                className={`flex flex-1 items-center justify-center gap-1.5 h-8 rounded-md text-xs font-medium transition-all ${
+                  dark
+                    ? "bg-white dark:bg-white/12 text-stone-900 dark:text-stone-100 shadow-sm"
+                    : "text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
+                }`}
+              >
+                <Moon size={12} />
+                Dark
+              </button>
+            </div>
+          </div>
 
           {/* Menu items */}
           <div className="px-2 py-2">

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, createContext, useContext } from "react";
+import { useState, useRef, useEffect, createContext, useContext } from "react";
+import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import {
   AlertTriangle, CalendarDays, ChevronLeft, Clock, Copy, Globe,
@@ -47,12 +48,6 @@ const settingsNav: SettingsSection[] = [
       { label: "Meetings", icon: <CalendarDays size={14} />, key: "meetings" },
     ],
   },
-  {
-    heading: "Danger zone",
-    items: [
-      { label: "Danger zone", icon: <AlertTriangle size={14} />, key: "danger" },
-    ],
-  },
 ];
 
 function SectionHeader({ title, sub }: { title: string; sub: string }) {
@@ -74,8 +69,8 @@ function SettingsRow({
   children?: React.ReactNode;
 }) {
   return (
-    <div className="flex items-center justify-between py-4 border-b border-stone-100 dark:border-stone-700/40 last:border-0">
-      <div className="flex-1 min-w-0 pr-8">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-4 border-b border-stone-100 dark:border-stone-700/40 last:border-0">
+      <div className="flex-1 min-w-0 sm:pr-8">
         <p className="text-sm font-medium text-stone-700 dark:text-stone-200">{label}</p>
         {description && (
           <p className="text-xs text-stone-400 dark:text-stone-500 mt-0.5">{description}</p>
@@ -946,41 +941,95 @@ function DeleteConfirmModal({ target, onClose }: { target: DeleteTarget; onClose
   );
 }
 
-function DangerZoneSection() {
+function DeleteRow({ target, label, desc }: { target: DeleteTarget; label: string; desc: string }) {
   const onDelete = useContext(DangerContext);
-  const actions: { target: DeleteTarget; label: string; desc: string }[] = [
-    { target: "account",      label: "Delete account",      desc: "Permanently delete your personal account and remove all your data from the platform." },
-    { target: "project",      label: "Delete project",      desc: "Permanently delete this project along with all its assets, journeys, and member access." },
-    { target: "organization", label: "Delete organization", desc: "Permanently delete the organization, all projects within it, and every member's access." },
-  ];
+  return (
+    <div className="mt-8 pt-6 border-t border-stone-100 dark:border-stone-700/40 flex items-center justify-between gap-6">
+      <div className="min-w-0">
+        <p className="text-sm font-medium text-stone-800 dark:text-stone-100">{label}</p>
+        <p className="mt-0.5 text-xs text-stone-400 dark:text-stone-500 leading-relaxed">{desc}</p>
+      </div>
+      <button
+        onClick={() => onDelete(target)}
+        className="shrink-0 flex items-center gap-1.5 h-9 px-4 rounded-lg text-xs font-semibold text-white transition-opacity hover:opacity-85"
+        style={{ background: "#cc0000" }}
+      >
+        <Trash2 size={13} />
+        Delete
+      </button>
+    </div>
+  );
+}
+
+
+function MobileNav({ selected, onBack, onNav }: { selected: string; onBack: () => void; onNav: (key: string) => void }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [leftFade, setLeftFade] = useState(false);
+  const [rightFade, setRightFade] = useState(true);
+
+  function checkFades() {
+    const el = scrollRef.current;
+    if (!el) return;
+    setLeftFade(el.scrollLeft > 8);
+    setRightFade(Math.ceil(el.scrollLeft + el.clientWidth) < el.scrollWidth - 8);
+  }
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    checkFades();
+    el.addEventListener("scroll", checkFades, { passive: true });
+    const ro = new ResizeObserver(checkFades);
+    ro.observe(el);
+    return () => { el.removeEventListener("scroll", checkFades); ro.disconnect(); };
+  }, []);
 
   return (
-    <div>
-      <div className="mb-10">
-        <h2 className="text-base font-semibold" style={{ color: "#cc0000" }}>Danger zone</h2>
-        <p className="mt-1 text-sm text-stone-400 dark:text-stone-500">Irreversible actions that permanently delete data. Proceed with extreme caution.</p>
-      </div>
-
-      <div className="flex flex-col gap-3">
-        {actions.map(({ target, label, desc }) => (
-          <div
-            key={target}
-            className="flex items-center justify-between gap-4 px-0 py-4 border-b border-stone-100 dark:border-stone-700/40 last:border-0"
-          >
-            <div className="min-w-0">
-              <p className="text-sm font-medium text-stone-800 dark:text-stone-100">{label}</p>
-              <p className="mt-0.5 text-xs text-stone-400 dark:text-stone-500">{desc}</p>
-            </div>
-            <button
-              onClick={() => onDelete(target)}
-              className="shrink-0 flex items-center gap-1.5 h-9 px-4 rounded-lg text-xs font-semibold text-white transition-opacity hover:opacity-85"
-              style={{ background: "#cc0000" }}
-            >
-              <Trash2 size={13} />
-              Delete
-            </button>
+    <div className="md:hidden flex items-center gap-3 px-3 pt-3 pb-1 shrink-0">
+      <button
+        onClick={onBack}
+        className="flex items-center gap-1 text-sm text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-100 transition-colors shrink-0"
+      >
+        <ChevronLeft size={14} />
+        <span>Back</span>
+      </button>
+      <div className="relative flex-1 min-w-0">
+        {/* Left fade */}
+        <div
+          className="pointer-events-none absolute left-0 top-0 bottom-0 z-10 w-8 transition-opacity duration-200"
+          style={{ opacity: leftFade ? 1 : 0, background: "linear-gradient(to right, var(--main-bg) 0%, transparent 100%)" }}
+        />
+        {/* Scrollable pill row */}
+        <div
+          ref={scrollRef}
+          className="overflow-x-auto pb-1"
+          style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(148,163,184,0.4) transparent" }}
+        >
+          <div className="flex items-center gap-1 w-max px-0.5">
+            {settingsNav.flatMap((s) => s.items).map((item) => {
+              const isActive = selected === item.key;
+              return (
+                <button
+                  key={item.key}
+                  onClick={() => onNav(item.key)}
+                  className={`flex items-center gap-1.5 px-3 h-8 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${
+                    isActive
+                      ? "text-white"
+                      : "text-stone-500 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-white/8"
+                  }`}
+                  style={isActive ? { background: "#0080FF" } : undefined}
+                >
+                  {item.label}
+                </button>
+              );
+            })}
           </div>
-        ))}
+        </div>
+        {/* Right fade */}
+        <div
+          className="pointer-events-none absolute right-0 top-0 bottom-0 z-10 w-8 transition-opacity duration-200"
+          style={{ opacity: rightFade ? 1 : 0, background: "linear-gradient(to left, var(--main-bg) 0%, transparent 100%)" }}
+        />
       </div>
     </div>
   );
@@ -991,28 +1040,33 @@ export const contentMap: Record<string, React.ReactNode> = {
     <div>
       <SectionHeader title="Profile" sub="Manage your profile information, display name, and personal handle." />
       <div className="flex items-center gap-4 mb-8 pb-6 border-b border-stone-100 dark:border-stone-700/40">
-        <div className="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center text-white text-lg font-semibold">R</div>
+        <div className="w-14 h-14 rounded-full overflow-hidden shrink-0">
+          <img src="/dp.png" alt="Profile" className="w-full h-full object-cover" />
+        </div>
         <div>
           <p className="text-sm font-medium text-stone-700 dark:text-stone-200">Profile photo</p>
           <p className="text-xs text-stone-400 mt-0.5">Upload a photo to personalize your account</p>
           <button className="mt-2 text-xs text-blue-500 hover:text-blue-600 font-medium">Upload photo</button>
         </div>
       </div>
-      <SettingsRow label="Full name" description="Your display name across the workspace">
-        <input className="px-3 h-9 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-sm text-stone-700 dark:text-stone-200 w-48 outline-none focus:border-blue-400" defaultValue="Rana V" />
-      </SettingsRow>
-      <SettingsRow label="Email address" description="Used for login and notifications">
-        <input className="px-3 h-9 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-sm text-stone-400 w-48 outline-none" defaultValue="rana@intempt.com" disabled />
-      </SettingsRow>
-      <SettingsRow label="Display name" description="Short name shown in conversations">
-        <input className="px-3 h-9 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-sm text-stone-700 dark:text-stone-200 w-48 outline-none focus:border-blue-400" defaultValue="rana" />
-      </SettingsRow>
-      <SettingsRow label="Username" description="Used for your booking link, creator handle, and shared URLs.">
-        <div className="flex h-9 items-center overflow-hidden rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 w-64 focus-within:border-blue-400">
-          <span className="shrink-0 border-r border-stone-200 dark:border-stone-600 bg-stone-50 dark:bg-stone-700/50 px-3 text-sm text-stone-400 dark:text-stone-500 h-full flex items-center">intempt.com/</span>
-          <input className="flex-1 px-3 text-sm font-semibold text-stone-700 dark:text-stone-200 outline-none bg-transparent h-full" defaultValue="person-17429" />
-        </div>
-      </SettingsRow>
+      <div>
+        <SettingsRow label="Full name" description="Your display name across the workspace">
+          <input className="px-3 h-9 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-sm text-stone-700 dark:text-stone-200 w-48 outline-none focus:border-blue-400" defaultValue="Rana V" />
+        </SettingsRow>
+        <SettingsRow label="Email address" description="Used for login and notifications">
+          <input className="px-3 h-9 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-sm text-stone-400 w-48 outline-none" defaultValue="rana@intempt.com" disabled />
+        </SettingsRow>
+        <SettingsRow label="Display name" description="Short name shown in conversations">
+          <input className="px-3 h-9 rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 text-sm text-stone-700 dark:text-stone-200 w-48 outline-none focus:border-blue-400" defaultValue="rana" />
+        </SettingsRow>
+        <SettingsRow label="Username" description="Used for your booking link, creator handle, and shared URLs.">
+          <div className="flex h-9 items-center overflow-hidden rounded-md border border-stone-200 dark:border-stone-600 bg-white dark:bg-stone-800 w-64 focus-within:border-blue-400">
+            <span className="shrink-0 border-r border-stone-200 dark:border-stone-600 bg-stone-50 dark:bg-stone-700/50 px-3 text-sm text-stone-400 dark:text-stone-500 h-full flex items-center">intempt.com/</span>
+            <input className="flex-1 px-3 text-sm font-semibold text-stone-700 dark:text-stone-200 outline-none bg-transparent h-full" defaultValue="person-17429" />
+          </div>
+        </SettingsRow>
+      </div>
+      <DeleteRow target="account" label="Delete account" desc="Permanently delete your personal account and remove all your data from the platform." />
     </div>
   ),
   availability: (
@@ -1040,9 +1094,15 @@ export const contentMap: Record<string, React.ReactNode> = {
         ))}
       </div>
       <button className="inline-flex h-9 items-center rounded-md px-4 bg-blue-500 text-white text-xs font-medium hover:bg-blue-600 transition-colors">Add domain</button>
+      <DeleteRow target="organization" label="Delete organization" desc="Permanently delete the organization, all projects within it, and every member's access." />
     </div>
   ),
-  basic: <BasicInfoSection />,
+  basic: (
+    <div>
+      <BasicInfoSection />
+      <DeleteRow target="project" label="Delete project" desc="Permanently delete this project along with all its assets, journeys, and member access." />
+    </div>
+  ),
   people: (
     <div>
       <SectionHeader title="People" sub="Manage team members, invite new ones, and control their roles and access." />
@@ -1084,7 +1144,6 @@ export const contentMap: Record<string, React.ReactNode> = {
       </SettingsRow>
     </div>
   ),
-  danger: <DangerZoneSection />,
 };
 
 export default function SettingsLayout({ onBack, children }: { onBack: () => void; children?: React.ReactNode }) {
@@ -1096,16 +1155,11 @@ export default function SettingsLayout({ onBack, children }: { onBack: () => voi
   return (
     <DangerContext.Provider value={setConfirming}>
     <div className="relative flex h-full w-full animate-fade-up">
-      {/* Settings sidebar */}
+      {/* Desktop sidebar */}
       <div
-        className="flex flex-col h-full shrink-0 select-none"
-        style={{
-          width: 196,
-          minWidth: 196,
-          background: "var(--main-bg)",
-        }}
+        className="hidden md:flex flex-col h-full shrink-0 select-none"
+        style={{ width: 196, background: "var(--main-bg)" }}
       >
-        {/* Back to app */}
         <button
           onClick={onBack}
           className="flex items-center gap-1.5 px-4 py-4 text-sm text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-100 transition-colors"
@@ -1114,7 +1168,6 @@ export default function SettingsLayout({ onBack, children }: { onBack: () => voi
           <span>Back to app</span>
         </button>
 
-        {/* Settings nav */}
         <nav className="flex-1 overflow-y-auto px-2 pb-4 space-y-4">
           {settingsNav.map((section) => (
             <div key={section.heading}>
@@ -1124,28 +1177,17 @@ export default function SettingsLayout({ onBack, children }: { onBack: () => voi
               <div className="space-y-px">
                 {section.items.map((item) => {
                   const isActive = selected === item.key;
-                  const isDanger = item.key === "danger";
                   return (
                     <button
                       key={item.key}
                       onClick={() => router.push(`/settings/${item.key}`)}
-                      style={isDanger && isActive ? { background: "#cc0000" } : isDanger ? { color: "#cc0000" } : undefined}
                       className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-md text-left text-sm font-[450] transition-colors duration-100 group
-                        ${isDanger && isActive
-                          ? "text-white shadow-[0_1px_3px_rgba(0,0,0,0.12)]"
-                          : isDanger && !isActive
-                          ? "hover:opacity-80"
-                          : isActive
+                        ${isActive
                           ? "bg-white dark:bg-white/8 text-stone-800 dark:text-stone-100 shadow-[0_1px_3px_rgba(0,0,0,0.08)]"
                           : "text-stone-600 dark:text-stone-400 hover:bg-stone-200/60 dark:hover:bg-white/6 hover:text-stone-800 dark:hover:text-stone-100"
                         }`}
                     >
-                      <span className={
-                        isDanger && isActive ? "text-white"
-                        : isActive ? "text-blue-600"
-                        : isDanger ? ""
-                        : "text-stone-400 dark:text-stone-600 group-hover:text-stone-600 dark:group-hover:text-stone-400"
-                      }>
+                      <span className={isActive ? "text-blue-600" : "text-stone-400 dark:text-stone-600 group-hover:text-stone-600 dark:group-hover:text-stone-400"}>
                         {item.icon}
                       </span>
                       {item.label}
@@ -1156,12 +1198,24 @@ export default function SettingsLayout({ onBack, children }: { onBack: () => voi
             </div>
           ))}
         </nav>
+
+        {/* Intempt branding footer — matches Sidebar */}
+        <div className="flex items-center gap-2 px-4 py-3.5 shrink-0">
+          <Image src="/logo.png" alt="Intempt" width={18} height={18} className="rounded-md opacity-60" style={{ objectFit: "contain" }} />
+          <span className="flex-1 text-xs font-medium text-stone-400 dark:text-stone-600 tracking-tight">Intempt</span>
+          <button className="w-5 h-5 rounded-full border border-stone-300 dark:border-stone-600 flex items-center justify-center hover:border-stone-400 dark:hover:border-stone-500 hover:bg-stone-100 dark:hover:bg-white/6 transition-colors shrink-0">
+            <span className="text-[10px] font-semibold text-stone-400 dark:text-stone-500 leading-none">?</span>
+          </button>
+        </div>
       </div>
 
-      {/* Settings content */}
-      <div className="flex-1 flex flex-col min-w-0 p-3 pl-0">
+      {/* Main content column */}
+      <div className="flex-1 flex flex-col min-w-0 md:p-3 md:pl-0">
+        {/* Mobile top bar */}
+        <MobileNav selected={selected} onBack={onBack} onNav={(key) => router.push(`/settings/${key}`)} />
+
         <div
-          className="flex-1 flex flex-col rounded-xl overflow-y-auto"
+          className="flex-1 flex flex-col rounded-xl overflow-y-auto mx-3 mb-3 md:mx-0 md:mb-0"
           style={{
             background: "var(--content-bg)",
             border: "1px solid var(--border)",
@@ -1172,7 +1226,6 @@ export default function SettingsLayout({ onBack, children }: { onBack: () => voi
         </div>
       </div>
 
-      {/* Danger zone modal — lives at shell root so overlay covers sidebar + content */}
       {confirming && <DeleteConfirmModal target={confirming} onClose={() => setConfirming(null)} />}
     </div>
     </DangerContext.Provider>

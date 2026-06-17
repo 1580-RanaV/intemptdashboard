@@ -8,7 +8,7 @@ export default function SettingsSectionPage({ params }: { params: Promise<{ sect
   const content = contentMap[section] ?? contentMap["about"];
 
   return (
-    <div key={section} className="px-12 py-8 max-w-2xl w-full mx-auto animate-fade-up">
+    <div key={section} className="px-4 py-6 sm:px-8 sm:py-8 md:px-12 md:py-8 max-w-2xl w-full mx-auto animate-fade-up">
       {content}
     </div>
   );

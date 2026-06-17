@@ -227,8 +227,8 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
           <div key={msg.id} className="flex gap-2.5 items-start animate-fade-up">
             {/* Avatar */}
             {msg.role === "user" ? (
-              <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-white text-[10px] font-semibold shrink-0 mt-0.5">
-                R
+              <div className="w-6 h-6 rounded-full overflow-hidden shrink-0 mt-0.5">
+                <Image src="/dp.png" alt="You" width={24} height={24} className="w-full h-full object-cover" />
               </div>
             ) : (
               <Image src="/mascot.png" alt="Blu" width={24} height={24} className="rounded-full shrink-0 mt-0.5 object-contain" />

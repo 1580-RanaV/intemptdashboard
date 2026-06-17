@@ -56,6 +56,7 @@ export default function AskBluButton({ isOpen }: { isOpen: boolean }) {
           alt=""
           width={55}
           height={50}
+          style={{ height: "auto" }}
           className="object-contain"
         />
       </span>

@@ -112,12 +112,55 @@ body {
   100% { opacity: 1;   filter: blur(0px); }
 }
 
+/* ─── Upgrade button stars ───────────────────────────────────── */
+@keyframes upgrade-star-fall {
+  0%   { opacity: 1; transform: translate(0,0)      scale(1)    rotate(0deg);  }
+  100% { opacity: 0; transform: translate(0,22px)   scale(0.25) rotate(30deg); }
+}
+@keyframes upgrade-star-fall-left {
+  0%   { opacity: 1; transform: translate(0,0)      scale(1)    rotate(0deg);   }
+  100% { opacity: 0; transform: translate(-7px,18px) scale(0.25) rotate(-20deg); }
+}
+@keyframes upgrade-star-fall-right {
+  0%   { opacity: 1; transform: translate(0,0)     scale(1)    rotate(0deg);  }
+  100% { opacity: 0; transform: translate(7px,18px) scale(0.25) rotate(20deg); }
+}
+
+.upgrade-star {
+  position: absolute;
+  top: 5px;
+  pointer-events: none;
+  z-index: 20;
+  clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+}
+.upgrade-star-a { animation-name: upgrade-star-fall-left; }
+.upgrade-star-b { animation-name: upgrade-star-fall; }
+.upgrade-star-c { animation-name: upgrade-star-fall-right; }
+
+@keyframes roll-up {
+  0%   { transform: scaleY(1);   opacity: 1; max-height: 600px; }
+  60%  { opacity: 0.4; }
+  100% { transform: scaleY(0);   opacity: 0; max-height: 0;     margin-top: 0; }
+}
+.animate-roll-up {
+  animation: roll-up 0.38s cubic-bezier(0.4, 0, 0.8, 0.6) forwards;
+  transform-origin: top center;
+  overflow: hidden;
+}
+
 /* ─── Ask Blu button ─────────────────────────────────────────── */
 @keyframes blu-shimmer {
   from { left: -70%; }
   to   { left: 130%; }
 }
 
+
+/* ─── Utility ────────────────────────────────────────────────── */
+.scrollbar-none { scrollbar-width: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
 
 /* ─── Scrollbars ─────────────────────────────────────────────── */
 .chat-scroll {

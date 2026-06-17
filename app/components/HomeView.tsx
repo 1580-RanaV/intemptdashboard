@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+
 import Greeting from "./Greeting";
 import HeroVideo from "./HeroVideo";
 import RecentDesigns from "./RecentDesigns";
@@ -631,7 +633,15 @@ const HOME_TABS = [
 ];
 
 export default function HomeView() {
-  const [tab, setTab] = useState("design");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const tab = HOME_TABS.some((t) => t.key === searchParams.get("tab"))
+    ? searchParams.get("tab")!
+    : "design";
+
+  function setTab(key: string) {
+    router.replace(`/home?tab=${key}`);
+  }
 
   return (
     <div className="flex flex-1 flex-col min-h-0 overflow-y-auto">
