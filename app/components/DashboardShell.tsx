@@ -13,9 +13,14 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    const handler = () => setBluOpen(true);
-    window.addEventListener("open-blu-chat", handler);
-    return () => window.removeEventListener("open-blu-chat", handler);
+    const open = () => setBluOpen(true);
+    const toggle = () => setBluOpen((o) => !o);
+    window.addEventListener("open-blu-chat", open);
+    window.addEventListener("toggle-blu-chat", toggle);
+    return () => {
+      window.removeEventListener("open-blu-chat", open);
+      window.removeEventListener("toggle-blu-chat", toggle);
+    };
   }, []);
 
   return (
@@ -23,7 +28,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
       {/* Desktop sidebar spacer — keeps content from sliding under the fixed sidebar */}
       <div className="hidden md:block shrink-0" style={{ width: 196 }} />
 
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} bluOpen={bluOpen} />
 
       <div className="flex-1 flex flex-col min-w-0 animate-fade-up">
         {/* Top bar */}
@@ -44,15 +49,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             </svg>
           </button>
 
-          <button
-            onClick={() => setBluOpen((o) => !o)}
-            className="hidden md:block w-7 h-7 rounded-full shrink-0 hover:opacity-85 transition-opacity cursor-pointer"
-            style={{
-              background: "linear-gradient(135deg, #0080FF 0%, #00AAFF 100%)",
-              boxShadow: bluOpen ? "0 0 0 2px #0080FF40" : "0 0 8px rgba(0,128,255,0.3)",
-            }}
-          />
-          <NotificationsMenu />
+<NotificationsMenu />
           <ThemeToggle />
           <ProfileMenu />
         </div>

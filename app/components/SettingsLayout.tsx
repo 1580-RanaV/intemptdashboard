@@ -26,7 +26,7 @@ const settingsNav: SettingsSection[] = [
   {
     heading: "Profile",
     items: [
-      { label: "About me", icon: <User size={14} />, key: "about" },
+      { label: "Profile", icon: <User size={14} />, key: "about" },
       { label: "My availability", icon: <Clock size={14} />, key: "availability" },
       { label: "Connections", icon: <Link2 size={14} />, key: "connections" },
       { label: "Inbox", icon: <Inbox size={14} />, key: "inbox" },
@@ -989,7 +989,7 @@ function DangerZoneSection() {
 export const contentMap: Record<string, React.ReactNode> = {
   about: (
     <div>
-      <SectionHeader title="About me" sub="Manage your profile information, display name, and personal handle." />
+      <SectionHeader title="Profile" sub="Manage your profile information, display name, and personal handle." />
       <div className="flex items-center gap-4 mb-8 pb-6 border-b border-stone-100 dark:border-stone-700/40">
         <div className="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center text-white text-lg font-semibold">R</div>
         <div>

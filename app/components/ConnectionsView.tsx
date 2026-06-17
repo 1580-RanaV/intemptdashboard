@@ -8,7 +8,7 @@ import AddIntegrationDrawer from "./AddIntegrationDrawer";
 import CreateApiKeyDrawer from "./CreateApiKeyDrawer";
 
 const tabs = [
-  { key: "connections", label: "Connections", icon: <Workflow size={15} /> },
+  { key: "connections", label: "Integrations", icon: <Workflow size={15} /> },
   { key: "api-keys",    label: "API Keys",    icon: <KeyRound size={15} /> },
   { key: "domains",     label: "Domains",     icon: <Globe size={15} /> },
 ];

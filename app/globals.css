@@ -112,6 +112,13 @@ body {
   100% { opacity: 1;   filter: blur(0px); }
 }
 
+/* ─── Ask Blu button ─────────────────────────────────────────── */
+@keyframes blu-shimmer {
+  from { left: -70%; }
+  to   { left: 130%; }
+}
+
+
 /* ─── Scrollbars ─────────────────────────────────────────────── */
 .chat-scroll {
   scrollbar-width: thin;

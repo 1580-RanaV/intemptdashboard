@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { User, LogOut } from "lucide-react";
+import { Settings, LogOut } from "lucide-react";
 
 export default function ProfileMenu() {
   const [open, setOpen] = useState(false);
@@ -57,8 +57,8 @@ export default function ProfileMenu() {
               onClick={() => setOpen(false)}
               className="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-stone-100 dark:hover:bg-white/6 transition-colors text-left"
             >
-              <User size={15} className="text-stone-400 dark:text-stone-500 shrink-0" />
-              <span className="text-sm text-stone-700 dark:text-stone-300">Profile Settings</span>
+              <Settings size={15} className="text-stone-400 dark:text-stone-500 shrink-0" />
+              <span className="text-sm text-stone-700 dark:text-stone-300">Settings</span>
             </Link>
             <button className="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-red-50 dark:hover:bg-red-500/8 transition-colors text-left">
               <LogOut size={15} className="text-red-500 shrink-0" />

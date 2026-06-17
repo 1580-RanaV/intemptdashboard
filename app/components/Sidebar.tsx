@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import AskBluButton from "./AskBluButton";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -17,6 +18,7 @@ import {
   PersonStanding,
   PenTool,
   Package,
+  PackageOpen,
   Rss,
   Route,
   Shuffle,
@@ -25,6 +27,7 @@ import {
   CalendarDays,
   CalendarClock,
   BarChart2,
+  LayoutDashboard,
   CreditCard,
   ChevronRight,
   ChevronDown,
@@ -49,6 +52,7 @@ const nav: NavSection[] = [
     items: [
       { label: "Home", icon: <Home size={15} /> },
       { label: "Brand", icon: <Palette size={15} /> },
+      { label: "Asset Library", icon: <Library size={15} /> },
       {
         label: "Users",
         icon: <Users size={15} />,
@@ -63,7 +67,6 @@ const nav: NavSection[] = [
   {
     heading: "Design",
     items: [
-      { label: "Asset Library", icon: <Library size={15} /> },
       { label: "Avatars", icon: <UserCircle size={15} /> },
       { label: "Scenes", icon: <Clapperboard size={15} /> },
       { label: "Poses", icon: <PersonStanding size={15} /> },
@@ -100,7 +103,8 @@ const nav: NavSection[] = [
   {
     heading: "Analytics",
     items: [
-      { label: "Boards", icon: <BarChart2 size={15} /> },
+      { label: "Out-of-the-box", icon: <PackageOpen size={15} /> },
+      { label: "Boards", icon: <LayoutDashboard size={15} /> },
       { label: "Subscription", icon: <CreditCard size={15} /> },
     ],
   },
@@ -169,7 +173,7 @@ function WorkspaceSwitcher() {
   }, []);
 
   return (
-    <div ref={ref} className="relative px-3 pt-3 pb-2">
+    <div ref={ref} className="relative px-3 pt-3 pb-4">
       <button
         onClick={() => setOpen((o) => !o)}
         className="w-full flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-stone-200/60 dark:hover:bg-white/6 transition-colors"
@@ -214,12 +218,8 @@ function WorkspaceSwitcher() {
                 <span className="flex-1 text-left text-xs text-stone-700 dark:text-stone-300 truncate">
                   {o.name}
                 </span>
-                {selectedOrg.name === o.name ? (
+                {selectedOrg.name === o.name && (
                   <Check size={12} className="text-blue-500 shrink-0" />
-                ) : (
-                  <span onClick={(e) => { e.stopPropagation(); router.push("/settings"); setOpen(false); }}>
-                    <Settings size={12} className="text-stone-300 dark:text-stone-600 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 hover:text-stone-500" />
-                  </span>
                 )}
               </button>
             ))}
@@ -243,12 +243,8 @@ function WorkspaceSwitcher() {
                   <span className="flex-1 text-left text-xs text-stone-700 dark:text-stone-300 truncate">
                     {p.name}
                   </span>
-                  {selectedProject.name === p.name ? (
+                  {selectedProject.name === p.name && (
                     <Check size={12} className="text-blue-500 shrink-0" />
-                  ) : (
-                    <span onClick={(e) => { e.stopPropagation(); router.push("/settings"); setOpen(false); }}>
-                      <Settings size={12} className="text-stone-300 dark:text-stone-600 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 hover:text-stone-500" />
-                    </span>
                   )}
                 </button>
               ))}
@@ -280,6 +276,7 @@ const NAV_VIEWS: Record<string, string> = {
   Deals: "deals",
   Meetings: "meetings",
   Scheduler: "scheduler",
+  "Out-of-the-box": "out-of-the-box",
   Boards: "boards",
   Subscription: "subscription",
 };
@@ -387,9 +384,28 @@ function CollapsibleSection({
   );
 }
 
-export default function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose?: () => void }) {
+export default function Sidebar({ isOpen, onClose, bluOpen }: { isOpen?: boolean; onClose?: () => void; bluOpen?: boolean }) {
   const pathname = usePathname();
   const currentView = pathname === "/home" ? "Home" : Object.entries(NAV_VIEWS).find(([, view]) => pathname === `/${view}`)?.[0] ?? "";
+
+  const navRef = useRef<HTMLElement>(null);
+  const [topFade, setTopFade] = useState(false);
+  const [bottomFade, setBottomFade] = useState(true);
+
+  function checkFades() {
+    const el = navRef.current;
+    if (!el) return;
+    setTopFade(el.scrollTop > 8);
+    setBottomFade(Math.ceil(el.scrollTop + el.clientHeight) < el.scrollHeight - 8);
+  }
+
+  useEffect(() => {
+    const el = navRef.current;
+    if (!el) return;
+    checkFades();
+    el.addEventListener("scroll", checkFades, { passive: true });
+    return () => el.removeEventListener("scroll", checkFades);
+  }, []);
 
   // Close mobile drawer on route change
   useEffect(() => { onClose?.(); }, [pathname]);
@@ -417,16 +433,31 @@ export default function Sidebar({ isOpen, onClose }: { isOpen?: boolean; onClose
         {/* Top: workspace switcher */}
         <WorkspaceSwitcher />
 
+        {/* Ask Blu pill */}
+        <div className="px-2 pb-1">
+          <AskBluButton isOpen={!!bluOpen} />
+        </div>
+
         {/* Nav */}
-        <nav className="flex-1 overflow-y-auto px-2 py-2 space-y-5">
-          {nav.map((section, si) => (
-            <CollapsibleSection
-              key={si}
-              section={section}
-              activeItem={currentView}
-            />
-          ))}
-        </nav>
+        <div className="relative flex-1 min-h-0">
+          <div
+            className="pointer-events-none absolute top-0 inset-x-0 z-10 h-12 transition-opacity duration-300"
+            style={{ opacity: topFade ? 1 : 0, background: "linear-gradient(to bottom, var(--main-bg) 0%, transparent 100%)" }}
+          />
+          <nav ref={navRef} className="h-full overflow-y-auto px-2 py-2 space-y-5">
+            {nav.map((section, si) => (
+              <CollapsibleSection
+                key={si}
+                section={section}
+                activeItem={currentView}
+              />
+            ))}
+          </nav>
+          <div
+            className="pointer-events-none absolute bottom-0 inset-x-0 z-10 h-12 transition-opacity duration-300"
+            style={{ opacity: bottomFade ? 1 : 0, background: "linear-gradient(to top, var(--main-bg) 0%, transparent 100%)" }}
+          />
+        </div>
 
         {/* Bottom: Intempt branding */}
         <div className="flex items-center gap-2 px-4 py-3.5">

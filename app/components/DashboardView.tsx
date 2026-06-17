@@ -12,6 +12,7 @@ import BoardsView from "./BoardsView";
 import BrandView from "./BrandView";
 import EventsView from "./EventsView";
 import HomeView from "./HomeView";
+import OutOfTheBoxView from "./OutOfTheBoxView";
 import CatalogView from "./CatalogView";
 import ConnectionsView from "./ConnectionsView";
 import { Suspense } from "react";
@@ -61,6 +62,7 @@ export default function DashboardView({ view = "home" }: { view?: string }) {
   if (view === "users") return <UsersView />;
   if (view === "meetings") return <MeetingsView />;
   if (view === "scheduler") return <SchedulerView />;
+  if (view === "out-of-the-box") return <OutOfTheBoxView />;
   if (view === "boards") return <BoardsView />;
   if (view === "events") return <EventsView />;
   if (view === "subscribers") return <SubscribersView />;

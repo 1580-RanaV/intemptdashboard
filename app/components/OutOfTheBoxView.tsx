@@ -1,15 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import Greeting from "./Greeting";
-import HeroVideo from "./HeroVideo";
-import RecentDesigns from "./RecentDesigns";
 import {
   ComposedChart, Bar, Line, AreaChart, Area, LabelList,
   XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid,
 } from "recharts";
 import {
-  Globe, LayoutGrid, Activity, ChevronDown, Info,
+  Globe, HandCoins, Activity, ChevronDown, Info,
   TrendingDown, UserPlus, ShoppingCart, Users, HistoryIcon,
 } from "lucide-react";
 import DateRangePicker from "./DateRangePicker";
@@ -125,14 +122,11 @@ const RETENTION_DATA = [
   { date: "Jun 11", value: 20 }, { date: "Jun 13", value: 0 },
 ];
 
-// ── constants ─────────────────────────────────────────────────────────────────
-
 const TABS = [
   { key: "traffic", label: "Traffic", icon: <Globe size={15} /> },
-  { key: "revenue", label: "Revenue", icon: <LayoutGrid size={15} /> },
+  { key: "revenue", label: "Revenue", icon: <HandCoins size={15} /> },
   { key: "engagement", label: "Engagement", icon: <Activity size={15} /> },
 ];
-
 
 const USER_METRICS = [
   { label: "Total Users", value: "3.79K", change: "-45.29% vs Apr 14, 2026 – May 14, 2026", icon: <Users size={14} /> },
@@ -140,8 +134,6 @@ const USER_METRICS = [
   { label: "New Users", value: "1.71K", change: "-71.53% vs Apr 14, 2026 – May 14, 2026", icon: <UserPlus size={14} /> },
   { label: "Returning Users", value: "158", change: "-28.18% vs Apr 14, 2026 – May 14, 2026", icon: <HistoryIcon size={14} /> },
 ];
-
-// ── shared sub-components ─────────────────────────────────────────────────────
 
 function InfoBadge() {
   return <Info size={12} className="text-stone-400 shrink-0" />;
@@ -163,8 +155,6 @@ function ChartTooltip({ active, payload, label }: any) {
     </div>
   );
 }
-
-// ── Traffic tab ───────────────────────────────────────────────────────────────
 
 function HBar({ name, pct, users, prefix }: { name: string; pct: number; users: number | string; prefix?: React.ReactNode }) {
   return (
@@ -216,7 +206,6 @@ function TrafficView() {
 
   return (
     <div className="space-y-3">
-      {/* User metric cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {USER_METRICS.map(({ label, value, change, icon }) => (
           <div key={label} className="rounded-xl p-4" style={{ border: "1px solid var(--border)", background: "var(--content-bg)" }}>
@@ -234,7 +223,6 @@ function TrafficView() {
         ))}
       </div>
 
-      {/* Purchase summary cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {[
           { label: "Yesterday", icon: <ShoppingCart size={13} />, comp: "vs day before yesterday", special: false },
@@ -267,9 +255,7 @@ function TrafficView() {
         ))}
       </div>
 
-      {/* Bottom bar charts */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {/* Traffic by Channel */}
         <div className="rounded-xl p-5" style={{ border: "1px solid var(--border)", background: "var(--content-bg)" }}>
           <div className="flex items-center justify-between mb-3">
             <div className="flex gap-0.5">
@@ -288,22 +274,11 @@ function TrafficView() {
               ))}
             </div>
             <div className="flex items-center gap-3">
-              <button
-                className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors"
-                style={{ border: "1px solid var(--border)" }}
-              >
+              <button className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors" style={{ border: "1px solid var(--border)" }}>
                 Top 10 <ChevronDown size={10} />
               </button>
               {(["Users", "Revenue"] as const).map((s) => (
-                <button
-                  key={s}
-                  onClick={() => setChannelSub(s.toLowerCase() as "users" | "revenue")}
-                  className={`text-xs font-medium transition-colors ${
-                    channelSub === s.toLowerCase() ? "text-stone-900 dark:text-stone-100" : "text-stone-400 hover:text-stone-600"
-                  }`}
-                >
-                  {s}
-                </button>
+                <button key={s} onClick={() => setChannelSub(s.toLowerCase() as "users" | "revenue")} className={`text-xs font-medium transition-colors ${channelSub === s.toLowerCase() ? "text-stone-900 dark:text-stone-100" : "text-stone-400 hover:text-stone-600"}`}>{s}</button>
               ))}
             </div>
           </div>
@@ -314,41 +289,19 @@ function TrafficView() {
           </div>
         </div>
 
-        {/* Page Performance */}
         <div className="rounded-xl p-5" style={{ border: "1px solid var(--border)", background: "var(--content-bg)" }}>
           <div className="flex items-center justify-between mb-3">
             <div className="flex gap-0.5">
               {["Page", "Entry page"].map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setPageTab(t.toLowerCase())}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
-                    pageTab === t.toLowerCase()
-                      ? "bg-stone-100 dark:bg-white/10 text-stone-900 dark:text-stone-100"
-                      : "text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"
-                  }`}
-                >
-                  {t}
-                </button>
+                <button key={t} onClick={() => setPageTab(t.toLowerCase())} className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${pageTab === t.toLowerCase() ? "bg-stone-100 dark:bg-white/10 text-stone-900 dark:text-stone-100" : "text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"}`}>{t}</button>
               ))}
             </div>
             <div className="flex items-center gap-3">
-              <button
-                className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors"
-                style={{ border: "1px solid var(--border)" }}
-              >
+              <button className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors" style={{ border: "1px solid var(--border)" }}>
                 Top 10 <ChevronDown size={10} />
               </button>
               {(["Users", "Revenue"] as const).map((s) => (
-                <button
-                  key={s}
-                  onClick={() => setPageSub(s.toLowerCase() as "users" | "revenue")}
-                  className={`text-xs font-medium transition-colors ${
-                    pageSub === s.toLowerCase() ? "text-stone-900 dark:text-stone-100" : "text-stone-400 hover:text-stone-600"
-                  }`}
-                >
-                  {s}
-                </button>
+                <button key={s} onClick={() => setPageSub(s.toLowerCase() as "users" | "revenue")} className={`text-xs font-medium transition-colors ${pageSub === s.toLowerCase() ? "text-stone-900 dark:text-stone-100" : "text-stone-400 hover:text-stone-600"}`}>{s}</button>
               ))}
             </div>
           </div>
@@ -360,43 +313,20 @@ function TrafficView() {
         </div>
       </div>
 
-      {/* Country + Browser charts */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {/* Users by Country */}
         <div className="rounded-xl p-5" style={{ border: "1px solid var(--border)", background: "var(--content-bg)" }}>
           <div className="flex items-center justify-between mb-3">
             <div className="flex gap-0.5">
               {["Country", "Region", "City"].map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setCountryTab(t.toLowerCase())}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
-                    countryTab === t.toLowerCase()
-                      ? "bg-stone-100 dark:bg-white/10 text-stone-900 dark:text-stone-100"
-                      : "text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"
-                  }`}
-                >
-                  {t}
-                </button>
+                <button key={t} onClick={() => setCountryTab(t.toLowerCase())} className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${countryTab === t.toLowerCase() ? "bg-stone-100 dark:bg-white/10 text-stone-900 dark:text-stone-100" : "text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"}`}>{t}</button>
               ))}
             </div>
             <div className="flex items-center gap-3">
-              <button
-                className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors"
-                style={{ border: "1px solid var(--border)" }}
-              >
+              <button className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors" style={{ border: "1px solid var(--border)" }}>
                 Top 10 <ChevronDown size={10} />
               </button>
               {(["Users", "Revenue"] as const).map((s) => (
-                <button
-                  key={s}
-                  onClick={() => setCountrySub(s.toLowerCase() as "users" | "revenue")}
-                  className={`text-xs font-medium transition-colors ${
-                    countrySub === s.toLowerCase() ? "text-stone-900 dark:text-stone-100" : "text-stone-400 hover:text-stone-600"
-                  }`}
-                >
-                  {s}
-                </button>
+                <button key={s} onClick={() => setCountrySub(s.toLowerCase() as "users" | "revenue")} className={`text-xs font-medium transition-colors ${countrySub === s.toLowerCase() ? "text-stone-900 dark:text-stone-100" : "text-stone-400 hover:text-stone-600"}`}>{s}</button>
               ))}
             </div>
           </div>
@@ -404,52 +334,26 @@ function TrafficView() {
           <p className="text-xs text-stone-400 mt-0.5 mb-3">Geographic distribution of your website users</p>
           <div className="space-y-0.5">
             {COUNTRIES.map((c) => (
-              <HBar
-                key={c.name}
-                name={c.name}
-                pct={c.pct}
-                users={c.users}
+              <HBar key={c.name} name={c.name} pct={c.pct} users={c.users}
                 prefix={c.flag ? <span className="text-sm leading-none shrink-0">{c.flag}</span> : <span className="w-3.75 shrink-0" />}
               />
             ))}
           </div>
         </div>
 
-        {/* Web Browsers */}
         <div className="rounded-xl p-5" style={{ border: "1px solid var(--border)", background: "var(--content-bg)" }}>
           <div className="flex items-center justify-between mb-3">
             <div className="flex gap-0.5">
               {["Browser", "OS", "Device"].map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setBrowserTab(t.toLowerCase())}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
-                    browserTab === t.toLowerCase()
-                      ? "bg-stone-100 dark:bg-white/10 text-stone-900 dark:text-stone-100"
-                      : "text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"
-                  }`}
-                >
-                  {t}
-                </button>
+                <button key={t} onClick={() => setBrowserTab(t.toLowerCase())} className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${browserTab === t.toLowerCase() ? "bg-stone-100 dark:bg-white/10 text-stone-900 dark:text-stone-100" : "text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"}`}>{t}</button>
               ))}
             </div>
             <div className="flex items-center gap-3">
-              <button
-                className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors"
-                style={{ border: "1px solid var(--border)" }}
-              >
+              <button className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-white/6 transition-colors" style={{ border: "1px solid var(--border)" }}>
                 Top 10 <ChevronDown size={10} />
               </button>
               {(["Users", "Revenue"] as const).map((s) => (
-                <button
-                  key={s}
-                  onClick={() => setBrowserSub(s.toLowerCase() as "users" | "revenue")}
-                  className={`text-xs font-medium transition-colors ${
-                    browserSub === s.toLowerCase() ? "text-stone-900 dark:text-stone-100" : "text-stone-400 hover:text-stone-600"
-                  }`}
-                >
-                  {s}
-                </button>
+                <button key={s} onClick={() => setBrowserSub(s.toLowerCase() as "users" | "revenue")} className={`text-xs font-medium transition-colors ${browserSub === s.toLowerCase() ? "text-stone-900 dark:text-stone-100" : "text-stone-400 hover:text-stone-600"}`}>{s}</button>
               ))}
             </div>
           </div>
@@ -457,13 +361,7 @@ function TrafficView() {
           <p className="text-xs text-stone-400 mt-0.5 mb-3">Which browsers your visitors use to access your site</p>
           <div className="space-y-0.5">
             {BROWSERS.map((b) => (
-              <HBar
-                key={b.name}
-                name={b.name}
-                pct={b.pct}
-                users={b.users}
-                prefix={<BrowserIcon type={b.icon} />}
-              />
+              <HBar key={b.name} name={b.name} pct={b.pct} users={b.users} prefix={<BrowserIcon type={b.icon} />} />
             ))}
           </div>
         </div>
@@ -472,12 +370,9 @@ function TrafficView() {
   );
 }
 
-// ── Revenue tab ───────────────────────────────────────────────────────────────
-
 function RevenueView() {
   return (
     <div className="space-y-3">
-
       <div className="rounded-xl p-5" style={{ border: "1px solid var(--border)", background: "var(--content-bg)" }}>
         <div className="flex items-start gap-2 mb-1">
           <InfoBadge />
@@ -508,53 +403,20 @@ function RevenueView() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {[
-          {
-            title: "Purchase Events",
-            sub: "Number of completed purchase transactions",
-            big: "0",
-            bigSub: "total events",
-            change: "+0.0%",
-            data: DAILY_DATA.map((d) => ({ date: d.date, value: 0 })),
-            color: "#60A5FA",
-            yTicks: [0, 1, 2, 3, 4],
-          },
-          {
-            title: "Total Purchase Revenue",
-            sub: "Total revenue from completed purchases",
-            big: "$0",
-            bigSub: "total revenue",
-            change: "+0.0%",
-            data: DAILY_DATA.map((d) => ({ date: d.date, value: 0 })),
-            color: "#22C55E",
-            yTicks: [0, 1, 2, 3, 4],
-          },
+          { title: "Purchase Events", sub: "Number of completed purchase transactions", big: "0", bigSub: "total events", change: "+0.0%", data: DAILY_DATA.map((d) => ({ date: d.date, value: 0 })), color: "#60A5FA", yTicks: [0, 1, 2, 3, 4] },
+          { title: "Total Purchase Revenue", sub: "Total revenue from completed purchases", big: "$0", bigSub: "total revenue", change: "+0.0%", data: DAILY_DATA.map((d) => ({ date: d.date, value: 0 })), color: "#22C55E", yTicks: [0, 1, 2, 3, 4] },
         ].map(({ title, sub, big, bigSub, change, data, color, yTicks }) => (
           <div key={title} className="rounded-xl p-5" style={{ border: "1px solid var(--border)", background: "var(--content-bg)" }}>
-            <p className="text-sm font-semibold text-stone-800 dark:text-stone-200">
-              {title}{" "}
-              <span className="text-xs font-normal text-stone-400">(May 15, 2026 – Jun 13, 2026)</span>
-            </p>
+            <p className="text-sm font-semibold text-stone-800 dark:text-stone-200">{title}{" "}<span className="text-xs font-normal text-stone-400">(May 15, 2026 – Jun 13, 2026)</span></p>
             <p className="text-xs text-stone-400 mt-0.5">{sub}</p>
-            <p className="mt-3 mb-0.5">
-              <span className="text-xl font-bold text-stone-900 dark:text-stone-100">{big}</span>{" "}
-              <span className="text-xs text-stone-400">{bigSub}</span>
-            </p>
+            <p className="mt-3 mb-0.5"><span className="text-xl font-bold text-stone-900 dark:text-stone-100">{big}</span>{" "}<span className="text-xs text-stone-400">{bigSub}</span></p>
             <p className="text-xs text-emerald-500 mb-3">{change} vs Apr 14, 2026 – May 14, 2026</p>
             <ResponsiveContainer width="100%" height={150}>
               <AreaChart data={data} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
                 <XAxis dataKey="date" tick={{ fontSize: 9, fill: "#94a3b8" }} tickLine={false} axisLine={false} interval={4} />
                 <YAxis tick={{ fontSize: 9, fill: "#94a3b8" }} tickLine={false} axisLine={false} ticks={yTicks} />
                 <Tooltip content={<ChartTooltip />} />
-                <Area
-                  type="linear"
-                  dataKey="value"
-                  stroke={color}
-                  strokeWidth={1.5}
-                  fill="none"
-                  dot={{ fill: color, r: 2.5, strokeWidth: 0 }}
-                  activeDot={{ r: 4, fill: color, strokeWidth: 0 }}
-                  name="Value"
-                />
+                <Area type="linear" dataKey="value" stroke={color} strokeWidth={1.5} fill="none" dot={{ fill: color, r: 2.5, strokeWidth: 0 }} activeDot={{ r: 4, fill: color, strokeWidth: 0 }} name="Value" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -564,44 +426,23 @@ function RevenueView() {
   );
 }
 
-// ── Engagement tab ────────────────────────────────────────────────────────────
-
-function EngChart({
-  title, sub, big, bigSub, change, data, color,
-}: {
+function EngChart({ title, sub, big, bigSub, change, data, color }: {
   title: string; sub: string; big: string; bigSub: string;
   change: string; data: { date: string; value: number }[]; color: string;
 }) {
   const isPositive = change.startsWith("+");
   return (
     <div className="rounded-xl p-5" style={{ border: "1px solid var(--border)", background: "var(--content-bg)" }}>
-      <p className="text-sm font-semibold text-stone-800 dark:text-stone-200">
-        {title}{" "}
-        <span className="text-xs font-normal text-stone-400">(May 15, 2026 – Jun 13, 2026)</span>
-      </p>
+      <p className="text-sm font-semibold text-stone-800 dark:text-stone-200">{title}{" "}<span className="text-xs font-normal text-stone-400">(May 15, 2026 – Jun 13, 2026)</span></p>
       <p className="text-xs text-stone-400 mt-0.5">{sub}</p>
-      <p className="mt-3 mb-0.5">
-        <span className="text-xl font-bold text-stone-900 dark:text-stone-100">{big}</span>{" "}
-        <span className="text-xs text-stone-400">{bigSub}</span>
-      </p>
-      <p className={`text-xs mb-3 ${isPositive ? "text-emerald-500" : "text-rose-500"}`}>
-        {change} vs Apr 14, 2026 – May 14, 2026
-      </p>
+      <p className="mt-3 mb-0.5"><span className="text-xl font-bold text-stone-900 dark:text-stone-100">{big}</span>{" "}<span className="text-xs text-stone-400">{bigSub}</span></p>
+      <p className={`text-xs mb-3 ${isPositive ? "text-emerald-500" : "text-rose-500"}`}>{change} vs Apr 14, 2026 – May 14, 2026</p>
       <ResponsiveContainer width="100%" height={150}>
         <AreaChart data={data} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
           <XAxis dataKey="date" tick={{ fontSize: 9, fill: "#94a3b8" }} tickLine={false} axisLine={false} interval={2} />
           <YAxis tick={{ fontSize: 9, fill: "#94a3b8" }} tickLine={false} axisLine={false} />
           <Tooltip content={<ChartTooltip />} />
-          <Area
-            type="monotone"
-            dataKey="value"
-            stroke={color}
-            strokeWidth={2}
-            fill="none"
-            dot={false}
-            activeDot={{ r: 4, fill: color, strokeWidth: 0 }}
-            name="Value"
-          />
+          <Area type="monotone" dataKey="value" stroke={color} strokeWidth={2} fill="none" dot={false} activeDot={{ r: 4, fill: color, strokeWidth: 0 }} name="Value" />
         </AreaChart>
       </ResponsiveContainer>
     </div>
@@ -621,47 +462,36 @@ function EngagementView() {
   );
 }
 
-// ── main export ───────────────────────────────────────────────────────────────
-
-const HOME_TABS = [
-  { key: "design",    label: "Design" },
-  { key: "marketing", label: "Marketing" },
-  { key: "sales",     label: "Sales" },
-  { key: "analytics", label: "Analytics" },
-];
-
-export default function HomeView() {
-  const [tab, setTab] = useState("design");
+export default function OutOfTheBoxView() {
+  const [tab, setTab] = useState("traffic");
 
   return (
     <div className="flex flex-1 flex-col min-h-0 overflow-y-auto">
-      {/* Tab bar */}
       <div className="flex items-center gap-1 px-4 pt-3 shrink-0">
-        {HOME_TABS.map((t) => (
+        {TABS.map((t) => (
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
-            className={`px-3 h-9 rounded-lg text-sm font-medium transition-colors duration-100 ${
+            className={`flex items-center gap-2 px-3 h-9 rounded-lg text-sm font-medium transition-colors duration-100 ${
               tab === t.key
                 ? "bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400"
                 : "text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/6"
             }`}
           >
+            {t.icon}
             {t.label}
           </button>
         ))}
       </div>
 
-      <div key={tab} className="px-6 pt-6 animate-fade-up">
-        <div className="max-w-2xl">
-          <Greeting />
-        </div>
-        {tab === "design" && <HeroVideo />}
-        {tab === "design" && (
-          <div className="max-w-2xl">
-            <RecentDesigns />
-          </div>
-        )}
+      <div className="shrink-0">
+        <DateRangePicker />
+      </div>
+
+      <div key={tab} className="px-4 pb-6 pt-3 animate-fade-up">
+        {tab === "traffic" && <TrafficView />}
+        {tab === "revenue" && <RevenueView />}
+        {tab === "engagement" && <EngagementView />}
       </div>
     </div>
   );

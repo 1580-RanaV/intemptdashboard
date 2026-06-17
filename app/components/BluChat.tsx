@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import {
   X,
   Plus,
@@ -205,10 +206,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
       <div
         className="flex items-center gap-2.5 px-4 py-2.75 shrink-0"
       >
-        <div
-          className="w-7 h-7 rounded-full shrink-0"
-          style={{ background: "linear-gradient(135deg, #c7dcfa 0%, #dde8fc 100%)" }}
-        />
+        <Image src="/mascot.png" alt="Blu" width={28} height={28} className="rounded-full shrink-0 object-contain" />
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold text-stone-800 dark:text-stone-100 leading-none">Blu</p>
         </div>
@@ -233,10 +231,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
                 R
               </div>
             ) : (
-              <div
-                className="w-6 h-6 rounded-full shrink-0 mt-0.5"
-                style={{ background: "linear-gradient(135deg, #c7dcfa 0%, #dde8fc 100%)" }}
-              />
+              <Image src="/mascot.png" alt="Blu" width={24} height={24} className="rounded-full shrink-0 mt-0.5 object-contain" />
             )}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5 mb-1">

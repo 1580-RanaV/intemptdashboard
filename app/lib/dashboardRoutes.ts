@@ -17,6 +17,7 @@ export const DASHBOARD_VIEW_KEYS = [
   "deals",
   "meetings",
   "scheduler",
+  "out-of-the-box",
   "boards",
   "subscription",
 ] as const;
