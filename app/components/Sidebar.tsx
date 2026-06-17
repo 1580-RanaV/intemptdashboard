@@ -180,7 +180,7 @@ function WorkspaceSwitcher() {
       >
         <Avatar initials={selectedProject.initials} color={selectedProject.color} size={22} />
         <div className="flex-1 min-w-0 text-left">
-          <div className="text-xs font-semibold text-stone-800 dark:text-stone-100 truncate leading-tight">
+          <div className="text-sm font-semibold text-stone-800 dark:text-stone-100 truncate leading-tight">
             {selectedProject.name}
           </div>
           <div className="text-xs text-stone-400 dark:text-stone-500 truncate leading-tight">
@@ -215,7 +215,7 @@ function WorkspaceSwitcher() {
                 className="w-full flex items-center gap-2.5 px-2 py-1.5 rounded-md hover:bg-stone-100 dark:hover:bg-white/6 transition-colors group"
               >
                 <Avatar initials={o.initials} color={o.color} size={20} />
-                <span className="flex-1 text-left text-xs text-stone-700 dark:text-stone-300 truncate">
+                <span className="flex-1 text-left text-sm text-stone-700 dark:text-stone-300 truncate">
                   {o.name}
                 </span>
                 {selectedOrg.name === o.name && (
@@ -240,7 +240,7 @@ function WorkspaceSwitcher() {
                   className="w-full flex items-center gap-2.5 px-2 py-1.5 rounded-md hover:bg-stone-100 dark:hover:bg-white/6 transition-colors group"
                 >
                   <Avatar initials={p.initials} color={p.color} size={20} />
-                  <span className="flex-1 text-left text-xs text-stone-700 dark:text-stone-300 truncate">
+                  <span className="flex-1 text-left text-sm text-stone-700 dark:text-stone-300 truncate">
                     {p.name}
                   </span>
                   {selectedProject.name === p.name && (

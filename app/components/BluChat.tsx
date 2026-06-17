@@ -208,7 +208,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
       >
         <Image src="/mascot.png" alt="Blu" width={28} height={28} className="rounded-full shrink-0 object-contain" />
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-stone-800 dark:text-stone-100 leading-none">Blu</p>
+          <p className="text-base font-semibold text-stone-800 dark:text-stone-100 leading-none">Blu</p>
         </div>
         <button className="w-6 h-6 rounded-md flex items-center justify-center hover:bg-stone-100 dark:hover:bg-white/8 transition-colors text-stone-400">
           <History size={13} />
@@ -235,12 +235,12 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
             )}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5 mb-1">
-                <span className="text-xs font-semibold text-stone-700 dark:text-stone-200">
+                <span className="text-sm font-semibold text-stone-800 dark:text-stone-100">
                   {msg.role === "user" ? "Rana" : "Blu"}
                 </span>
-                <span className="text-[10.5px] text-stone-400 dark:text-stone-500">Just now</span>
+                <span className="text-xs text-stone-400 dark:text-stone-500">Just now</span>
               </div>
-              <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed whitespace-pre-wrap">
+              <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed whitespace-pre-wrap">
                 {msg.text}
               </p>
               {msg.attachments?.length ? (
@@ -248,7 +248,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
                   {msg.attachments.map((item) => (
                     <span
                       key={`${msg.id}-${item.category}`}
-                      className="inline-flex max-w-full items-center gap-1.5 rounded-md border border-stone-200 bg-stone-50 px-2 py-1 text-[10.5px] font-medium text-stone-600 dark:border-stone-700 dark:bg-white/[0.04] dark:text-stone-300"
+                      className="inline-flex max-w-full items-center gap-1.5 rounded-md border border-stone-200 bg-stone-50 px-2 py-1 text-xs font-medium text-stone-600 dark:border-stone-700 dark:bg-white/[0.04] dark:text-stone-300"
                     >
                       <span className="h-3.5 w-3.5 shrink-0 rounded-sm" style={{ background: item.bg }} />
                       <span className="truncate">{item.category}: {item.title}</span>
@@ -277,7 +277,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
                   <span className="h-7 w-7 shrink-0 rounded-md border border-stone-200 dark:border-stone-700" style={{ background: item.bg }} />
                   <span className="min-w-0">
                     <span className="block max-w-[170px] truncate text-xs font-semibold text-stone-800 dark:text-stone-100">{item.title}</span>
-                    <span className="block max-w-[170px] truncate text-[10px] font-medium text-slate-500 dark:text-slate-400">{item.category}</span>
+                    <span className="block max-w-[170px] truncate text-xs font-medium text-stone-500 dark:text-stone-400">{item.category}</span>
                   </span>
                   <button
                     onClick={() => removeAttachment(item.category)}
@@ -300,7 +300,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
               }
             }}
             placeholder="Describe the content you want to create..."
-            className="w-full bg-transparent text-xs text-stone-700 dark:text-stone-200 placeholder:text-stone-400 dark:placeholder:text-stone-600 outline-none"
+            className="w-full bg-transparent text-sm text-stone-700 dark:text-stone-200 placeholder:text-stone-400 dark:placeholder:text-stone-600 outline-none"
           />
           <div className="flex items-center justify-between mt-3">
             {/* + with dropup */}
@@ -343,7 +343,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
                             setSelectedReference(null);
                             setReferencesOpen(true);
                           }}
-                          className="flex items-center gap-1.5 text-xs font-medium text-slate-500 transition-colors hover:text-stone-800 dark:text-slate-400 dark:hover:text-stone-100"
+                          className="flex items-center gap-1.5 text-xs font-medium text-stone-500 transition-colors hover:text-stone-800 dark:text-stone-400 dark:hover:text-stone-100"
                         >
                           <ChevronLeft size={13} />
                           Back to References
@@ -368,7 +368,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
                             { title: "Style", key: "style" as const, options: IMAGE_STYLE_OPTIONS },
                           ].map((group) => (
                             <div key={group.title}>
-                              <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                              <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">
                                 {group.title}
                               </p>
                               <div className="flex flex-wrap gap-1.5">
@@ -381,7 +381,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
                                       className={`rounded-full border px-2.5 py-1 text-xs font-medium transition-colors ${
                                         isActive
                                           ? "border-blue-200 bg-blue-50 text-blue-600 dark:border-blue-500/25 dark:bg-blue-500/12 dark:text-blue-300"
-                                          : "border-stone-200 bg-white text-slate-500 hover:bg-stone-50 dark:border-stone-700 dark:bg-white/[0.03] dark:text-slate-400 dark:hover:bg-white/6"
+                                          : "border-stone-200 bg-white text-stone-500 hover:bg-stone-50 dark:border-stone-700 dark:bg-white/[0.03] dark:text-stone-400 dark:hover:bg-white/6"
                                       }`}
                                     >
                                       {option}
@@ -394,7 +394,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
                         </div>
                       ) : (
                         <div className="px-3.5 pb-3">
-                          <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                          <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">
                             {referenceTitle(selectedReference)}
                           </p>
                           <div className="relative mb-3">
@@ -405,7 +405,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
                               className="h-9 w-full rounded-lg border border-stone-200 bg-white pl-9 pr-3 text-xs font-medium text-stone-800 outline-none transition-colors placeholder:text-stone-400 focus:border-blue-400 focus:ring-2 focus:ring-blue-500/10 dark:border-stone-700 dark:bg-white/[0.03] dark:text-stone-100 dark:placeholder:text-stone-500"
                             />
                           </div>
-                          <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                          <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-500">
                             Presets
                           </p>
                           <div className="grid max-h-[260px] grid-cols-3 gap-3 overflow-y-auto pr-1">
@@ -422,7 +422,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
                                 <span className="mt-1.5 block truncate text-xs font-semibold text-stone-800 dark:text-stone-100">
                                   {tile.title}
                                 </span>
-                                <span className="block truncate text-[10px] font-medium text-slate-500 dark:text-slate-400">
+                                <span className="block truncate text-xs text-stone-500 dark:text-stone-400">
                                   {tile.subtitle}
                                 </span>
                               </button>
@@ -440,7 +440,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
                         boxShadow: "0 8px 24px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.06)",
                       }}
                     >
-                      <div className="px-3.5 pb-2 pt-3 text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                      <div className="px-3.5 pb-2 pt-3 text-[10px] font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">
                         References
                       </div>
                       <div className="pb-1">
