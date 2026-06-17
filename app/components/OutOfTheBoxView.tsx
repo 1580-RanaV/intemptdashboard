@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   ComposedChart, Bar, Line, AreaChart, Area, LabelList,
   XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid,
@@ -463,7 +464,10 @@ function EngagementView() {
 }
 
 export default function OutOfTheBoxView() {
-  const [tab, setTab] = useState("traffic");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const tab = TABS.some((t) => t.key === searchParams.get("tab")) ? searchParams.get("tab")! : "traffic";
+  function setTab(key: string) { router.replace(`/out-of-the-box?tab=${key}`); }
 
   return (
     <div className="flex flex-1 flex-col min-h-0 overflow-y-auto">

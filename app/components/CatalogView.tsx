@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Package, Plus, Rss } from "lucide-react";
 import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
 
@@ -140,7 +141,10 @@ const SOURCE_ROWS: TableRow[] = [
 ];
 
 export default function CatalogView() {
-  const [tab, setTab] = useState("products");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const tab = tabs.some((t) => t.key === searchParams.get("tab")) ? searchParams.get("tab")! : "products";
+  function setTab(key: string) { router.replace(`/catalog?tab=${key}`); }
 
   return (
     <div className="flex flex-col flex-1 min-h-0">

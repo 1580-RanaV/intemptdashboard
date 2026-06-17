@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { AlertTriangle, Info, Target } from "lucide-react";
 import {
   AreaChart, Area, LineChart, Line, BarChart, Bar,
@@ -569,8 +570,13 @@ const TABS = [
   { key: "subscribers", label: "Subscribers" },
 ] as const;
 
+type Tab = typeof TABS[number]["key"];
+
 export default function SubscriptionView() {
-  const [tab, setTab] = useState<"mrr" | "subscribers">("mrr");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const tab = (TABS as readonly { key: string }[]).some((t) => t.key === searchParams.get("tab")) ? searchParams.get("tab") as Tab : "mrr";
+  function setTab(key: Tab) { router.replace(`/subscription?tab=${key}`); }
 
   return (
     <div className="flex flex-1 flex-col min-h-0 overflow-y-auto">

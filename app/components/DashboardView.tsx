@@ -49,28 +49,28 @@ export function HomeEmpty() {
 export default function DashboardView({ view = "home" }: { view?: string }) {
   const generic = GENERIC_VIEWS[view];
 
-  if (view === "home") return <HomeView />;
+  if (view === "home")         return <Suspense><HomeView /></Suspense>;
   if (view === "accounts") return <AccountsView />;
   if (view === "asset-library") return <AssetLibraryView />;
   if (view === "deals") return <DealsView />;
-  if (view === "brand") return <BrandView />;
-  if (view === "catalog") return <CatalogView />;
-  if (view === "feeds") return <FeedsView />;
-  if (view === "journeys") return <JourneysView />;
-  if (view === "experiences") return <ExperiencesView />;
-  if (view === "connections") return <Suspense><ConnectionsView /></Suspense>;
-  if (view === "users") return <UsersView />;
-  if (view === "meetings") return <MeetingsView />;
-  if (view === "scheduler") return <SchedulerView />;
-  if (view === "out-of-the-box") return <OutOfTheBoxView />;
-  if (view === "boards") return <BoardsView />;
-  if (view === "events") return <EventsView />;
-  if (view === "subscribers") return <SubscribersView />;
-  if (view === "avatars") return <AvatarsView />;
-  if (view === "poses") return <PosesView />;
-  if (view === "scenes") return <ScenesView />;
+  if (view === "brand")        return <Suspense><BrandView /></Suspense>;
+  if (view === "catalog")      return <Suspense><CatalogView /></Suspense>;
+  if (view === "feeds")        return <FeedsView />;
+  if (view === "journeys")     return <JourneysView />;
+  if (view === "experiences")  return <ExperiencesView />;
+  if (view === "connections")  return <Suspense><ConnectionsView /></Suspense>;
+  if (view === "users")        return <Suspense><UsersView /></Suspense>;
+  if (view === "meetings")     return <MeetingsView />;
+  if (view === "scheduler")    return <SchedulerView />;
+  if (view === "out-of-the-box") return <Suspense><OutOfTheBoxView /></Suspense>;
+  if (view === "boards")       return <BoardsView />;
+  if (view === "events")       return <Suspense><EventsView /></Suspense>;
+  if (view === "subscribers")  return <Suspense><SubscribersView /></Suspense>;
+  if (view === "avatars")      return <AvatarsView />;
+  if (view === "poses")        return <PosesView />;
+  if (view === "scenes")       return <ScenesView />;
   if (view === "design-system") return <DesignSystemView />;
-  if (view === "subscription") return <SubscriptionView />;
+  if (view === "subscription") return <Suspense><SubscriptionView /></Suspense>;
 
   if (generic) {
     return (

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   BadgeCheck,
   BookOpen,
@@ -318,7 +319,10 @@ function KnowledgeBaseView() {
 }
 
 export default function BrandView() {
-  const [tab, setTab] = useState("identity");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const tab = tabs.some((t) => t.key === searchParams.get("tab")) ? searchParams.get("tab")! : "identity";
+  function setTab(key: string) { router.replace(`/brand?tab=${key}`); }
 
   return (
     <div className="flex flex-col flex-1 min-h-0">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { BarChart2, LayoutDashboard, Plus, Table2 } from "lucide-react";
 import CreateUserDrawer from "./CreateUserDrawer";
 import DashboardTable, { TableColumn } from "./DashboardTable";
@@ -22,7 +23,10 @@ const TABS = [
 type Tab = typeof TABS[number]["key"];
 
 export default function UsersView() {
-  const [tab, setTab]             = useState<Tab>("table");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const tab = (TABS as readonly { key: string }[]).some((t) => t.key === searchParams.get("tab")) ? searchParams.get("tab") as Tab : "table";
+  function setTab(key: Tab) { router.replace(`/users?tab=${key}`); }
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
