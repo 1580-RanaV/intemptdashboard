@@ -13,16 +13,17 @@ const STARS = [
 ] as const;
 
 export default function UpgradeButton() {
-  const [hoverKey, setHoverKey] = useState(0);
+  const [burstKey, setBurstKey] = useState(0);
+
+  function burst() {
+    setBurstKey((k) => k + 1);
+  }
 
   return (
-    <div
-      className="relative"
-      onMouseEnter={() => setHoverKey((k) => k + 1)}
-    >
-      {hoverKey > 0 && STARS.map((s, i) => (
+    <div className="relative" onMouseEnter={burst}>
+      {burstKey > 0 && STARS.map((s, i) => (
         <span
-          key={`${hoverKey}-${i}`}
+          key={`${burstKey}-${i}`}
           className={`upgrade-star upgrade-star-${s.variant}`}
           style={{
             left: s.left,
@@ -36,8 +37,9 @@ export default function UpgradeButton() {
       ))}
 
       <button
-        className="relative flex items-center gap-1.5 h-7 px-3 rounded-full text-xs font-semibold text-white select-none active:scale-95 transition-all duration-100 hover:opacity-90"
-        style={{ background: "#0060DF" }}
+        onClick={burst}
+        className="relative flex items-center gap-1.5 h-9 px-3.5 rounded-lg text-xs font-medium text-white select-none active:scale-95 transition-all duration-100 hover:opacity-90"
+        style={{ background: "#0080FF" }}
       >
         <Gem size={12} className="shrink-0" />
         Upgrade
