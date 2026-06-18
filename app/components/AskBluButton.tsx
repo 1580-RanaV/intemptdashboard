@@ -55,8 +55,8 @@ export default function AskBluButton({ isOpen }: { isOpen: boolean }) {
           src="/mascot.png"
           alt=""
           width={55}
-          height={50}
-          style={{ height: "auto" }}
+          height={55}
+          style={{ width: 55, height: "auto" }}
           className="object-contain"
         />
       </span>

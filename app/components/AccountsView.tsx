@@ -17,7 +17,7 @@ function Tag({ label }: { label: string }) {
 
 function LifecycleBadge({ stage }: { stage: string }) {
   const map: Record<string, string> = {
-    Lead:      "bg-blue-50 text-blue-600 dark:bg-blue-500/12 dark:text-blue-300",
+    Lead:      "bg-blue-50 text-blue-700 dark:bg-blue-500/12 dark:text-blue-300",
     Prospect:  "bg-violet-50 text-violet-600 dark:bg-violet-500/12 dark:text-violet-300",
     Customer:  "bg-emerald-50 text-emerald-700 dark:bg-emerald-500/12 dark:text-emerald-300",
     Churned:   "bg-rose-50 text-rose-600 dark:bg-rose-500/12 dark:text-rose-300",

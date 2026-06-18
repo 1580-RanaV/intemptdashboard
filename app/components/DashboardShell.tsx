@@ -36,6 +36,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
           {/* Hamburger — mobile only */}
           <button
             onClick={() => setSidebarOpen(true)}
+            aria-label="Open navigation"
             className="md:hidden w-7 h-7 rounded-md flex items-center justify-center hover:bg-stone-200/70 dark:hover:bg-white/8 transition-colors shrink-0"
           >
             <Menu size={16} className="text-stone-500 dark:text-stone-400" />
@@ -43,7 +44,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
 
           <div className="flex-1" />
 
-          <button className="w-7 h-7 rounded-md flex items-center justify-center hover:bg-stone-200/70 dark:hover:bg-white/8 cursor-pointer transition-colors">
+          <button aria-label="Search" className="w-7 h-7 rounded-md flex items-center justify-center hover:bg-stone-200/70 dark:hover:bg-white/8 cursor-pointer transition-colors">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-stone-500 dark:text-stone-400">
               <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
             </svg>
@@ -55,7 +56,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
         </div>
 
         {/* Content row */}
-        <div className="flex-1 flex min-h-0 gap-2 mx-2 mb-2 md:ml-0 md:mr-3">
+        <main className="flex-1 flex min-h-0 gap-2 mx-2 mb-2 md:ml-0 md:mr-3">
           <div
             className="flex-1 flex flex-col rounded-xl overflow-hidden min-w-0 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
             style={{
@@ -74,7 +75,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
           >
             {bluOpen && <BluChat onClose={() => setBluOpen(false)} />}
           </div>
-        </div>
+        </main>
       </div>
     </div>
   );

@@ -36,7 +36,7 @@ function UserAvatar({ initial, color, name }: { initial: string; color: string; 
 }
 
 const TYPE_BADGE = (
-  <span className="inline-flex items-center rounded-md bg-blue-50 px-2 py-0.5 text-xs font-semibold text-blue-600 dark:bg-blue-500/12 dark:text-blue-300">
+  <span className="inline-flex items-center rounded-md bg-blue-50 px-2 py-0.5 text-xs font-semibold text-blue-700 dark:bg-blue-500/12 dark:text-blue-300">
     Created
   </span>
 );
@@ -290,8 +290,8 @@ export default function EventsView() {
             onClick={() => setTab(t.key)}
             className={`flex h-9 items-center gap-2 px-3 rounded-lg text-sm font-medium transition-colors duration-100
               ${tab === t.key
-                ? "bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400"
-                : "text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/6"
+                ? "bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400"
+                : "text-stone-500 dark:text-stone-400 hover:text-stone-600 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/6"
               }`}
           >
             {t.icon}

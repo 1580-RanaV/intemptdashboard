@@ -87,7 +87,7 @@ export default function CreateApiKeyDrawer({
               onClick={() => setRole("full")}
               className={`h-9 rounded-lg px-4 text-sm font-medium transition-colors duration-100 ${
                 role === "full"
-                  ? "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400"
+                  ? "bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400"
                   : "text-stone-400 hover:text-stone-600 hover:bg-stone-100 dark:text-stone-500 dark:hover:text-stone-300 dark:hover:bg-white/6"
               }`}
             >
@@ -97,7 +97,7 @@ export default function CreateApiKeyDrawer({
               onClick={() => setRole("readonly")}
               className={`h-9 rounded-lg px-4 text-sm font-medium transition-colors duration-100 ${
                 role === "readonly"
-                  ? "bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400"
+                  ? "bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400"
                   : "text-stone-400 hover:text-stone-600 hover:bg-stone-100 dark:text-stone-500 dark:hover:text-stone-300 dark:hover:bg-white/6"
               }`}
             >

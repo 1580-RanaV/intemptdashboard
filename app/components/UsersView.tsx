@@ -92,14 +92,14 @@ export default function UsersView() {
             onClick={() => setTab(t.key)}
             className={`flex h-9 items-center gap-2 px-3 rounded-lg text-sm font-medium transition-colors duration-100
               ${tab === t.key
-                ? "bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400"
-                : "text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/6"
+                ? "bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400"
+                : "text-stone-500 dark:text-stone-400 hover:text-stone-600 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-white/6"
               }`}
           >
             {t.icon}
             {t.label}
             {t.count !== null && (
-              <span className={`text-xs font-medium ${tab === t.key ? "text-blue-400 dark:text-blue-500" : "text-stone-400 dark:text-stone-500"}`}>
+              <span className={`text-xs font-medium ${tab === t.key ? "text-blue-700 dark:text-blue-400" : "text-stone-500 dark:text-stone-400"}`}>
                 ({t.count})
               </span>
             )}

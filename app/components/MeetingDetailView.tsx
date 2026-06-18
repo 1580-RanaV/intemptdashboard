@@ -131,7 +131,7 @@ const TRANSCRIPT = [
 ];
 
 const MORE_PARTICIPANTS = [
-  { initials: "R", name: "Rana", color: "bg-blue-50 text-blue-600 dark:bg-blue-500/12 dark:text-blue-300" },
+  { initials: "R", name: "Rana", color: "bg-blue-50 text-blue-700 dark:bg-blue-500/12 dark:text-blue-300" },
   { initials: "VG", name: "Ved Gorakh Raut", color: "bg-teal-500 text-white" },
   { initials: "AP", name: "Aman Patel", color: "bg-orange-500 text-white" },
   { initials: "YB", name: "Yaroslav Bezruchenko", color: "bg-sky-500 text-white" },
@@ -146,7 +146,7 @@ function Initial({ label, className }: { label: string; className: string }) {
 }
 
 function TimeBadge({ time }: { time: string }) {
-  return <span className="inline-flex rounded-md bg-blue-50 px-2 py-0.5 text-xs font-semibold text-blue-600 dark:bg-blue-500/12 dark:text-blue-300">{time}</span>;
+  return <span className="inline-flex rounded-md bg-blue-50 px-2 py-0.5 text-xs font-semibold text-blue-700 dark:bg-blue-500/12 dark:text-blue-300">{time}</span>;
 }
 
 function formatPlayerTime(seconds: number) {

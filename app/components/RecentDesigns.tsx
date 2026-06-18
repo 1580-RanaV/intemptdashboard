@@ -62,7 +62,7 @@ export default function RecentDesigns() {
               </div>
 
               {/* Type pill — text only, blue */}
-              <span className="shrink-0 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400">
+              <span className="shrink-0 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400">
                 {meta.label}
               </span>
             </button>

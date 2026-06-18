@@ -45,7 +45,7 @@ function StatusPill({ status }: { status: TableStatus }) {
   const tone = {
     green: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/12 dark:text-emerald-300",
     gray:  "bg-stone-100 text-stone-600 dark:bg-white/8 dark:text-stone-300",
-    blue:  "bg-blue-50 text-blue-600 dark:bg-blue-500/12 dark:text-blue-300",
+    blue:  "bg-blue-50 text-blue-700 dark:bg-blue-500/12 dark:text-blue-300",
     red:   "bg-red-50 text-red-600 dark:bg-red-500/12 dark:text-red-400",
   }[status.tone];
 

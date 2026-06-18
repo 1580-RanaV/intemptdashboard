@@ -38,7 +38,7 @@ function Participant({ initial, name, more, color }: { initial: string; name: st
 
 function StatusBadge({ label, tone }: { label: string; tone: "blue" | "red" | "green" }) {
   const color = {
-    blue:  "bg-blue-50 text-blue-600 dark:bg-blue-500/12 dark:text-blue-300",
+    blue:  "bg-blue-50 text-blue-700 dark:bg-blue-500/12 dark:text-blue-300",
     red:   "bg-red-50 text-red-500 dark:bg-red-500/12 dark:text-red-300",
     green: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/12 dark:text-emerald-300",
   }[tone];

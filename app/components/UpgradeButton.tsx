@@ -37,7 +37,7 @@ export default function UpgradeButton() {
 
       <button
         className="relative flex items-center gap-1.5 h-7 px-3 rounded-full text-xs font-semibold text-white select-none active:scale-95 transition-all duration-100 hover:opacity-90"
-        style={{ background: "#0080FF" }}
+        style={{ background: "#0060DF" }}
       >
         <Gem size={12} className="shrink-0" />
         Upgrade
