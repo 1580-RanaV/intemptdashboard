@@ -30,7 +30,7 @@ export default function AskBluButton({ isOpen }: { isOpen: boolean }) {
       } : {
         background: "transparent",
         border: "1px solid rgba(0,0,0,0.1)",
-        color: "#6b7280",
+        color: "#57534e",
       }}
     >
       {/* Shimmer streak — on hover */}

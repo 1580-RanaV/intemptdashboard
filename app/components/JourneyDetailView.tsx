@@ -8,6 +8,7 @@ import {
   Copy, Filter, Pause, Plus, Route, Settings, Trash2, Upload, Zap, Circle, X,
 } from "lucide-react";
 import BackButton from "./BackButton";
+import SubTabCorner from "./SubTabCorner";
 import SlidingSidebar from "./SlidingSidebar";
 import DateRangePicker from "./DateRangePicker";
 import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
@@ -698,23 +699,12 @@ export default function JourneyDetailView({ id }: { id: string }) {
         </div>
 
         {/* Right: segmented tabs */}
-        <div className="shrink-0 flex items-center gap-2">
-          <div className="flex items-center gap-0.5 rounded-lg bg-stone-100 dark:bg-white/8 p-0.5">
-            {TABS.map((t) => (
-              <button
-                key={t.key}
-                onClick={() => setTab(t.key)}
-                className={`flex h-9 items-center gap-1.5 rounded-md px-2.5 text-xs font-medium transition-all ${
-                  activeTab === t.key
-                    ? "bg-white dark:bg-white/12 text-stone-900 dark:text-stone-100 shadow-sm"
-                    : "text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
-                }`}
-              >
-                {t.icon}
-                {t.label}
-              </button>
-            ))}
-          </div>
+        <div className="shrink-0">
+          <SubTabCorner
+            tabs={TABS.map((t) => ({ key: t.key, label: t.label, icon: t.icon }))}
+            active={activeTab}
+            onChange={(k) => setTab(k as TabKey)}
+          />
         </div>
       </div>
 

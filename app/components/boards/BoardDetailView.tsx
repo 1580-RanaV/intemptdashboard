@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import BackButton from "../BackButton";
+import SubTabCorner from "../SubTabCorner";
 import {
   CalendarDays, ChevronDown, ChevronRight,
   Clock, Copy, Filter, GripVertical, Layers, MapPin, Plus, Tag, Trash2, X,
@@ -163,20 +164,12 @@ export default function BoardDetailView({ id }: { id: string }) {
         </div>
 
         {/* Segmented control — always pinned right */}
-        <div className="shrink-0 flex items-center gap-0.5 rounded-lg bg-stone-100 dark:bg-white/8 p-0.5">
-          {TABS.map((tab) => (
-            <button
-              key={tab.key}
-              onClick={() => setActiveTab(tab.key)}
-              className={`flex h-7 items-center rounded-md px-2.5 text-xs font-medium transition-all ${
-                activeTab === tab.key
-                  ? "bg-white dark:bg-white/12 text-stone-900 dark:text-stone-100 shadow-sm"
-                  : "text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+        <div className="shrink-0">
+          <SubTabCorner
+            tabs={TABS}
+            active={activeTab}
+            onChange={(k) => setActiveTab(k as TabKey)}
+          />
         </div>
       </div>
 

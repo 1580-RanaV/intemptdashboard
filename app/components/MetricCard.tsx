@@ -70,7 +70,7 @@ export default function MetricCard({
           </span>
           <Info size={12} className="text-stone-400 shrink-0" />
         </div>
-        <p className="text-xs font-medium text-amber-500 mt-4">{change}</p>
+        <p className="text-xs font-medium text-amber-700 dark:text-amber-500 mt-4">{change}</p>
       </div>
 
       {/* Chart or no-results */}

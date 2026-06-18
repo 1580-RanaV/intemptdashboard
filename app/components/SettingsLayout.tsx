@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, createContext, useContext } from "react";
+import SubTabCorner from "./SubTabCorner";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import {
@@ -645,20 +646,12 @@ function MessagesSection() {
       <SectionHeader title="Messages" sub="Configure email sync, record creation, delivery timing, and appearance." />
 
       {/* Tabs */}
-      <div className="flex gap-1 p-1 rounded-xl bg-stone-100 dark:bg-stone-800 mb-8 w-fit">
-        {MSG_TABS.map((t) => (
-          <button
-            key={t}
-            onClick={() => setTab(t)}
-            className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors duration-100 ${
-              tab === t
-                ? "bg-white dark:bg-stone-700 text-stone-900 dark:text-stone-100 shadow-sm"
-                : "text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
-            }`}
-          >
-            {t}
-          </button>
-        ))}
+      <div className="mb-8">
+        <SubTabCorner
+          tabs={MSG_TABS.map((t) => ({ key: t, label: t }))}
+          active={tab}
+          onChange={(k) => setTab(k as MsgTab)}
+        />
       </div>
 
       {/* Sync */}

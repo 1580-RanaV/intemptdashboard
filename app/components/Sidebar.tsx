@@ -183,7 +183,7 @@ function WorkspaceSwitcher() {
           <div className="text-sm font-semibold text-stone-800 dark:text-stone-100 truncate leading-tight">
             {selectedProject.name}
           </div>
-          <div className="text-xs text-stone-400 dark:text-stone-500 truncate leading-tight">
+          <div className="text-xs text-stone-500 dark:text-stone-400 truncate leading-tight">
             {selectedOrg.name}
           </div>
         </div>
@@ -304,7 +304,7 @@ function NavItemRow({
   `;
   const rowContent = (
     <>
-      <span className={isActive ? "text-blue-600" : "text-stone-400 dark:text-stone-600 group-hover:text-stone-600 dark:group-hover:text-stone-400"}>
+      <span className={isActive ? "text-blue-600" : "text-stone-500 dark:text-stone-400 group-hover:text-stone-700 dark:group-hover:text-stone-300"}>
         {item.icon}
       </span>
       <span className="flex-1 leading-none">{item.label}</span>
@@ -388,12 +388,12 @@ function CollapsibleSection({
           onClick={() => setOpen((o) => !o)}
           className="w-full flex items-center gap-2 px-3 py-1.5 mb-0.5 rounded-md group hover:bg-stone-200/60 dark:hover:bg-white/6 transition-colors duration-100 cursor-grab active:cursor-grabbing"
         >
-          <span className="flex-1 text-left text-xs font-semibold uppercase tracking-wider text-stone-400 dark:text-stone-600">
+          <span className="flex-1 text-left text-xs font-semibold uppercase tracking-wider text-stone-500 dark:text-stone-400">
             {section.heading}
           </span>
           <ChevronRight
             size={10}
-            className={`text-stone-400 dark:text-stone-600 transition-transform duration-200 ${showItems ? "rotate-90" : ""}`}
+            className={`text-stone-500 dark:text-stone-400 transition-transform duration-200 ${showItems ? "rotate-90" : ""}`}
           />
         </button>
       ) : null}
@@ -541,7 +541,7 @@ export default function Sidebar({ isOpen, onClose, bluOpen }: { isOpen?: boolean
             className="rounded-md opacity-60"
             style={{ objectFit: "contain" }}
           />
-          <span className="flex-1 text-xs font-medium text-stone-400 dark:text-stone-600 tracking-tight">
+          <span className="flex-1 text-xs font-medium text-stone-500 dark:text-stone-400 tracking-tight">
             Intempt
           </span>
           <button className="w-5 h-5 rounded-full border border-stone-300 dark:border-stone-600 flex items-center justify-center hover:border-stone-400 dark:hover:border-stone-500 hover:bg-stone-100 dark:hover:bg-white/6 transition-colors shrink-0">

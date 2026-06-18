@@ -188,7 +188,7 @@ export default function DateRangePicker() {
               className={`px-2.5 py-1 rounded-md text-xs transition-colors ${
                 preset === p.label
                   ? "font-bold text-stone-900 dark:text-stone-100"
-                  : "text-stone-400 dark:text-stone-500 hover:text-stone-700 dark:hover:text-stone-300"
+                  : "text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-300"
               }`}
             >
               {p.label}
