@@ -7,6 +7,7 @@ import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
 import { ThreeDotsMenuItem } from "./ThreeDotsMenu";
 import DateRangePicker from "./DateRangePicker";
 import MetricCard from "./MetricCard";
+import DeleteConfirmDialog from "./DeleteConfirmDialog";
 
 const CHART_DATA = [
   { date:"May 3",  value:0 },       { date:"May 4",  value:12000 },
@@ -153,7 +154,19 @@ function ExperienceDropdown() {
 }
 
 export default function ExperiencesView() {
+  const [rows, setRows] = useState<TableRow[]>(EXPERIENCE_ROWS);
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  function makeMenu(row: TableRow): ThreeDotsMenuItem[] {
+    return [
+      { label: "View Details", icon: ExternalLink },
+      { label: "Open Editor",  icon: PenLine },
+      { label: "Delete", icon: Trash2, tone: "danger", onClick: () => setDeleteTarget({ id: row.id, name: String(row.cells.name) }) },
+    ];
+  }
+
+  const displayRows = rows.map((r) => ({ ...r, menuItems: makeMenu(r) }));
 
   return (
     <div className="flex-1 flex flex-col min-h-0 relative overflow-x-hidden">
@@ -182,7 +195,7 @@ export default function ExperiencesView() {
       <div className="flex flex-col min-h-0 px-4 pb-4 animate-fade-up">
         <DashboardTable
           columns={EXPERIENCE_COLUMNS}
-          rows={EXPERIENCE_ROWS}
+          rows={displayRows}
           action={
             <button
               onClick={() => setDrawerOpen(true)}
@@ -197,6 +210,17 @@ export default function ExperiencesView() {
       </div>
 
       {drawerOpen && <CreateExperienceDrawer onClose={() => setDrawerOpen(false)} />}
+      {deleteTarget && (
+        <DeleteConfirmDialog
+          entityType="experience"
+          entityName={deleteTarget.name}
+          onConfirm={() => {
+            setRows((prev) => prev.filter((r) => r.id !== deleteTarget.id));
+            setDeleteTarget(null);
+          }}
+          onClose={() => setDeleteTarget(null)}
+        />
+      )}
     </div>
   );
 }

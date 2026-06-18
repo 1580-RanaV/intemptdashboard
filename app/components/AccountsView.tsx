@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Table2 } from "lucide-react";
+import { Plus, Table2, Trash2 } from "lucide-react";
 import CreateAccountDrawer from "./CreateAccountDrawer";
 import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
+import { DEFAULT_MENU_ITEMS, ThreeDotsMenuItem } from "./ThreeDotsMenu";
+import DeleteConfirmDialog from "./DeleteConfirmDialog";
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -174,6 +176,20 @@ const ROWS: TableRow[] = [
 
 export default function AccountsView() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [deletedIds, setDeletedIds] = useState<Set<string>>(new Set());
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
+
+  function makeMenu(row: TableRow): ThreeDotsMenuItem[] {
+    return DEFAULT_MENU_ITEMS.map((item) =>
+      item.label === "Delete"
+        ? { ...item, onClick: () => setDeleteTarget({ id: row.id, name: String(row.cells.accountName) }) }
+        : item
+    );
+  }
+
+  const displayRows = ROWS
+    .filter((r) => !deletedIds.has(r.id))
+    .map((r) => ({ ...r, menuItems: makeMenu(r) }));
 
   return (
     <div className="relative flex flex-1 flex-col min-h-0 overflow-x-hidden">
@@ -187,7 +203,7 @@ export default function AccountsView() {
       <div className="flex-1 min-h-0 flex flex-col px-4 pb-4 pt-4 animate-fade-up">
         <DashboardTable
           columns={COLUMNS}
-          rows={ROWS}
+          rows={displayRows}
           searchPlaceholder="Search accounts..."
           action={
             <button
@@ -203,6 +219,14 @@ export default function AccountsView() {
       </div>
 
       {drawerOpen && <CreateAccountDrawer onClose={() => setDrawerOpen(false)} />}
+      {deleteTarget && (
+        <DeleteConfirmDialog
+          entityType="account"
+          entityName={deleteTarget.name}
+          onConfirm={() => { setDeletedIds((s) => new Set([...s, deleteTarget.id])); setDeleteTarget(null); }}
+          onClose={() => setDeleteTarget(null)}
+        />
+      )}
     </div>
   );
 }

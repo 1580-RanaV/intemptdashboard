@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { BarChart2, LayoutDashboard, Plus, Table2 } from "lucide-react";
+import { BarChart2, LayoutDashboard, Plus, Table2, Trash2 } from "lucide-react";
 import CreateUserDrawer from "./CreateUserDrawer";
-import DashboardTable, { TableColumn } from "./DashboardTable";
+import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
+import { DEFAULT_MENU_ITEMS, ThreeDotsMenuItem } from "./ThreeDotsMenu";
+import DeleteConfirmDialog from "./DeleteConfirmDialog";
 
 const USER_COLUMNS: TableColumn[] = [
   { key: "user", label: "User", width: "22%" },
@@ -82,6 +84,20 @@ export default function UsersView() {
   const tab = (TABS as readonly { key: string }[]).some((t) => t.key === searchParams.get("tab")) ? searchParams.get("tab") as Tab : "table";
   function setTab(key: Tab) { router.replace(`/users?tab=${key}`); }
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [deletedIds, setDeletedIds] = useState<Set<string>>(new Set());
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
+
+  function makeMenu(row: TableRow): ThreeDotsMenuItem[] {
+    return DEFAULT_MENU_ITEMS.map((item) =>
+      item.label === "Delete"
+        ? { ...item, onClick: () => setDeleteTarget({ id: row.id, name: String(row.cells.user) }) }
+        : item
+    );
+  }
+
+  const displayUserRows = USER_ROWS
+    .filter((r) => !deletedIds.has(r.id))
+    .map((r) => ({ ...r, menuItems: makeMenu(r) }));
 
   return (
     <div className="relative flex flex-1 flex-col min-h-0">
@@ -111,7 +127,7 @@ export default function UsersView() {
         {tab === "table" && (
           <DashboardTable
             columns={USER_COLUMNS}
-            rows={USER_ROWS}
+            rows={displayUserRows}
             searchPlaceholder="Search users..."
             action={
               <button
@@ -144,6 +160,14 @@ export default function UsersView() {
       </div>
 
       {drawerOpen && <CreateUserDrawer onClose={() => setDrawerOpen(false)} />}
+      {deleteTarget && (
+        <DeleteConfirmDialog
+          entityType="user"
+          entityName={deleteTarget.name}
+          onConfirm={() => { setDeletedIds((s) => new Set([...s, deleteTarget.id])); setDeleteTarget(null); }}
+          onClose={() => setDeleteTarget(null)}
+        />
+      )}
     </div>
   );
 }

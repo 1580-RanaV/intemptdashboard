@@ -4,7 +4,8 @@ import { useState } from "react";
 import { Image, Mail, MessageSquare, Plus } from "lucide-react";
 import CreateAssetDrawer from "./CreateAssetDrawer";
 import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
-import { ASSET_MENU_ITEMS } from "./ThreeDotsMenu";
+import { ASSET_MENU_ITEMS, ThreeDotsMenuItem } from "./ThreeDotsMenu";
+import DeleteConfirmDialog from "./DeleteConfirmDialog";
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -216,17 +217,48 @@ const ROWS: TableRow[] = [
   },
 ];
 
+// ── Name lookup (cells.name is JSX so we keep a plain-string map) ─────────────
+
+const ASSET_NAME: Record<string, string> = {
+  "a1":  "Claude design - Email 1",
+  "a2":  "Built a flash sale SMS using Liquid product variables with a 7-day...",
+  "a3":  "Removed the JSON wrapper entirely — outputting only the raw H...",
+  "a4":  "Generate an image of the brand character holding a can of Co",
+  "a5":  "Generate an image of the brand character holding a water tum",
+  "a6":  "a beautifully wrapped gift box with a satin ribbon on a clea",
+  "a7":  "Create an image of the brand character holding a bottle. Use",
+  "a8":  "Dev Patel, solo founder, sitting at a rustic desk with a lap",
+  "a9":  "diverse group of tech professionals collaborating in a moder",
+  "a10": "dramatic overhead shot of scattered shopping bags and gift b",
+  "a11": "Product photography of a pair of classic black leather penny",
+  "a12": "change character's pink pants to grey shorts",
+};
+
 // ── view ──────────────────────────────────────────────────────────────────────
 
 export default function AssetLibraryView() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [deletedIds, setDeletedIds] = useState<Set<string>>(new Set());
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
+
+  function makeMenu(row: TableRow): ThreeDotsMenuItem[] {
+    return ASSET_MENU_ITEMS.map((item) =>
+      item.label === "Delete"
+        ? { ...item, onClick: () => setDeleteTarget({ id: row.id, name: ASSET_NAME[row.id] ?? row.id }) }
+        : item
+    );
+  }
+
+  const displayRows = ROWS
+    .filter((r) => !deletedIds.has(r.id))
+    .map((r) => ({ ...r, menuItems: makeMenu(r) }));
 
   return (
     <div className="relative flex flex-1 flex-col min-h-0 overflow-x-hidden">
       <div className="flex flex-col px-4 pb-4 pt-4 animate-fade-up">
         <DashboardTable
           columns={COLUMNS}
-          rows={ROWS}
+          rows={displayRows}
           searchPlaceholder="Search assets..."
           action={
             <button
@@ -242,6 +274,14 @@ export default function AssetLibraryView() {
       </div>
 
       {drawerOpen && <CreateAssetDrawer onClose={() => setDrawerOpen(false)} />}
+      {deleteTarget && (
+        <DeleteConfirmDialog
+          entityType="asset"
+          entityName={deleteTarget.name}
+          onConfirm={() => { setDeletedIds((s) => new Set([...s, deleteTarget.id])); setDeleteTarget(null); }}
+          onClose={() => setDeleteTarget(null)}
+        />
+      )}
     </div>
   );
 }

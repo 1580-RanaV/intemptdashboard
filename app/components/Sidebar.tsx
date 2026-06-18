@@ -508,7 +508,7 @@ export default function Sidebar({ isOpen, onClose, bluOpen }: { isOpen?: boolean
             className="pointer-events-none absolute top-0 inset-x-0 z-10 h-12 transition-opacity duration-300"
             style={{ opacity: topFade ? 1 : 0, background: "linear-gradient(to bottom, var(--main-bg) 0%, transparent 100%)" }}
           />
-          <nav ref={navRef} className="h-full overflow-y-auto px-2 py-2 space-y-5">
+          <nav ref={navRef} className="h-full overflow-y-auto px-2 py-2 space-y-3">
             {navSections.map((section, si) => (
               <CollapsibleSection
                 key={section.heading ?? "__top__"}
@@ -526,7 +526,7 @@ export default function Sidebar({ isOpen, onClose, bluOpen }: { isOpen?: boolean
             ))}
           </nav>
           <div
-            className="pointer-events-none absolute bottom-0 inset-x-0 z-10 h-12 transition-opacity duration-300"
+            className="pointer-events-none absolute bottom-0 inset-x-0 z-10 h-4 transition-opacity duration-300"
             style={{ opacity: bottomFade ? 1 : 0, background: "linear-gradient(to top, var(--main-bg) 0%, transparent 100%)" }}
           />
         </div>

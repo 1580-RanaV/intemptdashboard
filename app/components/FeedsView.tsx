@@ -1,7 +1,10 @@
 "use client";
 
-import { Plus } from "lucide-react";
+import { useState } from "react";
+import { Plus, Trash2 } from "lucide-react";
 import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
+import { DEFAULT_MENU_ITEMS, ThreeDotsMenuItem } from "./ThreeDotsMenu";
+import DeleteConfirmDialog from "./DeleteConfirmDialog";
 
 const FEED_COLUMNS: TableColumn[] = [
   { key: "name", label: "Name", width: "48%" },
@@ -65,11 +68,26 @@ const FEED_ROWS: TableRow[] = [
 ];
 
 export default function FeedsView() {
+  const [deletedIds, setDeletedIds] = useState<Set<string>>(new Set());
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
+
+  function makeMenu(row: TableRow): ThreeDotsMenuItem[] {
+    return DEFAULT_MENU_ITEMS.map((item) =>
+      item.label === "Delete"
+        ? { ...item, onClick: () => setDeleteTarget({ id: row.id, name: String(row.cells.name) }) }
+        : item
+    );
+  }
+
+  const displayRows = FEED_ROWS
+    .filter((r) => !deletedIds.has(r.id))
+    .map((r) => ({ ...r, menuItems: makeMenu(r) }));
+
   return (
     <div className="flex-1 min-h-0 flex flex-col px-4 pb-4 pt-4">
       <DashboardTable
         columns={FEED_COLUMNS}
-        rows={FEED_ROWS}
+        rows={displayRows}
         searchPlaceholder="Search feeds..."
         action={
           <button
@@ -81,6 +99,14 @@ export default function FeedsView() {
           </button>
         }
       />
+      {deleteTarget && (
+        <DeleteConfirmDialog
+          entityType="feed"
+          entityName={deleteTarget.name}
+          onConfirm={() => { setDeletedIds((s) => new Set([...s, deleteTarget.id])); setDeleteTarget(null); }}
+          onClose={() => setDeleteTarget(null)}
+        />
+      )}
     </div>
   );
 }

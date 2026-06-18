@@ -6,6 +6,7 @@ import DashboardTable, { FilterConfig, TableColumn, TableRow } from "./Dashboard
 import { ThreeDotsMenuItem } from "./ThreeDotsMenu";
 import SlidingSidebar from "./SlidingSidebar";
 import { BOARDS_DATA, BoardEntry } from "./boards/boardsData";
+import DeleteConfirmDialog from "./DeleteConfirmDialog";
 
 function TypeBadge({ type }: { type: "retention" | "dashboard" | "insights" | "funnel" }) {
   const config = {
@@ -158,6 +159,7 @@ export default function BoardsView() {
   const [entries, setEntries] = useState<BoardEntry[]>(INITIAL_ENTRIES);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; title: string } | null>(null);
 
   function startEditing(id: string) {
     setEditingId(id);
@@ -178,7 +180,7 @@ export default function BoardsView() {
   function menuItemsFor(entry: BoardEntry): ThreeDotsMenuItem[] {
     return [
       { label: "Rename", icon: Pencil, onClick: () => startEditing(entry.id) },
-      { label: "Delete", icon: Trash2, tone: "danger" },
+      { label: "Delete", icon: Trash2, tone: "danger", onClick: () => setDeleteTarget({ id: entry.id, title: entry.title }) },
     ];
   }
 
@@ -224,6 +226,17 @@ export default function BoardsView() {
         />
       </div>
       {drawerOpen && <CreateBoardDrawer onClose={() => setDrawerOpen(false)} />}
+      {deleteTarget && (
+        <DeleteConfirmDialog
+          entityType="board"
+          entityName={deleteTarget.title}
+          onConfirm={() => {
+            setEntries((prev) => prev.filter((e) => e.id !== deleteTarget.id));
+            setDeleteTarget(null);
+          }}
+          onClose={() => setDeleteTarget(null)}
+        />
+      )}
     </div>
   );
 }

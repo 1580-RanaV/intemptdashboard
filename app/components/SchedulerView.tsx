@@ -5,6 +5,7 @@ import { Copy, ExternalLink, Pencil, Trash2 } from "lucide-react";
 import CreateBookingDrawer from "./CreateBookingDrawer";
 import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
 import { ThreeDotsMenuItem } from "./ThreeDotsMenu";
+import DeleteConfirmDialog from "./DeleteConfirmDialog";
 import { Plus } from "lucide-react";
 
 // ── Data ───────────────────────────────────────────────────────────────────────
@@ -79,10 +80,16 @@ const ROW_MENU: ThreeDotsMenuItem[] = [
 
 export default function SchedulerView() {
   const [showCreateBooking, setShowCreateBooking] = useState(false);
+  const [deletedIds, setDeletedIds] = useState<Set<string>>(new Set());
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
 
-  const rows: TableRow[] = BOOKING_TYPES.map((item) => ({
+  const rows: TableRow[] = BOOKING_TYPES.filter((item) => !deletedIds.has(item.id)).map((item) => ({
     id: item.id,
-    menuItems: ROW_MENU,
+    menuItems: ROW_MENU.map((mi) =>
+      mi.label === "Delete"
+        ? { ...mi, onClick: () => setDeleteTarget({ id: item.id, name: item.name }) }
+        : mi
+    ),
     cells: {
       name: (
         <span className="truncate text-sm font-medium text-stone-900 dark:text-stone-100">
@@ -119,6 +126,14 @@ export default function SchedulerView() {
         }
       />
       {showCreateBooking && <CreateBookingDrawer onClose={() => setShowCreateBooking(false)} />}
+      {deleteTarget && (
+        <DeleteConfirmDialog
+          entityType="booking type"
+          entityName={deleteTarget.name}
+          onConfirm={() => { setDeletedIds((s) => new Set([...s, deleteTarget.id])); setDeleteTarget(null); }}
+          onClose={() => setDeleteTarget(null)}
+        />
+      )}
     </div>
   );
 }

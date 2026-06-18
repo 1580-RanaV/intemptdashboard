@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { CalendarDays, Link2, Plus, Table2 } from "lucide-react";
+import { CalendarDays, Link2, Plus, Table2, Trash2 } from "lucide-react";
 import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
 import SlidingSidebar from "./SlidingSidebar";
+import { DEFAULT_MENU_ITEMS, ThreeDotsMenuItem } from "./ThreeDotsMenu";
+import DeleteConfirmDialog from "./DeleteConfirmDialog";
 
 // ── Table data ─────────────────────────────────────────────────────────────────
 
@@ -138,10 +140,37 @@ function AddToLiveMeetingDrawer({ onClose }: { onClose: () => void }) {
   );
 }
 
+// ── Name lookup (cells.meeting is JSX so we keep a plain-string map) ──────────
+
+const MEETING_NAME: Record<string, string> = {
+  "product-sync-jun4":    "Product Sync",
+  "rd-checkin-jun4":      "R&D check-in",
+  "desktop-discussion":   "Discussion about Desktop",
+  "test-meeting-1215":    "Test Meeting",
+  "test-meeting-blocked": "Test Meeting",
+  "rd-standup-jun4":      "R&D Standup",
+  "rd-standup-jun5":      "R&D Standup",
+  "rd-checkin-jun3":      "R&D check-in",
+};
+
 // ── Main view ──────────────────────────────────────────────────────────────────
 
 export default function MeetingsView() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [deletedIds, setDeletedIds] = useState<Set<string>>(new Set());
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
+
+  function makeMenu(row: TableRow): ThreeDotsMenuItem[] {
+    return DEFAULT_MENU_ITEMS.map((item) =>
+      item.label === "Delete"
+        ? { ...item, onClick: () => setDeleteTarget({ id: row.id, name: MEETING_NAME[row.id] ?? row.id }) }
+        : item
+    );
+  }
+
+  const displayRows = MEETING_ROWS
+    .filter((r) => !deletedIds.has(r.id))
+    .map((r) => ({ ...r, menuItems: makeMenu(r) }));
 
   return (
     <div className="flex flex-1 flex-col min-h-0 relative overflow-hidden">
@@ -155,7 +184,7 @@ export default function MeetingsView() {
       <div className="flex-1 min-h-0 flex flex-col px-4 pb-4 pt-4 animate-fade-up">
         <DashboardTable
           columns={MEETING_COLUMNS}
-          rows={MEETING_ROWS}
+          rows={displayRows}
           searchPlaceholder="Search meetings..."
           action={
             <button
@@ -171,6 +200,14 @@ export default function MeetingsView() {
       </div>
 
       {drawerOpen && <AddToLiveMeetingDrawer onClose={() => setDrawerOpen(false)} />}
+      {deleteTarget && (
+        <DeleteConfirmDialog
+          entityType="meeting"
+          entityName={deleteTarget.name}
+          onConfirm={() => { setDeletedIds((s) => new Set([...s, deleteTarget.id])); setDeleteTarget(null); }}
+          onClose={() => setDeleteTarget(null)}
+        />
+      )}
     </div>
   );
 }

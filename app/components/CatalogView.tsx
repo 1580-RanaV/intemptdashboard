@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Package, Plus, Rss } from "lucide-react";
+import { Package, Plus, Rss, Trash2 } from "lucide-react";
 import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
+import { DEFAULT_MENU_ITEMS, ThreeDotsMenuItem } from "./ThreeDotsMenu";
+import DeleteConfirmDialog from "./DeleteConfirmDialog";
 
 const tabs = [
   {
@@ -146,6 +148,34 @@ export default function CatalogView() {
   const tab = tabs.some((t) => t.key === searchParams.get("tab")) ? searchParams.get("tab")! : "products";
   function setTab(key: string) { router.replace(`/catalog?tab=${key}`); }
 
+  const [deletedProductIds, setDeletedProductIds] = useState<Set<string>>(new Set());
+  const [deletedSourceIds, setDeletedSourceIds] = useState<Set<string>>(new Set());
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string; entity: string } | null>(null);
+
+  function makeProductMenu(row: TableRow): ThreeDotsMenuItem[] {
+    return DEFAULT_MENU_ITEMS.map((item) =>
+      item.label === "Delete"
+        ? { ...item, onClick: () => setDeleteTarget({ id: row.id, name: String(row.cells.title), entity: "product" }) }
+        : item
+    );
+  }
+
+  function makeSourceMenu(row: TableRow): ThreeDotsMenuItem[] {
+    return DEFAULT_MENU_ITEMS.map((item) =>
+      item.label === "Delete"
+        ? { ...item, onClick: () => setDeleteTarget({ id: row.id, name: String(row.cells.name), entity: "catalog source" }) }
+        : item
+    );
+  }
+
+  const displayProductRows = PRODUCT_ROWS
+    .filter((r) => !deletedProductIds.has(r.id))
+    .map((r) => ({ ...r, menuItems: makeProductMenu(r) }));
+
+  const displaySourceRows = SOURCE_ROWS
+    .filter((r) => !deletedSourceIds.has(r.id))
+    .map((r) => ({ ...r, menuItems: makeSourceMenu(r) }));
+
   return (
     <div className="flex flex-col flex-1 min-h-0">
       <div className="flex items-center gap-1 px-4 pt-3 shrink-0">
@@ -168,13 +198,13 @@ export default function CatalogView() {
       <div key={tab} className="flex-1 min-h-0 flex flex-col animate-fade-up">
         {tab === "products" ? (
           <div className="flex flex-col px-4 pt-4 pb-4">
-            <DashboardTable columns={PRODUCT_COLUMNS} rows={PRODUCT_ROWS} />
+            <DashboardTable columns={PRODUCT_COLUMNS} rows={displayProductRows} />
           </div>
         ) : (
           <div className="flex flex-col px-4 pt-4 pb-4">
             <DashboardTable
               columns={SOURCE_COLUMNS}
-              rows={SOURCE_ROWS}
+              rows={displaySourceRows}
               action={
                 <button
                   className="flex h-9 items-center gap-1.5 px-3.5 rounded-lg text-xs font-medium text-white transition-opacity hover:opacity-90 shrink-0"
@@ -188,6 +218,19 @@ export default function CatalogView() {
           </div>
         )}
       </div>
+
+      {deleteTarget && (
+        <DeleteConfirmDialog
+          entityType={deleteTarget.entity}
+          entityName={deleteTarget.name}
+          onConfirm={() => {
+            if (deleteTarget.entity === "product") setDeletedProductIds((s) => new Set([...s, deleteTarget.id]));
+            else setDeletedSourceIds((s) => new Set([...s, deleteTarget.id]));
+            setDeleteTarget(null);
+          }}
+          onClose={() => setDeleteTarget(null)}
+        />
+      )}
     </div>
   );
 }

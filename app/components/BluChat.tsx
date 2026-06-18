@@ -21,6 +21,7 @@ import {
   Rss,
   SlidersHorizontal,
 } from "lucide-react";
+import FeedbackQuestionnaire from "./FeedbackQuestionnaire";
 
 type ReferenceAttachment = {
   category: string;
@@ -34,6 +35,7 @@ type ChatMessage = {
   role: "user" | "blu";
   text: string;
   attachments?: ReferenceAttachment[];
+  feedbackForm?: boolean;
 };
 
 const SAMPLE: ChatMessage[] = [
@@ -171,26 +173,37 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
     ]);
   }
 
-  function sendMessage() {
-    const text = input.trim();
+  function sendMessage(overrideText?: string) {
+    const text = overrideText ?? input.trim();
     if (!text && attachments.length === 0) return;
 
-    setMessages((current) => [
-      ...current,
-      {
-        id: `user-${Date.now()}`,
-        role: "user",
-        text,
-        attachments,
-      },
-    ]);
-    setInput("");
-    setAttachments([]);
-    setPlusOpen(false);
-    setReferencesOpen(false);
-    setSelectedReference(null);
+    const isFeedback = !overrideText && text.toLowerCase() === "feedback";
 
-    window.dispatchEvent(new CustomEvent("blu-image-generate", { detail: { text } }));
+    setMessages((current) => {
+      const userMsg: ChatMessage = { id: `user-${Date.now()}`, role: "user", text, attachments };
+      const next: ChatMessage[] = [...current, userMsg];
+      if (isFeedback) {
+        next.push({
+          id: `blu-feedback-${Date.now()}`,
+          role: "blu",
+          text: "I'd love to help capture that! Answer a few quick questions so your feedback reaches the right people.",
+          feedbackForm: true,
+        });
+      }
+      return next;
+    });
+
+    if (!overrideText) {
+      setInput("");
+      setAttachments([]);
+      setPlusOpen(false);
+      setReferencesOpen(false);
+      setSelectedReference(null);
+    }
+
+    if (!isFeedback) {
+      window.dispatchEvent(new CustomEvent("blu-image-generate", { detail: { text } }));
+    }
   }
 
   return (
@@ -243,6 +256,9 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
               <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed whitespace-pre-wrap">
                 {msg.text}
               </p>
+              {msg.feedbackForm && (
+                <FeedbackQuestionnaire onSubmit={(text) => sendMessage(text)} />
+              )}
               {msg.attachments?.length ? (
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {msg.attachments.map((item) => (
@@ -515,7 +531,7 @@ export default function BluChat({ onClose }: { onClose: () => void }) {
                 Plan {planMode ? "on" : "off"}
               </button>
               <button
-                onClick={sendMessage}
+                onClick={() => sendMessage()}
                 className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-150"
                 style={{ background: input.trim() || attachments.length ? "#0080FF" : "var(--border)" }}
               >

@@ -50,15 +50,23 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             </svg>
           </button>
 
-<NotificationsMenu />
+          <NotificationsMenu />
           <UpgradeButton />
           <ProfileMenu />
         </div>
 
         {/* Content row */}
         <main className="flex-1 flex min-h-0 gap-2 mx-2 mb-2 md:ml-0 md:mr-3">
+          {/* BluChat panel — desktop only, left side */}
           <div
-            className="flex-1 flex flex-col rounded-xl overflow-hidden min-w-0 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+            className="hidden md:block shrink-0 overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+            style={{ width: bluOpen ? 380 : 0, opacity: bluOpen ? 1 : 0 }}
+          >
+            {bluOpen && <BluChat onClose={() => setBluOpen(false)} />}
+          </div>
+
+          <div
+            className="flex-1 flex flex-col rounded-xl overflow-hidden min-w-0"
             style={{
               background: "var(--content-bg)",
               border: "1px solid var(--border)",
@@ -66,14 +74,6 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             }}
           >
             {children}
-          </div>
-
-          {/* BluChat panel — desktop only */}
-          <div
-            className="hidden md:block shrink-0 overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
-            style={{ width: bluOpen ? 380 : 0, opacity: bluOpen ? 1 : 0 }}
-          >
-            {bluOpen && <BluChat onClose={() => setBluOpen(false)} />}
           </div>
         </main>
       </div>

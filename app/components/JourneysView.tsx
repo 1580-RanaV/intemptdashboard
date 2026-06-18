@@ -1,10 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { Code, Copy, Edit3, Plus, Trash2 } from "lucide-react";
 import DateRangePicker from "./DateRangePicker";
 import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
+import { ThreeDotsMenuItem } from "./ThreeDotsMenu";
 import MetricCard from "./MetricCard";
+import DeleteConfirmDialog from "./DeleteConfirmDialog";
 
 const CHART_DATA = [
   { date:"May 3",  value:0 },       { date:"May 4",  value:12000 },
@@ -101,6 +104,20 @@ const JOURNEY_ROWS: TableRow[] = [
 ];
 
 export default function JourneysView() {
+  const [rows, setRows] = useState<TableRow[]>(JOURNEY_ROWS);
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
+
+  function makeMenu(row: TableRow): ThreeDotsMenuItem[] {
+    return [
+      { label: "Edit",      icon: Edit3 },
+      { label: "Embed",     icon: Code  },
+      { label: "Copy link", icon: Copy  },
+      { label: "Delete",    icon: Trash2, tone: "danger", onClick: () => setDeleteTarget({ id: row.id, name: String(row.cells.name) }) },
+    ];
+  }
+
+  const displayRows = rows.map((r) => ({ ...r, menuItems: makeMenu(r) }));
+
   return (
     <div className="flex-1 flex flex-col min-h-0">
       {/* Topbar */}
@@ -127,7 +144,7 @@ export default function JourneysView() {
       <div className="flex flex-col min-h-0 px-4 pb-4 animate-fade-up">
         <DashboardTable
           columns={JOURNEY_COLUMNS}
-          rows={JOURNEY_ROWS}
+          rows={displayRows}
           action={
             <Link
               href="/journeys/new"
@@ -140,6 +157,18 @@ export default function JourneysView() {
           }
         />
       </div>
+
+      {deleteTarget && (
+        <DeleteConfirmDialog
+          entityType="journey"
+          entityName={deleteTarget.name}
+          onConfirm={() => {
+            setRows((prev) => prev.filter((r) => r.id !== deleteTarget.id));
+            setDeleteTarget(null);
+          }}
+          onClose={() => setDeleteTarget(null)}
+        />
+      )}
     </div>
   );
 }

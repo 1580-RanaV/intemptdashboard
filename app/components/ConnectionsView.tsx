@@ -7,6 +7,7 @@ import DashboardTable, { TableColumn, TableRow } from "./DashboardTable";
 import SlidingSidebar from "./SlidingSidebar";
 import AddIntegrationDrawer from "./AddIntegrationDrawer";
 import CreateApiKeyDrawer from "./CreateApiKeyDrawer";
+import DeleteConfirmDialog from "./DeleteConfirmDialog";
 
 const tabs = [
   { key: "connections", label: "Integrations", icon: <Workflow size={15} /> },
@@ -284,6 +285,8 @@ export default function ConnectionsView() {
   const [renamingConnId, setRenamingConnId] = useState<string | null>(null);
   const [renameConnValue, setRenameConnValue] = useState("");
   const commitConnRef = useRef(false);
+  const [deleteConnTarget, setDeleteConnTarget] = useState<{ id: string; name: string } | null>(null);
+  const [deleteKeyTarget, setDeleteKeyTarget] = useState<{ id: string; name: string } | null>(null);
 
   function startRenameConn(row: TableRow) {
     commitConnRef.current = false;
@@ -303,7 +306,7 @@ export default function ConnectionsView() {
   function makeConnMenuItems(row: TableRow) {
     return [
       { label: "Rename", icon: Pencil, onClick: () => startRenameConn(row) },
-      { label: "Delete", icon: Trash2, tone: "danger" as const, onClick: () => setConnRows((prev) => prev.filter((r) => r.id !== row.id)) },
+      { label: "Delete", icon: Trash2, tone: "danger" as const, onClick: () => setDeleteConnTarget({ id: row.id, name: String(row.cells.name) }) },
     ];
   }
 
@@ -361,7 +364,7 @@ export default function ConnectionsView() {
       { label: "Rename",     icon: Pencil,    onClick: () => startRename(row) },
       { label: "Copy",       icon: Copy,      onClick: () => navigator.clipboard.writeText(String(row.cells.key)) },
       { label: "Regenerate", icon: RefreshCw },
-      { label: "Delete",     icon: Trash2,    tone: "danger" as const, onClick: () => setApiKeyRows((prev) => prev.filter((r) => r.id !== row.id)) },
+      { label: "Delete",     icon: Trash2,    tone: "danger" as const, onClick: () => setDeleteKeyTarget({ id: row.id, name: String(row.cells.name) }) },
     ];
   }
 
@@ -498,6 +501,28 @@ export default function ConnectionsView() {
         <CreateApiKeyDrawer
           onClose={() => setCreateKeyOpen(false)}
           onCreate={(row) => setApiKeyRows((prev) => [...prev, row])}
+        />
+      )}
+      {deleteConnTarget && (
+        <DeleteConfirmDialog
+          entityType="integration"
+          entityName={deleteConnTarget.name}
+          onConfirm={() => {
+            setConnRows((prev) => prev.filter((r) => r.id !== deleteConnTarget.id));
+            setDeleteConnTarget(null);
+          }}
+          onClose={() => setDeleteConnTarget(null)}
+        />
+      )}
+      {deleteKeyTarget && (
+        <DeleteConfirmDialog
+          entityType="API key"
+          entityName={deleteKeyTarget.name}
+          onConfirm={() => {
+            setApiKeyRows((prev) => prev.filter((r) => r.id !== deleteKeyTarget.id));
+            setDeleteKeyTarget(null);
+          }}
+          onClose={() => setDeleteKeyTarget(null)}
         />
       )}
     </div>
